@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Footer } from "./components/Footer";
 import { Home } from "./pages/Home";
 import { Topbar } from "./components/Topbar";
@@ -53,36 +52,10 @@ function App() {
 
 
   return (
-    <BrowserRouter>
+    <>
       <SplashScreen />
       <Topbar />
       <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/vat" element={<VatPage />} />
-        <Route path="/corporate-tax" element={<CorporateTaxPage />} />
-        <Route path="/excise-tax" element={<ExciseTaxPage />} />
-        <Route path="/accounting-services" element={<AccountingServicesPage />} />
-        <Route path="/bookkeeping-services" element={<BookkeepingServicesPage />} />
-        <Route path="/internal-auditing" element={<InternalAuditingPage />} />
-        <Route path="/external-auditing" element={<ExternalAuditingPage />} />
-        <Route path="/statutory-auditing" element={<StatutoryAuditingPage />} />
-        <Route path="/vat-auditing" element={<VATAuditingPage />} />
-        <Route path="/corporate-tax-auditing" element={<CorporateTaxAuditingPage />} />
-        <Route path="/forensic-auditing" element={<ForensicAuditingPage />} />
-        <Route path="/company-registration" element={<CompanyRegistrationPage />} />
-        <Route path="/trademark-registration" element={<TrademarkRegistrationPage />} />
-        <Route path="/business-bank-account" element={<BusinessBankAccountPage />} />
-        <Route path="/pro-services" element={<PROServicesPage />} />
-        <Route path="/golden-visa" element={<GoldenVisaPage />} />
-        <Route path="/company-reconstruction" element={<CompanyReconstructionPage />} />
-        <Route path="/tax" element={<TaxConsultancyPage />} />
-        <Route path="/accounting" element={<AccountingAuditingPage />} />
-        <Route path="/corporate-services" element={<CorporateServicesPage />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
-      </Routes>
       <Footer />
       <CookieConsent
         location="bottom"
@@ -109,7 +82,7 @@ function App() {
         We use cookies to enhance your experience and analyze site usage.{" "}
         <a href="/privacy-policy" className="text-white text-decoration-underline">Privacy Policy</a>
       </CookieConsent>
-    </BrowserRouter>
+    </>
   );
 }
 

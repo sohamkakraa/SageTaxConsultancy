@@ -1,6 +1,6 @@
 // src/components/Services.jsx
 import React from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import taxImg from "../assets/tax-consult.png";
 import accountingImg from "../assets/services-2.jpg";
 import corporateImg from "../assets/services-3.jpg";
@@ -44,7 +44,7 @@ export const Services = () => (
                   <p className="text-dark small">{description}</p>
                 </div>
                 <div className="mt-3">
-                  <Link to={link} className="btn btn-outline-dark rounded-pill small px-3 py-2">
+                  <Link href={link} className="btn btn-outline-dark rounded-pill small px-3 py-2">
                     Learn More
                   </Link>
                 </div>
