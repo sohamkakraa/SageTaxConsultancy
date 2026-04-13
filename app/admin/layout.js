@@ -1,4 +1,4 @@
-import '../../../app/globals.css'
+import '../globals.css'
 
 export const metadata = {
   title: 'Sage Tax Consultancy - Admin',
@@ -9,7 +9,7 @@ export default function AdminLayout({ children }) {
   return (
     <html lang="en">
       <body className="bg-slate-50">
-        <style jsx>{`
+        <style>{`
           :root {
             --navy: #0f172a;
             --sage: #6b8e6f;
