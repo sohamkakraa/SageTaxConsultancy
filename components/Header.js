@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { useRouter, usePathname } from 'next/navigation';
 
@@ -122,10 +123,8 @@ export default function Header({ locale = 'en' }) {
           <div className="flex items-center justify-between gap-8">
             {/* Logo */}
             <Link href={baseUrl || '/'} className="flex-shrink-0 flex items-center gap-2">
-              <div className="w-10 h-10 bg-gradient-to-br from-sage-600 to-sage-800 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">S</span>
-              </div>
-              <span className="font-bold text-xl text-navy-950">Sage</span>
+              <Image src="/assets/logo.png" alt="Sage Tax Consultancy" width={40} height={40} className="rounded-lg" />
+              <Image src="/assets/name.svg" alt="Sage" width={80} height={28} className="object-contain" />
             </Link>
 
             {/* Desktop Navigation */}

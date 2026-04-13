@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 
 export default function Footer({ locale = 'en' }) {
@@ -44,10 +45,8 @@ export default function Footer({ locale = 'en' }) {
             {/* Logo & Tagline */}
             <div className="lg:col-span-1">
               <Link href={baseUrl || '/'} className="flex items-center gap-2 mb-4 group">
-                <div className="w-10 h-10 bg-gradient-to-br from-sage-500 to-sage-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">S</span>
-                </div>
-                <span className="font-bold text-lg text-white group-hover:text-sage-400 transition-colors">Sage</span>
+                <Image src="/assets/logo.png" alt="Sage Tax Consultancy" width={40} height={40} className="rounded-lg" />
+                <Image src="/assets/name.svg" alt="Sage" width={80} height={28} className="object-contain brightness-0 invert" />
               </Link>
               <p className="text-gray-400 text-sm leading-relaxed mb-6">
                 {t('footer.tagline')}

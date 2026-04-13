@@ -20,6 +20,10 @@ export const metadata = {
     'golden visa UAE',
   ],
   authors: [{ name: 'Sage Tax Consultancy' }],
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/assets/logo.png',
+  },
   openGraph: {
     type: 'website',
     locale: 'en_AE',
