@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Cairo:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  [dir="rtl"] {
+    font-family: 'Cairo', 'Noto Sans Arabic', sans-serif;
+  }
+
+  body {
+    @apply bg-white text-navy-900 antialiased;
+  }
+}
+
+@layer components {
+  .section-padding {
+    @apply py-20 md:py-28 px-4;
+  }
+
+  .container-narrow {
+    @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium bg-sage-50 text-sage-700 border border-sage-200;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-sage-800 text-white font-semibold text-sm tracking-wide transition-all duration-300 hover:bg-sage-900 hover:shadow-lg hover:shadow-sage-800/20 hover:-translate-y-0.5 active:translate-y-0;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-white text-sage-800 font-semibold text-sm tracking-wide border-2 border-sage-200 transition-all duration-300 hover:border-sage-800 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0;
+  }
+
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-gold-500 text-white font-semibold text-sm tracking-wide transition-all duration-300 hover:bg-gold-600 hover:shadow-lg hover:shadow-gold-500/20 hover:-translate-y-0.5 active:translate-y-0;
+  }
+
+  .card {
+    @apply bg-white rounded-2xl border border-gray-100 p-8 transition-all duration-300 hover:shadow-xl hover:shadow-gray-100/50 hover:-translate-y-1;
+  }
+
+  .section-heading {
+    @apply text-3xl md:text-4xl lg:text-5xl font-bold font-display tracking-tight text-navy-950;
+  }
+
+  .section-subheading {
+    @apply text-lg text-gray-500 max-w-2xl;
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-sage-700 to-sage-500;
+  }
+
+  /* Animated underline for links */
+  .link-underline {
+    @apply relative;
+  }
+  .link-underline::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-0 h-0.5 bg-sage-600 transition-all duration-300;
+  }
+  .link-underline:hover::after {
+    @apply w-full;
+  }
+}
+
+/* Smooth reveal animations */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-sage-300 rounded-full;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-sage-500;
+}

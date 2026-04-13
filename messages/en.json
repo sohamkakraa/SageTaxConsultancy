@@ -1,0 +1,165 @@
+{
+  "meta": {
+    "title": "Sage Tax Consultancy | Expert Tax Advisory in UAE",
+    "description": "UAE's trusted tax consultancy. Expert VAT, Corporate Tax, Accounting & Auditing services in Dubai. FTA-approved advisors helping businesses grow with confidence."
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "taxConsultancy": "Tax Consultancy",
+    "accountingAuditing": "Accounting & Auditing",
+    "corporateServices": "Corporate Services",
+    "blog": "Insights",
+    "contact": "Contact",
+    "getStarted": "Get Started",
+    "switchLang": "العربية"
+  },
+  "hero": {
+    "badge": "FTA-Approved Tax Advisors",
+    "title": "Tax Clarity.\nBusiness Certainty.",
+    "subtitle": "We translate complex FTA regulations into actionable strategies — optimizing cash flow, reducing risk, and enabling UAE businesses to scale with confidence.",
+    "cta": "Book a Free Consultation",
+    "ctaSecondary": "Explore Services",
+    "trustedBy": "Trusted by 950+ businesses across 35 industries"
+  },
+  "about": {
+    "badge": "Why Sage",
+    "title": "Your Strategic Tax Partner in the UAE",
+    "description": "We turn complex regulation into strategic advantage — so UAE businesses can grow with confidence.",
+    "mission": "Our Mission",
+    "missionText": "Turn complex regulation into strategic advantage — so UAE businesses can grow with confidence.",
+    "vision": "Our Vision",
+    "visionText": "To be the most trusted name in Gulf tax advisory, recognized for clarity, client focus, and measurable impact.",
+    "features": {
+      "ftaApproved": "FTA-Approved Experts",
+      "ftaApprovedDesc": "Listed with the UAE Federal Tax Authority. Our advisors hold recognized tax-agent certifications.",
+      "sectorSpecialized": "Sector-Specialized Teams",
+      "sectorSpecializedDesc": "Dedicated teams for e-commerce, real estate, hospitality, energy, and professional services.",
+      "techDriven": "Technology-Driven",
+      "techDrivenDesc": "Cloud bookkeeping, automated VAT workflows, and live reporting dashboards for real-time visibility.",
+      "transparentFees": "Transparent Fees",
+      "transparentFeesDesc": "Fixed-price engagements with upfront scopes. No hidden charges, no hourly surprises.",
+      "boutiqueAgility": "Boutique Agility",
+      "boutiqueAgilityDesc": "Direct partner access and rapid response times. No layers of bureaucracy."
+    }
+  },
+  "services": {
+    "badge": "What We Do",
+    "title": "Comprehensive Tax & Business Solutions",
+    "subtitle": "From VAT compliance to company formation — end-to-end advisory built for UAE businesses.",
+    "tax": {
+      "title": "Tax Consultancy",
+      "description": "Navigate UAE's evolving tax landscape with expert guidance on VAT, Corporate Tax, and Excise Tax."
+    },
+    "accounting": {
+      "title": "Accounting & Auditing",
+      "description": "IFRS-compliant financial reporting, bookkeeping, and specialized audit services."
+    },
+    "corporate": {
+      "title": "Corporate Services",
+      "description": "Company registration, PRO services, Golden Visa, and full business setup support."
+    },
+    "learnMore": "Learn More",
+    "viewAll": "View All Services"
+  },
+  "counters": {
+    "clients": "Clients Served",
+    "saved": "AED Saved for Clients",
+    "industries": "Industries Covered",
+    "years": "Years of Experience"
+  },
+  "testimonials": {
+    "badge": "Client Stories",
+    "title": "Trusted by Businesses Across the UAE",
+    "subtitle": "Hear from the companies we've helped navigate UAE's tax landscape."
+  },
+  "faq": {
+    "badge": "FAQ",
+    "title": "Frequently Asked Questions",
+    "subtitle": "Quick answers to common questions about UAE tax compliance and our services."
+  },
+  "blog": {
+    "badge": "Insights",
+    "title": "UAE Tax & Business News",
+    "subtitle": "Stay ahead of regulatory changes and industry trends in the UAE.",
+    "readMore": "Read More",
+    "allPosts": "All Insights",
+    "latestNews": "Latest News",
+    "noPostsYet": "New insights coming soon. Check back for the latest UAE tax and business updates.",
+    "autoFetched": "Source",
+    "publishedOn": "Published"
+  },
+  "contact": {
+    "badge": "Get in Touch",
+    "title": "Let's Talk About Your Business",
+    "subtitle": "Book a free consultation or send us a message. We respond within 24 hours.",
+    "name": "Full Name",
+    "email": "Email Address",
+    "phone": "Phone Number",
+    "subject": "Subject",
+    "message": "Your Message",
+    "send": "Send Message",
+    "sending": "Sending...",
+    "success": "Thank you! We'll get back to you within 24 hours.",
+    "error": "Something went wrong. Please try again or call us directly.",
+    "info": {
+      "phone": "Phone / WhatsApp",
+      "email": "Email",
+      "location": "Location",
+      "hours": "Working Hours",
+      "hoursValue": "Sun – Thu: 9 AM – 6 PM"
+    }
+  },
+  "footer": {
+    "tagline": "Expert tax advisory and business solutions in the UAE. FTA-approved consultants helping businesses navigate compliance with confidence.",
+    "quickLinks": "Quick Links",
+    "ourServices": "Our Services",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsConditions": "Terms & Conditions",
+    "copyright": "© {year} Sage Tax Consultancy. All rights reserved.",
+    "madeIn": "Made in Dubai, UAE"
+  },
+  "cookie": {
+    "message": "We use cookies to enhance your experience and analyze site usage.",
+    "accept": "Accept",
+    "decline": "Decline"
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "The page you're looking for doesn't exist or has been moved.",
+    "backHome": "Back to Home"
+  },
+  "servicePage": {
+    "overview": "Overview",
+    "features": "What's Included",
+    "process": "Our Process",
+    "documents": "Required Documents",
+    "faq": "FAQ",
+    "cta": "Get Started Today",
+    "ctaText": "Ready to take the next step? Book a free consultation with our experts.",
+    "ctaButton": "Book Consultation"
+  },
+  "admin": {
+    "title": "Sage CMS",
+    "dashboard": "Dashboard",
+    "content": "Site Content",
+    "services": "Services",
+    "blog": "Blog Posts",
+    "testimonials": "Testimonials",
+    "faqs": "FAQs",
+    "messages": "Messages",
+    "logout": "Logout",
+    "save": "Save Changes",
+    "saving": "Saving...",
+    "saved": "Saved!",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add New",
+    "login": "Admin Login",
+    "email": "Email",
+    "password": "Password",
+    "signIn": "Sign In"
+  }
+}
