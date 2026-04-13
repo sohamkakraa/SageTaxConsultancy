@@ -234,7 +234,7 @@ export default function Footer({ locale = 'en' }) {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <p className="text-sm text-gray-400">
-              &copy; {currentYear} {t('footer.copyright')}. {t('footer.madeIn')}
+              {t('footer.copyright', { year: currentYear })} {t('footer.madeIn')}
             </p>
             <div className="flex gap-8">
               <Link
