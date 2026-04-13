@@ -1,5 +1,6 @@
 import { getBlogPosts } from '@/lib/content';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ChevronRight } from 'lucide-react';
 
 export const metadata = {
@@ -52,11 +53,13 @@ export default async function BlogPage({ params }) {
               {posts.map((post) => (
                 <article key={post.id} className="card bg-navy-50 overflow-hidden hover:shadow-lg transition-shadow">
                   {post.featured_image && (
-                    <div className="h-48 bg-gradient-to-br from-gold-400 to-gold-600 overflow-hidden">
-                      <img
+                    <div className="relative h-48 bg-gradient-to-br from-gold-400 to-gold-600 overflow-hidden">
+                      <Image
                         src={post.featured_image}
                         alt={post.title}
-                        className="w-full h-full object-cover"
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
                     </div>
                   )}

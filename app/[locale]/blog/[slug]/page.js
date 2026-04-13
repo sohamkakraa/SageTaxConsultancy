@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { getBlogPostBySlug, getBlogPosts } from '@/lib/content';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ChevronRight, Calendar, User } from 'lucide-react';
 
 export async function generateMetadata({ params }) {
@@ -103,11 +104,14 @@ export default async function BlogPostPage({ params }) {
 
       {/* Featured Image */}
       {post.featured_image && (
-        <div className="h-96 md:h-[500px] bg-navy-100 overflow-hidden">
-          <img
+        <div className="relative h-96 md:h-[500px] bg-navy-100 overflow-hidden">
+          <Image
             src={post.featured_image}
             alt={post.title}
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
           />
         </div>
       )}
