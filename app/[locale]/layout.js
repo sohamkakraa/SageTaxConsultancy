@@ -5,7 +5,7 @@ import Script from 'next/script';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CookieConsent from '@/components/CookieConsent';
-import { locales } from '../../i18n';
+import { locales } from '../../lib/i18n-config';
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
