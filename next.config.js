@@ -3,6 +3,7 @@ const withNextIntl = createNextIntlPlugin('./i18n.js');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  distDir: 'build',
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: '**.supabase.co' },
