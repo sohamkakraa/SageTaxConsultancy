@@ -1,7 +1,7 @@
 // src/pages/CorporateServicesPage.jsx
 import React from "react";
 import ProductHero from "../components/ProductHero";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 export const CorporateServicesPage = () => {
   const services = [
@@ -66,7 +66,7 @@ export const CorporateServicesPage = () => {
                 <div className="card-body d-flex flex-column">
                   <h5 className="card-title fw-bold">{title}</h5>
                   <p className="card-text">{description}</p>
-                  <Link to={link} className="btn btn-outline-dark mt-auto rounded-pill">
+                  <Link href={link} className="btn btn-outline-dark mt-auto rounded-pill">
                     Learn More
                   </Link>
                 </div>

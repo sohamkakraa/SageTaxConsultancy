@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 const ProductHero = ({ title, image, breadcrumb }) => (
   <section
@@ -17,11 +17,11 @@ const ProductHero = ({ title, image, breadcrumb }) => (
         <nav className="breadcrumbs text-end">
           <ol className="breadcrumb mb-0 small">
             <li className="breadcrumb-item">
-              <Link to="/" className="text-decoration-none">Home</Link>
+              <Link href="/" className="text-decoration-none">Home</Link>
             </li>
             {breadcrumb && (
               <li className="breadcrumb-item">
-                <Link to={breadcrumb.href} className="text-white-50 text-decoration-none">
+                <Link href={breadcrumb.href} className="text-white-50 text-decoration-none">
                   {breadcrumb.label}
                 </Link>
               </li>
