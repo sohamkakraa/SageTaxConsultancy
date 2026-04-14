@@ -1,146 +1,115 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { ShieldCheck, Users, Monitor, Banknote, Zap, Target, Eye, User } from 'lucide-react';
 
-const IconShield = () => (
-  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-    />
-  </svg>
-);
+const FEATURES = [
+  { icon: ShieldCheck, titleKey: 'about.features.ftaApproved', descKey: 'about.features.ftaApprovedDesc' },
+  { icon: Users, titleKey: 'about.features.sectorSpecialized', descKey: 'about.features.sectorSpecializedDesc' },
+  { icon: Monitor, titleKey: 'about.features.techDriven', descKey: 'about.features.techDrivenDesc' },
+  { icon: Banknote, titleKey: 'about.features.transparentFees', descKey: 'about.features.transparentFeesDesc' },
+  { icon: Zap, titleKey: 'about.features.boutiqueAgility', descKey: 'about.features.boutiqueAgilityDesc' },
+];
 
-const IconUsers = () => (
-  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M12 4.354a4 4 0 110 5.292M15 12H9m6 0a9 9 0 11-18 0 9 9 0 0118 0z"
-    />
-  </svg>
-);
-
-const IconMonitor = () => (
-  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5a4 4 0 100-8 4 4 0 000 8z"
-    />
-  </svg>
-);
-
-const IconWallet = () => (
-  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-    />
-  </svg>
-);
-
-const IconZap = () => (
-  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M13 10V3L4 14h7v7l9-11h-7z"
-    />
-  </svg>
-);
+const LEADERSHIP = [
+  {
+    name: 'Jay Kakra',
+    nameAr: 'جاي كاكرا',
+    title: 'Managing Partner',
+    titleAr: 'الشريك الإداري',
+    bio: 'Leading strategic direction and client advisory with deep expertise in UAE tax regulations and corporate compliance.',
+    bioAr: 'يقود التوجه الاستراتيجي والاستشارات للعملاء مع خبرة عميقة في اللوائح الضريبية الإماراتية والامتثال المؤسسي.',
+  },
+  {
+    name: 'Aashna Malkhani',
+    nameAr: 'آشنا مالخاني',
+    title: 'Partner',
+    titleAr: 'شريك',
+    bio: 'Overseeing accounting, audit operations, and client engagement with a focus on delivering exceptional service quality.',
+    bioAr: 'تشرف على عمليات المحاسبة والتدقيق وإدارة العملاء مع التركيز على تقديم جودة خدمة استثنائية.',
+  },
+];
 
 export default function About({ locale }) {
   const t = useTranslations();
-
-  const features = [
-    {
-      icon: <IconShield />,
-      titleKey: 'about.features.ftaApproved',
-      descKey: 'about.features.ftaApprovedDesc',
-    },
-    {
-      icon: <IconUsers />,
-      titleKey: 'about.features.sectorSpecialized',
-      descKey: 'about.features.sectorSpecializedDesc',
-    },
-    {
-      icon: <IconMonitor />,
-      titleKey: 'about.features.techDriven',
-      descKey: 'about.features.techDrivenDesc',
-    },
-    {
-      icon: <IconWallet />,
-      titleKey: 'about.features.transparentFees',
-      descKey: 'about.features.transparentFeesDesc',
-    },
-    {
-      icon: <IconZap />,
-      titleKey: 'about.features.boutiqueAgility',
-      descKey: 'about.features.boutiqueAgilityDesc',
-    },
-  ];
+  const isArabic = locale === 'ar';
 
   return (
     <section className="section-padding bg-white">
-      <div className="container-narrow space-y-16">
-        {/* Header */}
-        <div className="max-w-2xl">
-          <span className="badge">{t('about.badge')}</span>
-          <h2 className="section-heading mt-4 mb-6">{t('about.title')}</h2>
-          <p className="section-subheading text-gray-700">
-            {t('about.description')}
-          </p>
-        </div>
+      <div className="container-max space-y-20">
+        {/* Why Sage */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+          <div className="space-y-6">
+            <span className="badge">{t('about.badge')}</span>
+            <h2 className="section-heading">{t('about.title')}</h2>
+            <p className="section-subheading text-gray-600 leading-relaxed">
+              {t('about.description')}
+            </p>
 
-        {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((feature, idx) => (
-            <div
-              key={idx}
-              className="card group hover:shadow-lg transition-all duration-300 hover:border-sage-200"
-            >
-              <div className="flex items-start gap-4">
-                <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-sage-100 text-sage-700 flex items-center justify-center group-hover:bg-sage-200 transition-colors">
-                  {feature.icon}
+            {/* Mission & Vision compact */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+              <div className="flex items-start gap-3 p-4 bg-sage-50 rounded-lg">
+                <Target className="w-5 h-5 text-sage-700 mt-0.5 flex-shrink-0" />
+                <div>
+                  <h3 className="text-sm font-bold text-navy-950">{t('about.mission')}</h3>
+                  <p className="text-xs text-gray-600 mt-1 leading-relaxed">{t('about.missionText')}</p>
                 </div>
-                <div className="flex-1 space-y-2">
-                  <h3 className="font-bold text-navy-950">
-                    {t(feature.titleKey)}
-                  </h3>
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    {t(feature.descKey)}
-                  </p>
+              </div>
+              <div className="flex items-start gap-3 p-4 bg-gold-50 rounded-lg">
+                <Eye className="w-5 h-5 text-gold-700 mt-0.5 flex-shrink-0" />
+                <div>
+                  <h3 className="text-sm font-bold text-navy-950">{t('about.vision')}</h3>
+                  <p className="text-xs text-gray-600 mt-1 leading-relaxed">{t('about.visionText')}</p>
                 </div>
               </div>
             </div>
-          ))}
+          </div>
+
+          {/* Features list */}
+          <div className="space-y-3">
+            {FEATURES.map(({ icon: Icon, titleKey, descKey }) => (
+              <div key={titleKey} className="flex items-start gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors">
+                <div className="w-10 h-10 rounded-lg bg-sage-100 text-sage-700 flex items-center justify-center flex-shrink-0">
+                  <Icon className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-navy-950">{t(titleKey)}</h3>
+                  <p className="text-sm text-gray-500 mt-0.5 leading-relaxed">{t(descKey)}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Mission & Vision */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8">
-          <div className="card bg-sage-50 border-sage-200">
-            <h3 className="text-lg font-bold text-navy-950 mb-3">
-              {t('about.mission')}
-            </h3>
-            <p className="text-gray-700 leading-relaxed">
-              {t('about.missionText')}
-            </p>
+        {/* Leadership */}
+        <div className="space-y-8">
+          <div className="text-center space-y-3">
+            <span className="badge">{isArabic ? 'القيادة' : 'Leadership'}</span>
+            <h2 className="text-2xl md:text-3xl font-bold font-display text-navy-950">
+              {isArabic ? 'فريق القيادة' : 'Our Leadership'}
+            </h2>
           </div>
-          <div className="card bg-gold-50 border-gold-200">
-            <h3 className="text-lg font-bold text-navy-950 mb-3">
-              {t('about.vision')}
-            </h3>
-            <p className="text-gray-700 leading-relaxed">
-              {t('about.visionText')}
-            </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+            {LEADERSHIP.map((leader) => (
+              <div key={leader.name} className="card-hover text-center space-y-4 p-8">
+                {/* Placeholder headshot */}
+                <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-sage-100 to-sage-200 flex items-center justify-center">
+                  <User className="w-10 h-10 text-sage-500" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-navy-950">
+                    {isArabic ? leader.nameAr : leader.name}
+                  </h3>
+                  <p className="text-sm font-medium text-sage-700">
+                    {isArabic ? leader.titleAr : leader.title}
+                  </p>
+                </div>
+                <p className="text-sm text-gray-500 leading-relaxed">
+                  {isArabic ? leader.bioAr : leader.bio}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </div>

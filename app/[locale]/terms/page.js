@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, FileText } from 'lucide-react';
 
 export const metadata = {
   title: 'Terms & Conditions | Sage Tax Consultancy',
@@ -14,23 +14,27 @@ export default function TermsPage({ params }) {
   return (
     <main className={isArabic ? 'rtl' : 'ltr'}>
       {/* Breadcrumb */}
-      <div className="bg-navy-50 py-4">
-        <div className="container-narrow flex items-center gap-2 text-sm">
-          <Link href={`/${locale}`} className="text-navy-600 hover:text-gold-500">
+      <div className="bg-gray-50 border-b border-gray-100">
+        <div className="container-max py-3 flex items-center gap-1.5 text-xs text-gray-400">
+          <Link href={`/${locale}`} className="hover:text-sage-700 transition-colors">
             {isArabic ? 'الرئيسية' : 'Home'}
           </Link>
-          <ChevronRight size={16} className="text-navy-300" />
-          <span className="text-navy-900 font-medium">{isArabic ? 'الشروط والأحكام' : 'Terms & Conditions'}</span>
+          <ChevronRight className="w-3 h-3" />
+          <span className="text-navy-950 font-medium">{isArabic ? 'الشروط والأحكام' : 'Terms & Conditions'}</span>
         </div>
       </div>
 
-      {/* Hero Section */}
-      <section className="section-padding bg-gradient-to-br from-navy-900 to-navy-800 text-white">
-        <div className="container-narrow text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+      {/* Hero */}
+      <section className="py-16 md:py-20 bg-navy-950 text-white">
+        <div className="container-max text-center space-y-5">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/10 text-xs font-semibold text-gold-300 tracking-wide uppercase">
+            <FileText className="w-3.5 h-3.5" />
+            {isArabic ? 'قانوني' : 'Legal'}
+          </span>
+          <h1 className="text-3xl md:text-5xl font-bold font-display">
             {isArabic ? 'الشروط والأحكام' : 'Terms & Conditions'}
           </h1>
-          <p className="text-navy-100">
+          <p className="text-gray-300">
             {isArabic ? 'آخر تحديث: يناير 2026' : 'Last Updated: January 2026'}
           </p>
         </div>
@@ -38,8 +42,8 @@ export default function TermsPage({ params }) {
 
       {/* Content */}
       <section className="section-padding bg-white">
-        <div className="container-narrow max-w-3xl prose prose-lg text-navy-700 leading-relaxed">
-          <h2 className="text-2xl font-bold text-navy-900 mt-8 mb-4">
+        <div className="container-narrow max-w-3xl text-gray-600 leading-relaxed">
+          <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
             {isArabic ? '1. قبول الشروط' : '1. Acceptance of Terms'}
           </h2>
           <p>
@@ -48,7 +52,7 @@ export default function TermsPage({ params }) {
               : 'By accessing and using Sage Tax Consultancy website and services, you agree to comply fully with these Terms and Conditions. If you do not accept any of these terms, please do not use the website or services.'}
           </p>
 
-          <h2 className="text-2xl font-bold text-navy-900 mt-8 mb-4">
+          <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
             {isArabic ? '2. استخدام الموقع' : '2. Use of Website'}
           </h2>
           <p>
@@ -82,7 +86,7 @@ export default function TermsPage({ params }) {
             </li>
           </ul>
 
-          <h2 className="text-2xl font-bold text-navy-900 mt-8 mb-4">
+          <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
             {isArabic ? '3. الملكية الفكرية' : '3. Intellectual Property'}
           </h2>
           <p>
@@ -91,7 +95,7 @@ export default function TermsPage({ params }) {
               : 'All website content, including text, graphics, logos, images, videos, and software, is the intellectual property of Sage Tax Consultancy or licensed to us. Copying, distributing, displaying, or transmitting any content without express permission is prohibited.'}
           </p>
 
-          <h2 className="text-2xl font-bold text-navy-900 mt-8 mb-4">
+          <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
             {isArabic ? '4. الخدمات المقدمة' : '4. Services Provided'}
           </h2>
           <p>
@@ -100,7 +104,7 @@ export default function TermsPage({ params }) {
               : 'We provide tax consultation, accounting, and related services. Services are provided on an "as is" basis without any express or implied warranties. We do not guarantee that services will meet your specific needs or that the website will be error-free or uninterrupted.'}
           </p>
 
-          <h2 className="text-2xl font-bold text-navy-900 mt-8 mb-4">
+          <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
             {isArabic ? '5. تحديد المسؤولية' : '5. Limitation of Liability'}
           </h2>
           <p>
@@ -131,7 +135,7 @@ export default function TermsPage({ params }) {
             </li>
           </ul>
 
-          <h2 className="text-2xl font-bold text-navy-900 mt-8 mb-4">
+          <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
             {isArabic ? '6. الإخلاء من المسؤولية' : '6. Disclaimer'}
           </h2>
           <p>
@@ -140,7 +144,7 @@ export default function TermsPage({ params }) {
               : 'Information provided on the website is for educational and informational purposes only. The information provided on the website does not constitute professional legal, tax, or financial advice. Do not use it as a substitute for consulting a qualified professional. We are not responsible for any decisions you make based on information provided on the website.'}
           </p>
 
-          <h2 className="text-2xl font-bold text-navy-900 mt-8 mb-4">
+          <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
             {isArabic ? '7. تعديل الخدمات' : '7. Modification of Services'}
           </h2>
           <p>
@@ -149,7 +153,7 @@ export default function TermsPage({ params }) {
               : 'We reserve the right to modify or suspend services or any part of them at any time without notice. We may charge fees for future services. We will not be liable to you or any third party for any modification or suspension of services.'}
           </p>
 
-          <h2 className="text-2xl font-bold text-navy-900 mt-8 mb-4">
+          <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
             {isArabic ? '8. الروابط الخارجية' : '8. External Links'}
           </h2>
           <p>
@@ -158,7 +162,7 @@ export default function TermsPage({ params }) {
               : 'The website may contain links to external websites. We are not responsible for the content, privacy policies, or practices of external websites. Your use of any external website is at your own risk.'}
           </p>
 
-          <h2 className="text-2xl font-bold text-navy-900 mt-8 mb-4">
+          <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
             {isArabic ? '9. الحقوق المحفوظة' : '9. Reserved Rights'}
           </h2>
           <p>
@@ -167,7 +171,7 @@ export default function TermsPage({ params }) {
               : 'We reserve the right to refuse service to anyone at any time without reason. We reserve the right to modify these Terms and Conditions at any time. You will be notified of any significant changes via email or prominent notice on the website.'}
           </p>
 
-          <h2 className="text-2xl font-bold text-navy-900 mt-8 mb-4">
+          <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
             {isArabic ? '10. القانون والاختصاص' : '10. Governing Law and Jurisdiction'}
           </h2>
           <p>
@@ -176,7 +180,7 @@ export default function TermsPage({ params }) {
               : 'These Terms and Conditions are governed by the laws of the United Arab Emirates, specifically the laws applicable in the Emirate of Dubai. You consent to the exclusive jurisdiction of the courts in Dubai, United Arab Emirates. In case of any dispute, it shall be governed by UAE law.'}
           </p>
 
-          <h2 className="text-2xl font-bold text-navy-900 mt-8 mb-4">
+          <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
             {isArabic ? '11. الفصل' : '11. Severability'}
           </h2>
           <p>
@@ -185,7 +189,7 @@ export default function TermsPage({ params }) {
               : 'If any provision of these Terms and Conditions is found to be invalid or unenforceable, the remaining provisions will continue to be valid and enforceable.'}
           </p>
 
-          <h2 className="text-2xl font-bold text-navy-900 mt-8 mb-4">
+          <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
             {isArabic ? '12. الاتفاق الكامل' : '12. Entire Agreement'}
           </h2>
           <p>
@@ -194,7 +198,7 @@ export default function TermsPage({ params }) {
               : 'These Terms and Conditions constitute the entire agreement between you and us regarding the use of the website and services. Any previous versions of these Terms and Conditions are completely replaced by this new version.'}
           </p>
 
-          <h2 className="text-2xl font-bold text-navy-900 mt-8 mb-4">
+          <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
             {isArabic ? '13. الاتصال بنا' : '13. Contact Us'}
           </h2>
           <p>
@@ -202,27 +206,27 @@ export default function TermsPage({ params }) {
               ? 'إذا كان لديك أي أسئلة حول هذه الشروط والأحكام، يرجى الاتصال بنا:'
               : 'If you have any questions about these Terms and Conditions, please contact us:'}
           </p>
-          <div className="bg-navy-50 p-6 rounded-lg mt-4">
-            <p className="font-semibold text-navy-900 mb-3">Sage Tax Consultancy</p>
-            <p className="text-navy-700">
+          <div className="bg-gray-50 p-6 rounded-lg mt-4 space-y-2">
+            <p className="font-semibold text-navy-950">Sage Tax Consultancy</p>
+            <p className="text-gray-600">
               {isArabic ? 'البريد الإلكتروني' : 'Email'}:{' '}
-              <a href="mailto:legal@sagetax.ae" className="text-gold-600 hover:text-gold-700">
-                legal@sagetax.ae
+              <a href="mailto:info@sageconsultancy.ae" className="text-sage-700 hover:text-sage-800">
+                info@sageconsultancy.ae
               </a>
             </p>
-            <p className="text-navy-700">
+            <p className="text-gray-600">
               {isArabic ? 'الهاتف' : 'Phone'}:{' '}
-              <a href="tel:+971XXXXXXXXX" className="text-gold-600 hover:text-gold-700">
-                +971 4 XXX XXXX
+              <a href="tel:+971585704140" className="text-sage-700 hover:text-sage-800">
+                +971 58 570 4140
               </a>
             </p>
-            <p className="text-navy-700">
+            <p className="text-gray-600">
               {isArabic ? 'العنوان' : 'Address'}: Dubai, UAE
             </p>
           </div>
 
-          <div className="mt-12 pt-8 border-t border-navy-200">
-            <p className="text-sm text-navy-600">
+          <div className="mt-12 pt-8 border-t border-gray-200">
+            <p className="text-sm text-gray-400">
               {isArabic ? 'آخر تحديث: يناير 2026' : 'Last Updated: January 2026'}
             </p>
           </div>
@@ -230,15 +234,12 @@ export default function TermsPage({ params }) {
       </section>
 
       {/* CTA */}
-      <section className="section-padding bg-navy-50">
-        <div className="container-narrow text-center max-w-2xl">
-          <h2 className="section-heading text-navy-900 mb-6">
+      <section className="py-16 bg-sage-900 text-white">
+        <div className="container-max text-center space-y-5">
+          <h2 className="text-2xl md:text-3xl font-bold font-display">
             {isArabic ? 'هل لديك أسئلة حول شروطنا؟' : 'Have Questions About Our Terms?'}
           </h2>
-          <Link
-            href={`/${locale}/contact`}
-            className="btn-primary bg-navy-900 text-white hover:bg-navy-800 inline-block"
-          >
+          <Link href={`/${locale}/contact`} className="btn-gold">
             {isArabic ? 'اتصل بنا' : 'Contact Us'}
           </Link>
         </div>

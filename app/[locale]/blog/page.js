@@ -1,7 +1,11 @@
 import { getBlogPosts } from '@/lib/content';
 import Link from 'next/link';
+<<<<<<< Updated upstream
 import Image from 'next/image';
 import { ChevronRight } from 'lucide-react';
+=======
+import { ChevronRight, Newspaper, Clock, ArrowRight } from 'lucide-react';
+>>>>>>> Stashed changes
 
 export const metadata = {
   title: 'Blog | Sage Tax Consultancy',
@@ -15,32 +19,37 @@ export const metadata = {
 
 export default async function BlogPage({ params }) {
   const { locale } = params;
-  const isArabic = locale === 'ar';
+  const isAr = locale === 'ar';
 
   const posts = await getBlogPosts(50, 0);
 
   return (
-    <main className={isArabic ? 'rtl' : 'ltr'}>
+    <main className={isAr ? 'rtl' : 'ltr'}>
       {/* Breadcrumb */}
-      <div className="bg-navy-50 py-4">
-        <div className="container-narrow flex items-center gap-2 text-sm">
-          <Link href={`/${locale}`} className="text-navy-600 hover:text-gold-500">
-            {isArabic ? 'الرئيسية' : 'Home'}
+      <div className="bg-gray-50 border-b border-gray-100">
+        <div className="container-max py-3 flex items-center gap-1.5 text-xs text-gray-400">
+          <Link href={`/${locale}`} className="hover:text-sage-700 transition-colors">
+            {isAr ? 'الرئيسية' : 'Home'}
           </Link>
-          <ChevronRight size={16} className="text-navy-300" />
-          <span className="text-navy-900 font-medium">{isArabic ? 'المدونة' : 'Blog'}</span>
+          <ChevronRight className="w-3 h-3" />
+          <span className="text-navy-950 font-medium">{isAr ? 'المدونة' : 'Blog'}</span>
         </div>
       </div>
 
-      {/* Hero Section */}
-      <section className="section-padding bg-gradient-to-br from-navy-900 to-navy-800 text-white">
-        <div className="container-narrow text-center">
-          <span className="badge bg-gold-500 text-navy-900">{isArabic ? 'المدونة' : 'Latest News'}</span>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 mt-4">
-            {isArabic ? 'أحدث الأخبار والرؤى' : 'Latest News & Insights'}
+      {/* Hero */}
+      <section className="py-16 md:py-20 bg-navy-950 text-white">
+        <div className="container-max text-center space-y-5">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/10 text-xs font-semibold text-gold-300 tracking-wide uppercase">
+            <Newspaper className="w-3.5 h-3.5" />
+            {isAr ? 'المدونة' : 'Latest News'}
+          </span>
+          <h1 className="text-3xl md:text-5xl font-bold font-display">
+            {isAr ? 'أحدث الأخبار والرؤى' : 'Latest News & Insights'}
           </h1>
-          <p className="text-xl text-navy-100 max-w-2xl mx-auto">
-            {isArabic ? 'ابقَ على اطلاع بأحدث التطورات في الضريبة والمحاسبة والخدمات في الإمارات' : 'Stay updated with the latest developments in UAE tax, accounting, and business services'}
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+            {isAr
+              ? 'ابقَ على اطلاع بأحدث التطورات في الضريبة والمحاسبة والخدمات في الإمارات'
+              : 'Stay updated with the latest developments in UAE tax, accounting, and business services'}
           </p>
         </div>
       </section>
@@ -49,10 +58,11 @@ export default async function BlogPage({ params }) {
       <section className="section-padding bg-white">
         <div className="container-narrow">
           {posts && posts.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {posts.map((post) => (
-                <article key={post.id} className="card bg-navy-50 overflow-hidden hover:shadow-lg transition-shadow">
+                <article key={post.id} className="card-hover overflow-hidden group">
                   {post.featured_image && (
+<<<<<<< Updated upstream
                     <div className="relative h-48 bg-gradient-to-br from-gold-400 to-gold-600 overflow-hidden">
                       <Image
                         src={post.featured_image}
@@ -60,38 +70,46 @@ export default async function BlogPage({ params }) {
                         fill
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+=======
+                    <div className="h-44 bg-gradient-to-br from-sage-100 to-navy-100 overflow-hidden">
+                      <img
+                        src={post.featured_image}
+                        alt={post.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+>>>>>>> Stashed changes
                       />
                     </div>
                   )}
-                  <div className="p-6">
-                    <div className="flex items-center gap-3 mb-4">
+                  <div className="p-5 space-y-3">
+                    <div className="flex items-center gap-2">
                       {post.category && (
-                        <span className="badge bg-gold-100 text-navy-900 text-xs">
+                        <span className="px-2 py-0.5 rounded-full bg-sage-100 text-sage-700 text-xs font-medium">
                           {post.category}
                         </span>
                       )}
                       {post.source && (
-                        <span className="text-xs text-navy-600">
-                          {isArabic ? 'من' : 'via'} {post.source}
+                        <span className="text-xs text-gray-400">
+                          {isAr ? 'من' : 'via'} {post.source}
                         </span>
                       )}
                     </div>
-                    <h3 className="text-xl font-bold text-navy-900 mb-3 line-clamp-2">
+                    <h3 className="text-base font-bold text-navy-950 line-clamp-2 group-hover:text-sage-700 transition-colors">
                       {post.title}
                     </h3>
-                    <p className="text-navy-700 mb-4 line-clamp-3">
+                    <p className="text-sm text-gray-500 line-clamp-2">
                       {post.excerpt}
                     </p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-navy-600">
+                    <div className="flex items-center justify-between pt-2 border-t border-gray-100">
+                      <span className="text-xs text-gray-400 flex items-center gap-1">
+                        <Clock className="w-3 h-3" />
                         {post.published_at ? new Date(post.published_at).toLocaleDateString(locale) : ''}
                       </span>
                       <Link
                         href={`/${locale}/blog/${post.slug}`}
-                        className="inline-flex items-center gap-2 text-gold-600 hover:text-gold-700 font-semibold text-sm"
+                        className="inline-flex items-center gap-1 text-sage-700 hover:text-sage-800 font-semibold text-xs"
                       >
-                        {isArabic ? 'اقرأ المزيد' : 'Read More'}
-                        <ChevronRight size={16} />
+                        {isAr ? 'اقرأ المزيد' : 'Read More'}
+                        <ArrowRight className="w-3 h-3" />
                       </Link>
                     </div>
                   </div>
@@ -99,44 +117,34 @@ export default async function BlogPage({ params }) {
               ))}
             </div>
           ) : (
-            <div className="text-center py-16">
-              <p className="text-xl text-navy-700 mb-6">
-                {isArabic ? 'لا توجد منشورات بعد' : 'No posts yet'}
+            <div className="text-center py-16 space-y-4">
+              <Newspaper className="w-12 h-12 text-gray-300 mx-auto" />
+              <p className="text-lg text-gray-500">
+                {isAr ? 'لا توجد منشورات بعد' : 'No posts yet'}
               </p>
-              <Link
-                href={`/${locale}`}
-                className="btn-primary bg-navy-900 text-white hover:bg-navy-800 inline-block"
-              >
-                {isArabic ? 'العودة إلى الرئيسية' : 'Back to Home'}
+              <Link href={`/${locale}`} className="btn-gold inline-flex">
+                {isAr ? 'العودة إلى الرئيسية' : 'Back to Home'}
               </Link>
             </div>
           )}
         </div>
       </section>
 
-      {/* Subscribe CTA */}
-      <section className="section-padding bg-gradient-to-r from-gold-500 to-gold-600 text-navy-900">
-        <div className="container-narrow text-center max-w-2xl">
-          <h2 className="text-3xl font-bold mb-4">
-            {isArabic ? 'ابقَ على اطلاع بالأخبار الأخيرة' : 'Stay Updated with Latest News'}
+      {/* CTA */}
+      <section className="py-16 bg-sage-900 text-white">
+        <div className="container-max text-center space-y-5">
+          <h2 className="text-2xl md:text-3xl font-bold font-display">
+            {isAr ? 'ابقَ على اطلاع بالأخبار الأخيرة' : 'Stay Updated with Latest News'}
           </h2>
-          <p className="text-lg mb-8 text-navy-800">
-            {isArabic ? 'اشترك في نشرتنا البريدية للحصول على أحدث المقالات والأخبار مباشرة إلى صندوق الوارد الخاص بك' : 'Subscribe to our newsletter to get the latest articles and news directly to your inbox'}
+          <p className="text-sage-200 max-w-lg mx-auto">
+            {isAr
+              ? 'تابعنا للحصول على أحدث المقالات والأخبار الضريبية'
+              : 'Follow us for the latest tax articles and regulatory updates'}
           </p>
-          <form className="flex gap-3">
-            <input
-              type="email"
-              placeholder={isArabic ? 'بريدك الإلكتروني' : 'Your email'}
-              className="flex-1 px-4 py-3 rounded-lg bg-white text-navy-900 placeholder-navy-400 focus:outline-none focus:ring-2 focus:ring-navy-900"
-              required
-            />
-            <button
-              type="submit"
-              className="btn-primary bg-navy-900 text-white hover:bg-navy-800 px-8"
-            >
-              {isArabic ? 'اشترك' : 'Subscribe'}
-            </button>
-          </form>
+          <Link href={`/${locale}/contact`} className="btn-gold">
+            {isAr ? 'اتصل بنا' : 'Contact Us'}
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </section>
     </main>

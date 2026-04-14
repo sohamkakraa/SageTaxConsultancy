@@ -3,119 +3,133 @@
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
+import { ArrowRight, Newspaper, Clock, ExternalLink } from 'lucide-react';
 
-const SkeletonCard = () => (
-  <div className="card space-y-4 animate-pulse">
-    <div className="h-6 bg-gray-200 rounded w-3/4" />
-    <div className="h-4 bg-gray-200 rounded w-full" />
-    <div className="h-4 bg-gray-200 rounded w-5/6" />
-    <div className="flex gap-4 pt-4">
-      <div className="h-4 bg-gray-200 rounded w-1/3" />
-      <div className="h-4 bg-gray-200 rounded w-1/3" />
-    </div>
-  </div>
-);
+const FALLBACK_ARTICLES = [
+  {
+    title: 'UAE Corporate Tax: Key Compliance Deadlines for 2025',
+    description: 'The Federal Tax Authority has outlined critical filing deadlines for businesses subject to UAE Corporate Tax. Companies must ensure timely registration and filing to avoid penalties.',
+    sourceName: 'Sage Insights',
+    publishedAt: new Date().toISOString(),
+    url: '#',
+    isExternal: false,
+  },
+  {
+    title: 'VAT Return Filing: Common Mistakes UAE Businesses Make',
+    description: 'Many businesses in the UAE face penalties due to common errors in VAT return filing. Learn about the most frequent mistakes and how to avoid them.',
+    sourceName: 'Sage Insights',
+    publishedAt: new Date(Date.now() - 86400000).toISOString(),
+    url: '#',
+    isExternal: false,
+  },
+  {
+    title: 'Free Zone Tax Benefits: What Qualifying Businesses Need to Know',
+    description: 'Qualifying Free Zone Persons can benefit from a 0% corporate tax rate. Understanding the substance requirements is essential to maintaining this preferential status.',
+    sourceName: 'Sage Insights',
+    publishedAt: new Date(Date.now() - 172800000).toISOString(),
+    url: '#',
+    isExternal: false,
+  },
+];
 
 export default function NewsSection({ locale }) {
   const t = useTranslations();
-  const baseLink = locale === 'en' ? '' : `/${locale}`;
+  const base = locale === 'en' ? '' : `/${locale}`;
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await fetch('/api/news');
-        if (response.ok) {
-          const data = await response.json();
-          setArticles(data.articles.slice(0, 3));
+        const res = await fetch('/api/news?limit=3');
+        if (res.ok) {
+          const json = await res.json();
+          const data = json.data || json.articles || [];
+          if (data.length > 0) {
+            setArticles(data.slice(0, 3));
+          } else {
+            setArticles(FALLBACK_ARTICLES);
+          }
+        } else {
+          setArticles(FALLBACK_ARTICLES);
         }
-      } catch (error) {
-        console.error('Failed to fetch news:', error);
+      } catch {
+        setArticles(FALLBACK_ARTICLES);
       } finally {
         setLoading(false);
       }
     };
-
     fetchNews();
   }, []);
 
   return (
-    <section className="section-padding bg-white">
-      <div className="container-narrow space-y-12">
-        {/* Header */}
-        <div className="max-w-2xl">
-          <span className="badge">{t('blog.badge')}</span>
-          <h2 className="section-heading mt-4 mb-6">{t('blog.title')}</h2>
-          <p className="section-subheading text-gray-700">
-            {t('blog.subtitle')}
-          </p>
+    <section className="section-padding bg-gray-50">
+      <div className="container-max space-y-10">
+        <div className="flex items-end justify-between gap-4">
+          <div className="space-y-4">
+            <span className="badge">{t('blog.badge')}</span>
+            <h2 className="section-heading">{t('blog.title')}</h2>
+            <p className="section-subheading">{t('blog.subtitle')}</p>
+          </div>
+          <Link href={`${base}/blog`} className="hidden md:flex btn-secondary text-sm py-2 px-4">
+            {t('blog.allPosts')}
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
 
-        {/* Articles Grid or Loading State */}
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[...Array(3)].map((_, idx) => (
-              <SkeletonCard key={idx} />
-            ))}
-          </div>
-        ) : articles.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {articles.map((article) => (
-              <Link
-                key={article.id}
-                href={`${baseLink}/blog/${article.slug}`}
-                className="card group hover:shadow-lg hover:border-sage-300 transition-all duration-300 flex flex-col overflow-hidden"
-              >
-                <div className="flex-grow space-y-3">
-                  <h3 className="font-bold text-navy-950 line-clamp-2 group-hover:text-sage-700 transition-colors">
-                    {article.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 line-clamp-2">
-                    {article.description.substring(0, 120)}
-                    {article.description.length > 120 ? '...' : ''}
-                  </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="card animate-pulse space-y-4">
+                <div className="h-5 bg-gray-200 rounded w-3/4" />
+                <div className="h-4 bg-gray-200 rounded w-full" />
+                <div className="h-4 bg-gray-200 rounded w-5/6" />
+                <div className="flex gap-3 pt-3">
+                  <div className="h-3 bg-gray-200 rounded w-1/4" />
+                  <div className="h-3 bg-gray-200 rounded w-1/4" />
                 </div>
-
-                <div className="flex items-center justify-between pt-4 border-t border-gray-200 mt-auto">
-                  <div className="space-y-1">
-                    <p className="text-xs font-medium text-gray-700">
-                      {article.sourceName}
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      {new Date(article.publishedAt).toLocaleDateString()}
-                    </p>
-                  </div>
-                  <span className="text-sage-700 font-semibold text-sm">
-                    {t('blog.readMore')}
-                  </span>
-                </div>
-              </Link>
+              </div>
             ))}
           </div>
         ) : (
-          <div className="card text-center py-12 space-y-4">
-            <svg
-              className="w-12 h-12 text-gray-300 mx-auto"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-              />
-            </svg>
-            <p className="text-gray-600">No articles yet. Check back soon!</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {articles.map((article, idx) => {
+              const isExternal = article.isExternal !== false && article.url && article.url.startsWith('http');
+              const Wrapper = isExternal ? 'a' : Link;
+              const wrapperProps = isExternal
+                ? { href: article.url, target: '_blank', rel: 'noopener noreferrer' }
+                : { href: article.slug ? `${base}/blog/${article.slug}` : `${base}/blog` };
+
+              return (
+                <Wrapper key={idx} {...wrapperProps} className="card-hover group flex flex-col">
+                  <div className="flex-grow space-y-3">
+                    <div className="flex items-center gap-2 text-xs text-gray-400">
+                      <Newspaper className="w-3.5 h-3.5" />
+                      <span>{article.sourceName || article.source || 'Sage'}</span>
+                      {isExternal && <ExternalLink className="w-3 h-3" />}
+                    </div>
+                    <h3 className="font-bold text-sm text-navy-950 line-clamp-2 group-hover:text-sage-700 transition-colors">
+                      {article.title}
+                    </h3>
+                    <p className="text-sm text-gray-500 line-clamp-2 leading-relaxed">
+                      {(article.description || article.excerpt || '').substring(0, 140)}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2 pt-4 mt-4 border-t border-gray-100 text-xs text-gray-400">
+                    <Clock className="w-3 h-3" />
+                    <span>{new Date(article.publishedAt || article.published_at).toLocaleDateString()}</span>
+                  </div>
+                </Wrapper>
+              );
+            })}
           </div>
         )}
 
-        {/* View All Insights Button */}
-        <div className="flex justify-center pt-4">
-          <Link href={`${baseLink}/blog`} className="btn-primary">
-            View All Insights →
+        <div className="flex justify-center md:hidden">
+          <Link href={`${base}/blog`} className="btn-secondary text-sm py-2 px-4">
+            {t('blog.allPosts')}
+            <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </div>

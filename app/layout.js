@@ -1,7 +1,7 @@
 import './globals.css';
 
 export const metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://sageconsultancy.ae'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://sagetaxconsultancy.com'),
   title: {
     default: 'Sage Tax Consultancy | Expert Tax Advisory in UAE',
     template: '%s | Sage Tax Consultancy',
@@ -27,7 +27,7 @@ export const metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_AE',
-    url: 'https://sageconsultancy.ae',
+    url: 'https://sagetaxconsultancy.com',
     siteName: 'Sage Tax Consultancy',
     title: 'Sage Tax Consultancy | Expert Tax Advisory in UAE',
     description: "UAE's trusted tax consultancy. Expert VAT, Corporate Tax, Accounting & Auditing services in Dubai.",
@@ -60,10 +60,10 @@ export const metadata = {
     google: 'your-google-verification-code',
   },
   alternates: {
-    canonical: 'https://sageconsultancy.ae',
+    canonical: 'https://sagetaxconsultancy.com',
     languages: {
-      en: 'https://sageconsultancy.ae',
-      ar: 'https://sageconsultancy.ae/ar',
+      en: 'https://sagetaxconsultancy.com',
+      ar: 'https://sagetaxconsultancy.com/ar',
     },
   },
 };

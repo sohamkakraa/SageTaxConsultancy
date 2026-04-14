@@ -1,4 +1,4 @@
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://sageconsultancy.ae';
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://sagetaxconsultancy.com';
 
 const SERVICE_SLUGS = [
   'vat',

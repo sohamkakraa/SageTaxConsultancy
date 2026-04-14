@@ -2,90 +2,106 @@
 
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import Image from 'next/image';
-import { useState } from 'react';
+import { ArrowRight, Shield, Users, BarChart3, CheckCircle2, Receipt, BookOpen, Building2 } from 'lucide-react';
 
 export default function Hero({ locale }) {
   const t = useTranslations();
-  const [imageError, setImageError] = useState(false);
-  const baseLink = locale === 'en' ? '' : `/${locale}`;
+  const base = locale === 'en' ? '' : `/${locale}`;
 
   return (
-    <section className="section-padding relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-sage-50">
-      {/* Decorative blobs */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-sage-100 rounded-full blur-3xl opacity-20 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-gold-100 rounded-full blur-3xl opacity-20 pointer-events-none" />
+    <section className="relative overflow-hidden bg-navy-950">
+      {/* Subtle gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-navy-950 via-navy-900 to-sage-950 opacity-90" />
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-sage-800/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" />
 
-      <div className="container-narrow relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left side: Content */}
+      <div className="relative container-max py-20 md:py-28 lg:py-32">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Content */}
           <div className="space-y-8">
-            <div className="space-y-6">
-              <span className="badge">{t('hero.badge')}</span>
-              <h1 className="section-heading leading-tight">
-                {t('hero.title')}
-              </h1>
-              <p className="section-subheading text-lg leading-relaxed text-gray-700">
-                {t('hero.subtitle')}
-              </p>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/10">
+              <Shield className="w-3.5 h-3.5 text-gold-400" />
+              <span className="text-xs font-semibold text-gold-300 tracking-wide uppercase">
+                {t('hero.badge')}
+              </span>
             </div>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Link href={`${baseLink}/contact`} className="btn-primary">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display text-white leading-[1.1] tracking-tight">
+              {t('hero.title').split('\n').map((line, i) => (
+                <span key={i}>
+                  {i > 0 && <br />}
+                  {i === 1 ? <span className="text-gold-400">{line}</span> : line}
+                </span>
+              ))}
+            </h1>
+
+            <p className="text-lg text-gray-300 leading-relaxed max-w-lg">
+              {t('hero.subtitle')}
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-3 pt-2">
+              <Link href={`${base}/contact`} className="btn-gold">
                 {t('hero.cta')}
+                <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link href={`${baseLink}/services`} className="btn-secondary">
+              <Link href={`${base}/services`} className="btn-secondary bg-transparent text-white border-white/20 hover:bg-white/10 hover:border-white/30">
                 {t('hero.ctaSecondary')}
               </Link>
             </div>
 
-            {/* Trust indicator */}
-            <div className="flex items-center gap-3 pt-8 border-t border-gray-200">
-              <p className="text-sm text-gray-600">{t('hero.trustedBy')}</p>
+            {/* Trust indicators */}
+            <div className="flex items-center gap-6 pt-4 border-t border-white/10">
+              {[
+                { icon: Users, value: '950+', label: locale === 'ar' ? 'عميل' : 'Clients' },
+                { icon: BarChart3, value: '35+', label: locale === 'ar' ? 'صناعة' : 'Industries' },
+                { icon: CheckCircle2, value: '12+', label: locale === 'ar' ? 'سنة' : 'Years' },
+              ].map(({ icon: Icon, value, label }) => (
+                <div key={value} className="flex items-center gap-2">
+                  <Icon className="w-4 h-4 text-sage-400" />
+                  <div>
+                    <span className="text-white font-bold text-sm">{value}</span>
+                    <span className="text-gray-400 text-xs ml-1">{label}</span>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Right side: Hero image or placeholder */}
-          <div className="hidden lg:flex items-center justify-center">
-            <div className="relative w-full aspect-square rounded-3xl overflow-hidden shadow-2xl">
-              {!imageError ? (
-                <Image
-                  src="/assets/hero-image.jpg"
-                  alt="Tax consultancy professionals"
-                  fill
-                  className="object-cover"
-                  priority
-                  onError={() => setImageError(true)}
-                />
-              ) : null}
-              {imageError && (
-                <div className="absolute inset-0 bg-gradient-to-br from-sage-200 via-gold-200 to-navy-200 flex items-center justify-center">
-                  <div className="flex flex-col items-center gap-6">
-                    <svg
-                      className="w-24 h-24 text-sage-600 opacity-60"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={1.5}
-                        d="M12 6v6m0 0v6m0-6h6m0 0h6m-6-6H6m0 0H0"
-                      />
-                    </svg>
-                    <div className="space-y-2 text-center">
-                      <p className="text-sm font-semibold text-sage-800">
-                        Professional Tax Advisory
-                      </p>
-                      <p className="text-xs text-sage-700">
-                        FTA-Approved Expertise
-                      </p>
+          {/* Right side visual */}
+          <div className="hidden lg:block">
+            <div className="relative">
+              {/* Feature cards stacked */}
+              <div className="space-y-4">
+                {[
+                  {
+                    icon: Receipt,
+                    title: locale === 'ar' ? 'الامتثال الضريبي' : 'Tax Compliance',
+                    desc: locale === 'ar' ? 'ضريبة القيمة المضافة وضريبة الشركات والضريبة الانتقائية' : 'VAT, Corporate Tax & Excise Tax',
+                    color: 'bg-sage-800/50 border-sage-700/30',
+                  },
+                  {
+                    icon: BookOpen,
+                    title: locale === 'ar' ? 'المحاسبة والتدقيق' : 'Accounting & Audit',
+                    desc: locale === 'ar' ? 'تقارير مالية متوافقة مع المعايير الدولية' : 'IFRS-compliant financial reporting',
+                    color: 'bg-navy-800/50 border-navy-700/30',
+                  },
+                  {
+                    icon: Building2,
+                    title: locale === 'ar' ? 'خدمات الشركات' : 'Corporate Services',
+                    desc: locale === 'ar' ? 'تأسيس الشركات والإقامة الذهبية' : 'Company formation & Golden Visa',
+                    color: 'bg-gold-900/30 border-gold-700/20',
+                  },
+                ].map(({ icon: Icon, title, desc, color }) => (
+                  <div key={title} className={`flex items-start gap-4 p-5 rounded-xl border backdrop-blur-sm ${color}`}>
+                    <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
+                      <Icon className="w-5 h-5 text-gold-400" />
+                    </div>
+                    <div>
+                      <h3 className="text-white font-semibold text-sm">{title}</h3>
+                      <p className="text-gray-400 text-sm mt-0.5">{desc}</p>
                     </div>
                   </div>
-                </div>
-              )}
+                ))}
+              </div>
             </div>
           </div>
         </div>

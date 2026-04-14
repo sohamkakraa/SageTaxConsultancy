@@ -1,11 +1,15 @@
 import { notFound } from 'next/navigation';
 import { getBlogPostBySlug, getBlogPosts } from '@/lib/content';
 import Link from 'next/link';
+<<<<<<< Updated upstream
 import Image from 'next/image';
 import { ChevronRight, Calendar, User } from 'lucide-react';
+=======
+import { ChevronRight, Calendar, User, ArrowRight, ArrowLeft } from 'lucide-react';
+>>>>>>> Stashed changes
 
 export async function generateMetadata({ params }) {
-  const { slug, locale } = params;
+  const { slug } = params;
   const post = await getBlogPostBySlug(slug);
 
   if (!post) {
@@ -29,7 +33,7 @@ export async function generateMetadata({ params }) {
 
 export default async function BlogPostPage({ params }) {
   const { slug, locale } = params;
-  const isArabic = locale === 'ar';
+  const isAr = locale === 'ar';
 
   const post = await getBlogPostBySlug(slug);
 
@@ -37,7 +41,6 @@ export default async function BlogPostPage({ params }) {
     notFound();
   }
 
-  // Fetch related posts
   const allPosts = await getBlogPosts(6, 0);
   const relatedPosts = allPosts
     .filter((p) => p.id !== post.id && p.category === post.category)
@@ -52,60 +55,67 @@ export default async function BlogPostPage({ params }) {
     : '';
 
   return (
-    <main className={isArabic ? 'rtl' : 'ltr'}>
+    <main className={isAr ? 'rtl' : 'ltr'}>
       {/* Breadcrumb */}
-      <div className="bg-navy-50 py-4">
-        <div className="container-narrow flex items-center gap-2 text-sm flex-wrap">
-          <Link href={`/${locale}`} className="text-navy-600 hover:text-gold-500">
-            {isArabic ? 'الرئيسية' : 'Home'}
+      <div className="bg-gray-50 border-b border-gray-100">
+        <div className="container-max py-3 flex items-center gap-1.5 text-xs text-gray-400 flex-wrap">
+          <Link href={`/${locale}`} className="hover:text-sage-700 transition-colors">
+            {isAr ? 'الرئيسية' : 'Home'}
           </Link>
-          <ChevronRight size={16} className="text-navy-300" />
-          <Link href={`/${locale}/blog`} className="text-navy-600 hover:text-gold-500">
-            {isArabic ? 'المدونة' : 'Blog'}
+          <ChevronRight className="w-3 h-3" />
+          <Link href={`/${locale}/blog`} className="hover:text-sage-700 transition-colors">
+            {isAr ? 'المدونة' : 'Blog'}
           </Link>
-          <ChevronRight size={16} className="text-navy-300" />
-          <span className="text-navy-900 font-medium line-clamp-1">{post.title}</span>
+          <ChevronRight className="w-3 h-3" />
+          <span className="text-navy-950 font-medium line-clamp-1">{post.title}</span>
         </div>
       </div>
 
       {/* Article Header */}
-      <section className="section-padding bg-gradient-to-br from-navy-900 to-navy-800 text-white">
-        <div className="container-narrow max-w-3xl">
-          <div className="flex items-center gap-3 mb-6">
+      <section className="py-16 md:py-20 bg-navy-950 text-white">
+        <div className="container-narrow max-w-3xl space-y-6">
+          <div className="flex items-center gap-2">
             {post.category && (
-              <span className="badge bg-gold-500 text-navy-900">{post.category}</span>
+              <span className="px-2.5 py-0.5 rounded-full bg-gold-400/20 text-gold-300 text-xs font-semibold">
+                {post.category}
+              </span>
             )}
             {post.source && (
-              <span className="text-sm bg-navy-700 px-3 py-1 rounded-full">
-                {isArabic ? 'من' : 'via'} {post.source}
+              <span className="text-xs text-gray-400">
+                {isAr ? 'من' : 'via'} {post.source}
               </span>
             )}
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">{post.title}</h1>
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-6 text-navy-200">
+          <h1 className="text-3xl md:text-5xl font-bold font-display leading-tight">{post.title}</h1>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 text-sm text-gray-400">
             {post.author && (
-              <div className="flex items-center gap-2">
-                <User size={18} />
+              <div className="flex items-center gap-1.5">
+                <User className="w-4 h-4" />
                 <span>{post.author}</span>
               </div>
             )}
             {formattedDate && (
-              <div className="flex items-center gap-2">
-                <Calendar size={18} />
+              <div className="flex items-center gap-1.5">
+                <Calendar className="w-4 h-4" />
                 <span>{formattedDate}</span>
               </div>
             )}
           </div>
           {post.excerpt && (
-            <p className="mt-6 text-lg text-navy-100 leading-relaxed">{post.excerpt}</p>
+            <p className="text-lg text-gray-300 leading-relaxed">{post.excerpt}</p>
           )}
         </div>
       </section>
 
       {/* Featured Image */}
       {post.featured_image && (
+<<<<<<< Updated upstream
         <div className="relative h-96 md:h-[500px] bg-navy-100 overflow-hidden">
           <Image
+=======
+        <div className="h-72 md:h-[420px] bg-gray-100 overflow-hidden">
+          <img
+>>>>>>> Stashed changes
             src={post.featured_image}
             alt={post.title}
             fill
@@ -118,13 +128,13 @@ export default async function BlogPostPage({ params }) {
 
       {/* Article Content */}
       <div className="section-padding bg-white">
-        <div className="container-narrow max-w-3xl grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div className="container-narrow max-w-3xl grid grid-cols-1 lg:grid-cols-4 gap-10">
           {/* Main Content */}
           <article className="lg:col-span-3">
-            <div className="prose prose-lg max-w-none text-navy-700 leading-relaxed">
+            <div className="prose prose-lg max-w-none text-gray-600 leading-relaxed">
               {post.content.split('\n').map((paragraph, idx) => (
                 paragraph.trim() && (
-                  <p key={idx} className="mb-6">
+                  <p key={idx} className="mb-5">
                     {paragraph}
                   </p>
                 )
@@ -133,30 +143,40 @@ export default async function BlogPostPage({ params }) {
 
             {/* Source Attribution */}
             {post.source && post.source_url && (
-              <div className="mt-12 pt-8 border-t border-navy-200">
-                <p className="text-sm text-navy-600 mb-3">
-                  {isArabic ? 'المقالة الأصلية' : 'Original Article'}
+              <div className="mt-10 pt-6 border-t border-gray-200">
+                <p className="text-xs text-gray-400 mb-2">
+                  {isAr ? 'المقالة الأصلية' : 'Original Article'}
                 </p>
                 <a
                   href={post.source_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-gold-600 hover:text-gold-700 font-semibold"
+                  className="inline-flex items-center gap-1.5 text-sage-700 hover:text-sage-800 font-semibold text-sm"
                 >
-                  {isArabic ? 'اقرأ على' : 'Read on'} {post.source}
-                  <ChevronRight size={16} />
+                  {isAr ? 'اقرأ على' : 'Read on'} {post.source}
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </a>
               </div>
             )}
+
+            {/* Back to blog */}
+            <div className="mt-8">
+              <Link
+                href={`/${locale}/blog`}
+                className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-sage-700 transition-colors"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" />
+                {isAr ? 'العودة إلى المدونة' : 'Back to Blog'}
+              </Link>
+            </div>
           </article>
 
           {/* Sidebar */}
           <aside className="lg:col-span-1">
-            {/* Related Posts */}
             {relatedPosts.length > 0 && (
-              <div className="sticky top-24 bg-navy-50 p-6 rounded-lg">
-                <h3 className="font-bold text-navy-900 mb-6 text-lg">
-                  {isArabic ? 'منشورات ذات صلة' : 'Related Posts'}
+              <div className="sticky top-24 card-hover p-5 space-y-4">
+                <h3 className="font-bold text-navy-950 text-sm">
+                  {isAr ? 'منشورات ذات صلة' : 'Related Posts'}
                 </h3>
                 <div className="space-y-4">
                   {relatedPosts.map((relatedPost) => (
@@ -165,10 +185,10 @@ export default async function BlogPostPage({ params }) {
                       href={`/${locale}/blog/${relatedPost.slug}`}
                       className="block group"
                     >
-                      <h4 className="text-sm font-semibold text-navy-900 group-hover:text-gold-600 transition-colors line-clamp-2">
+                      <h4 className="text-sm font-medium text-navy-950 group-hover:text-sage-700 transition-colors line-clamp-2">
                         {relatedPost.title}
                       </h4>
-                      <p className="text-xs text-navy-600 mt-2">
+                      <p className="text-xs text-gray-400 mt-1">
                         {relatedPost.published_at
                           ? new Date(relatedPost.published_at).toLocaleDateString(locale)
                           : ''}
@@ -182,17 +202,18 @@ export default async function BlogPostPage({ params }) {
         </div>
       </div>
 
-      {/* CTA Section */}
-      <section className="section-padding bg-gradient-to-r from-gold-500 to-gold-600 text-navy-900">
-        <div className="container-narrow text-center max-w-2xl">
-          <h2 className="text-3xl font-bold mb-4">
-            {isArabic ? 'هل تحتاج إلى استشارة متخصصة؟' : 'Need Professional Advice?'}
+      {/* CTA */}
+      <section className="py-16 bg-sage-900 text-white">
+        <div className="container-max text-center space-y-5">
+          <h2 className="text-2xl md:text-3xl font-bold font-display">
+            {isAr ? 'هل تحتاج إلى استشارة متخصصة؟' : 'Need Professional Advice?'}
           </h2>
-          <p className="text-lg mb-8 text-navy-800">
-            {isArabic ? 'تحدث إلى أحد خبرائنا لمناقشة احتياجاتك المحددة' : 'Talk to one of our experts to discuss your specific needs'}
+          <p className="text-sage-200 max-w-lg mx-auto">
+            {isAr ? 'تحدث إلى أحد خبرائنا لمناقشة احتياجاتك' : 'Talk to one of our experts to discuss your specific needs'}
           </p>
-          <Link href={`/${locale}/contact`} className="btn-primary bg-navy-900 text-white hover:bg-navy-800 inline-block">
-            {isArabic ? 'اتصل بنا' : 'Contact Us'}
+          <Link href={`/${locale}/contact`} className="btn-gold">
+            {isAr ? 'اتصل بنا' : 'Contact Us'}
+            <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </section>

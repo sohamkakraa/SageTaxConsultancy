@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, ShieldCheck } from 'lucide-react';
 
 export const metadata = {
   title: 'Privacy Policy | Sage Tax Consultancy',
@@ -14,23 +14,27 @@ export default function PrivacyPolicyPage({ params }) {
   return (
     <main className={isArabic ? 'rtl' : 'ltr'}>
       {/* Breadcrumb */}
-      <div className="bg-navy-50 py-4">
-        <div className="container-narrow flex items-center gap-2 text-sm">
-          <Link href={`/${locale}`} className="text-navy-600 hover:text-gold-500">
+      <div className="bg-gray-50 border-b border-gray-100">
+        <div className="container-max py-3 flex items-center gap-1.5 text-xs text-gray-400">
+          <Link href={`/${locale}`} className="hover:text-sage-700 transition-colors">
             {isArabic ? 'الرئيسية' : 'Home'}
           </Link>
-          <ChevronRight size={16} className="text-navy-300" />
-          <span className="text-navy-900 font-medium">{isArabic ? 'سياسة الخصوصية' : 'Privacy Policy'}</span>
+          <ChevronRight className="w-3 h-3" />
+          <span className="text-navy-950 font-medium">{isArabic ? 'سياسة الخصوصية' : 'Privacy Policy'}</span>
         </div>
       </div>
 
-      {/* Hero Section */}
-      <section className="section-padding bg-gradient-to-br from-navy-900 to-navy-800 text-white">
-        <div className="container-narrow text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+      {/* Hero */}
+      <section className="py-16 md:py-20 bg-navy-950 text-white">
+        <div className="container-max text-center space-y-5">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/10 text-xs font-semibold text-gold-300 tracking-wide uppercase">
+            <ShieldCheck className="w-3.5 h-3.5" />
+            {isArabic ? 'خصوصيتك' : 'Your Privacy'}
+          </span>
+          <h1 className="text-3xl md:text-5xl font-bold font-display">
             {isArabic ? 'سياسة الخصوصية' : 'Privacy Policy'}
           </h1>
-          <p className="text-navy-100">
+          <p className="text-gray-300">
             {isArabic ? 'آخر تحديث: يناير 2026' : 'Last Updated: January 2026'}
           </p>
         </div>
@@ -38,8 +42,8 @@ export default function PrivacyPolicyPage({ params }) {
 
       {/* Content */}
       <section className="section-padding bg-white">
-        <div className="container-narrow max-w-3xl prose prose-lg text-navy-700 leading-relaxed">
-          <h2 className="text-2xl font-bold text-navy-900 mt-8 mb-4">
+        <div className="container-narrow max-w-3xl text-gray-600 leading-relaxed">
+          <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
             {isArabic ? '1. مقدمة' : '1. Introduction'}
           </h2>
           <p>
@@ -48,7 +52,7 @@ export default function PrivacyPolicyPage({ params }) {
               : 'Sage Tax Consultancy ("Company", "we", "us", or "our") respects your privacy and is committed to protecting the personal data you choose to share with us. This Privacy Policy explains how we collect, use, and protect your personal information when you use our website and services.'}
           </p>
 
-          <h2 className="text-2xl font-bold text-navy-900 mt-8 mb-4">
+          <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
             {isArabic ? '2. المعلومات التي نجمعها' : '2. Information We Collect'}
           </h2>
           <p>
@@ -71,7 +75,7 @@ export default function PrivacyPolicyPage({ params }) {
             </li>
           </ul>
 
-          <h2 className="text-2xl font-bold text-navy-900 mt-8 mb-4">
+          <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
             {isArabic ? '3. كيف نستخدم معلوماتك' : '3. How We Use Your Information'}
           </h2>
           <p>
@@ -88,7 +92,7 @@ export default function PrivacyPolicyPage({ params }) {
             <li>{isArabic ? 'منع الاحتيال والحماية من المسؤولية' : 'Preventing fraud and protecting against liability'}</li>
           </ul>
 
-          <h2 className="text-2xl font-bold text-navy-900 mt-8 mb-4">
+          <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
             {isArabic ? '4. مشاركة البيانات مع الأطراف الثالثة' : '4. Sharing Data With Third Parties'}
           </h2>
           <p>
@@ -102,7 +106,7 @@ export default function PrivacyPolicyPage({ params }) {
             <li>{isArabic ? 'حماية الحقوق: لحماية حقوقنا والعملاء والعامة' : 'Protection of Rights: To protect our rights, clients, and the public'}</li>
           </ul>
 
-          <h2 className="text-2xl font-bold text-navy-900 mt-8 mb-4">
+          <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
             {isArabic ? '5. الملفات الدائمة (Cookies)' : '5. Cookies'}
           </h2>
           <p>
@@ -128,7 +132,7 @@ export default function PrivacyPolicyPage({ params }) {
             </li>
           </ul>
 
-          <h2 className="text-2xl font-bold text-navy-900 mt-8 mb-4">
+          <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
             {isArabic ? '6. أمان البيانات' : '6. Data Security'}
           </h2>
           <p>
@@ -137,7 +141,7 @@ export default function PrivacyPolicyPage({ params }) {
               : 'We implement reasonable technical and organizational security measures to protect your personal data from unauthorized access, modification, disclosure, and destruction. However, no data transmission over the internet is completely secure. We are not responsible for any security breaches resulting from third-party actions.'}
           </p>
 
-          <h2 className="text-2xl font-bold text-navy-900 mt-8 mb-4">
+          <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
             {isArabic ? '7. الاحتفاظ بالبيانات' : '7. Data Retention'}
           </h2>
           <p>
@@ -146,7 +150,7 @@ export default function PrivacyPolicyPage({ params }) {
               : 'We retain your financial and tax records for a minimum of 5 years in compliance with UAE regulations. We may retain other information as long as necessary to achieve the purposes stated above. You can request deletion of your contact data at any time.'}
           </p>
 
-          <h2 className="text-2xl font-bold text-navy-900 mt-8 mb-4">
+          <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
             {isArabic ? '8. حقوقك' : '8. Your Rights'}
           </h2>
           <p>
@@ -162,7 +166,7 @@ export default function PrivacyPolicyPage({ params }) {
             <li>{isArabic ? 'طلب تقييد معالجة البيانات' : 'Request data processing restrictions'}</li>
           </ul>
 
-          <h2 className="text-2xl font-bold text-navy-900 mt-8 mb-4">
+          <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
             {isArabic ? '9. الامتثال لقانون الحماية العام للبيانات (GDPR)' : '9. GDPR Compliance'}
           </h2>
           <p>
@@ -171,7 +175,7 @@ export default function PrivacyPolicyPage({ params }) {
               : 'If you are a data subject in the European Union, you have additional rights under the General Data Protection Regulation (GDPR). We are committed to full compliance with GDPR requirements for processing EU data.'}
           </p>
 
-          <h2 className="text-2xl font-bold text-navy-900 mt-8 mb-4">
+          <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
             {isArabic ? '10. الروابط الخارجية' : '10. External Links'}
           </h2>
           <p>
@@ -180,7 +184,7 @@ export default function PrivacyPolicyPage({ params }) {
               : 'Our website may contain links to external websites. We are not responsible for the privacy policies or practices of those sites. We recommend reviewing their privacy policies.'}
           </p>
 
-          <h2 className="text-2xl font-bold text-navy-900 mt-8 mb-4">
+          <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
             {isArabic ? '11. الاتصال بنا' : '11. Contact Us'}
           </h2>
           <p>
@@ -188,26 +192,26 @@ export default function PrivacyPolicyPage({ params }) {
               ? 'إذا كان لديك أي أسئلة حول سياسة الخصوصية هذه أو ممارسات معالجة البيانات، يرجى الاتصال بنا:'
               : 'If you have any questions about this Privacy Policy or our data processing practices, please contact us:'}
           </p>
-          <div className="bg-navy-50 p-6 rounded-lg mt-4">
-            <p className="font-semibold text-navy-900 mb-3">Sage Tax Consultancy</p>
-            <p className="text-navy-700">
+          <div className="bg-gray-50 p-6 rounded-lg mt-4 space-y-2">
+            <p className="font-semibold text-navy-950">Sage Tax Consultancy</p>
+            <p className="text-gray-600">
               {isArabic ? 'البريد الإلكتروني' : 'Email'}:{' '}
-              <a href="mailto:privacy@sagetax.ae" className="text-gold-600 hover:text-gold-700">
-                privacy@sagetax.ae
+              <a href="mailto:info@sageconsultancy.ae" className="text-sage-700 hover:text-sage-800">
+                info@sageconsultancy.ae
               </a>
             </p>
-            <p className="text-navy-700">
+            <p className="text-gray-600">
               {isArabic ? 'الهاتف' : 'Phone'}:{' '}
-              <a href="tel:+971XXXXXXXXX" className="text-gold-600 hover:text-gold-700">
-                +971 4 XXX XXXX
+              <a href="tel:+971585704140" className="text-sage-700 hover:text-sage-800">
+                +971 58 570 4140
               </a>
             </p>
-            <p className="text-navy-700">
+            <p className="text-gray-600">
               {isArabic ? 'العنوان' : 'Address'}: Dubai, UAE
             </p>
           </div>
 
-          <h2 className="text-2xl font-bold text-navy-900 mt-8 mb-4">
+          <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
             {isArabic ? '12. التعديلات على هذه السياسة' : '12. Changes to This Policy'}
           </h2>
           <p>
@@ -216,8 +220,8 @@ export default function PrivacyPolicyPage({ params }) {
               : 'We may update this Privacy Policy from time to time. Changes will be posted on this page, and the "Last Updated" date will be updated accordingly. Your continued use of the site after posting updates constitutes your acceptance of the updated Privacy Policy.'}
           </p>
 
-          <div className="mt-12 pt-8 border-t border-navy-200">
-            <p className="text-sm text-navy-600">
+          <div className="mt-12 pt-8 border-t border-gray-200">
+            <p className="text-sm text-gray-400">
               {isArabic ? 'آخر تحديث: يناير 2026' : 'Last Updated: January 2026'}
             </p>
           </div>
@@ -225,15 +229,12 @@ export default function PrivacyPolicyPage({ params }) {
       </section>
 
       {/* CTA */}
-      <section className="section-padding bg-navy-50">
-        <div className="container-narrow text-center max-w-2xl">
-          <h2 className="section-heading text-navy-900 mb-6">
+      <section className="py-16 bg-sage-900 text-white">
+        <div className="container-max text-center space-y-5">
+          <h2 className="text-2xl md:text-3xl font-bold font-display">
             {isArabic ? 'أسئلة حول خصوصيتك؟' : 'Questions About Your Privacy?'}
           </h2>
-          <Link
-            href={`/${locale}/contact`}
-            className="btn-primary bg-navy-900 text-white hover:bg-navy-800 inline-block"
-          >
+          <Link href={`/${locale}/contact`} className="btn-gold">
             {isArabic ? 'اتصل بنا' : 'Contact Us'}
           </Link>
         </div>
