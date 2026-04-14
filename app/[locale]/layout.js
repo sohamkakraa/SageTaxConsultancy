@@ -5,6 +5,7 @@ import Script from 'next/script';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CookieConsent from '@/components/CookieConsent';
+import WhatsAppButton from '@/components/WhatsAppButton';
 import { locales } from '../../lib/i18n-config';
 
 export function generateStaticParams() {
@@ -14,10 +15,10 @@ export function generateStaticParams() {
 export async function generateMetadata({ params: { locale } }) {
   return {
     alternates: {
-      canonical: `https://sageconsultancy.ae${locale === 'en' ? '' : '/' + locale}`,
+      canonical: `https://sagetaxconsultancy.com${locale === 'en' ? '' : '/' + locale}`,
       languages: {
-        en: 'https://sageconsultancy.ae',
-        ar: 'https://sageconsultancy.ae/ar',
+        en: 'https://sagetaxconsultancy.com',
+        ar: 'https://sagetaxconsultancy.com/ar',
       },
     },
   };
@@ -37,11 +38,11 @@ export default async function LocaleLayout({ children, params: { locale } }) {
     '@graph': [
       {
         '@type': 'LocalBusiness',
-        '@id': 'https://sageconsultancy.ae/#business',
+        '@id': 'https://sagetaxconsultancy.com/#business',
         name: 'Sage Tax Consultancy',
         alternateName: 'Sage Tax',
         description: "UAE's trusted tax consultancy offering expert VAT, Corporate Tax, Accounting & Auditing services in Dubai.",
-        url: 'https://sageconsultancy.ae',
+        url: 'https://sagetaxconsultancy.com',
         telephone: '+971585704140',
         email: 'info@sageconsultancy.ae',
         address: {
@@ -55,7 +56,7 @@ export default async function LocaleLayout({ children, params: { locale } }) {
           latitude: 25.2048,
           longitude: 55.2708,
         },
-        image: 'https://sageconsultancy.ae/assets/logo.png',
+        image: 'https://sagetaxconsultancy.com/assets/logo.png',
         priceRange: '$$',
         openingHoursSpecification: [
           {
@@ -80,14 +81,14 @@ export default async function LocaleLayout({ children, params: { locale } }) {
           'Bookkeeping',
         ],
         areaServed: { '@type': 'Country', name: 'United Arab Emirates' },
-        provider: { '@id': 'https://sageconsultancy.ae/#business' },
+        provider: { '@id': 'https://sagetaxconsultancy.com/#business' },
       },
       {
         '@type': 'Organization',
-        '@id': 'https://sageconsultancy.ae/#org',
+        '@id': 'https://sagetaxconsultancy.com/#org',
         name: 'Sage Tax Consultancy',
-        url: 'https://sageconsultancy.ae',
-        logo: 'https://sageconsultancy.ae/assets/logo.png',
+        url: 'https://sagetaxconsultancy.com',
+        logo: 'https://sagetaxconsultancy.com/assets/logo.png',
         contactPoint: {
           '@type': 'ContactPoint',
           contactType: 'customer service',
@@ -132,6 +133,7 @@ export default async function LocaleLayout({ children, params: { locale } }) {
           <Header locale={locale} />
           <main className="flex-1">{children}</main>
           <Footer locale={locale} />
+          <WhatsAppButton />
           <CookieConsent />
         </NextIntlClientProvider>
       </div>
