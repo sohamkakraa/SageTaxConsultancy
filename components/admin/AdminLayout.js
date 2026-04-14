@@ -11,6 +11,7 @@ const navItems = [
   { label: 'Site Content', href: '/admin/content', icon: 'document' },
   { label: 'Services', href: '/admin/services', icon: 'lightning' },
   { label: 'Blog Posts', href: '/admin/blog', icon: 'pencil' },
+  { label: 'Resources', href: '/admin/resources', icon: 'document' },
   { label: 'Testimonials', href: '/admin/testimonials', icon: 'star' },
   { label: 'FAQs', href: '/admin/faqs', icon: 'question' },
   { label: 'Messages', href: '/admin/messages', icon: 'envelope' },

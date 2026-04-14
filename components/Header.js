@@ -76,6 +76,9 @@ export default function Header({ locale = 'en' }) {
   const isRTL = locale === 'ar';
   const base = locale === 'en' ? '' : `/${locale}`;
 
+  // Check if we're on the homepage (where navbar should be transparent)
+  const isHomepage = pathname === '/' || pathname === `/${locale}` || pathname === `/${locale}/`;
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -107,10 +110,12 @@ export default function Header({ locale = 'en' }) {
   return (
     <>
       <header
-        className={`fixed top-0 w-full z-50 transition-all duration-200 ${
+        className={`fixed top-0 w-full z-50 transition-all duration-300 ${
           scrolled
             ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100'
-            : 'bg-white'
+            : isHomepage
+              ? 'bg-transparent'
+              : 'bg-white'
         } ${isRTL ? 'rtl' : 'ltr'}`}
       >
         <div className="container-max">
@@ -118,27 +123,41 @@ export default function Header({ locale = 'en' }) {
             {/* Logo */}
             <Link href={base || '/'} className="flex items-center gap-2 flex-shrink-0">
               <Image src="/assets/logo.png" alt="Sage Tax Consultancy" width={36} height={36} className="rounded-lg" />
-              <Image src="/assets/name.svg" alt="Sage Tax Consultancy" width={100} height={36} className="hidden sm:block object-contain" />
+              <Image
+                src="/assets/name.svg"
+                alt="Sage Tax Consultancy"
+                width={100}
+                height={36}
+                className={`hidden sm:block object-contain transition-all duration-300 ${
+                  isHomepage && !scrolled ? 'brightness-0 invert' : ''
+                }`}
+              />
             </Link>
 
             {/* Desktop Nav */}
             <nav className="hidden lg:flex items-center gap-1">
-              <NavItem href={base || '/'} label={t('nav.home')} />
-              <NavItem href={`${base}/about`} label={t('nav.about')} />
+              <NavItem href={base || '/'} label={t('nav.home')} transparent={isHomepage && !scrolled} />
+              <NavItem href={`${base}/about`} label={t('nav.about')} transparent={isHomepage && !scrolled} />
 
               {/* Service Dropdowns */}
               {[
                 { key: 'tax', label: t('nav.taxConsultancy') },
                 { key: 'accounting', label: t('nav.accountingAuditing') },
                 { key: 'corporate', label: t('nav.corporateServices') },
-              ].map(({ key, label }) => (
+              ].map(({ key, label }) => {
+                const isTransparent = isHomepage && !scrolled;
+                return (
                 <div
                   key={key}
                   className="relative"
                   onMouseEnter={() => handleDropdownEnter(key)}
                   onMouseLeave={handleDropdownLeave}
                 >
-                  <button className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-gray-600 hover:text-navy-950 transition-colors rounded-lg hover:bg-gray-50">
+                  <button className={`flex items-center gap-1 px-3 py-2 text-sm font-medium transition-colors rounded-lg ${
+                    isTransparent
+                      ? 'text-white/80 hover:text-white hover:bg-white/10'
+                      : 'text-gray-600 hover:text-navy-950 hover:bg-gray-50'
+                  }`}>
                     {label}
                     <ChevronDown className={`w-3.5 h-3.5 transition-transform ${activeDropdown === key ? 'rotate-180' : ''}`} />
                   </button>
@@ -174,22 +193,31 @@ export default function Header({ locale = 'en' }) {
                     </div>
                   )}
                 </div>
-              ))}
+              );
+              })}
 
-              <NavItem href={`${base}/blog`} label={t('nav.blog')} />
-              <NavItem href={`${base}/contact`} label={t('nav.contact')} />
+              <NavItem href={`${base}/blog`} label={t('nav.blog')} transparent={isHomepage && !scrolled} />
+              <NavItem href={`${base}/contact`} label={t('nav.contact')} transparent={isHomepage && !scrolled} />
             </nav>
 
             {/* Right Actions */}
             <div className="hidden lg:flex items-center gap-2">
               <button
                 onClick={switchLanguage}
-                className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-500 hover:text-navy-950 transition-colors rounded-lg hover:bg-gray-50"
+                className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition-colors rounded-lg ${
+                  isHomepage && !scrolled
+                    ? 'text-white/70 hover:text-white hover:bg-white/10'
+                    : 'text-gray-500 hover:text-navy-950 hover:bg-gray-50'
+                }`}
               >
                 <Globe className="w-4 h-4" />
                 {locale === 'en' ? 'العربية' : 'English'}
               </button>
-              <Link href={`${base}/contact`} className="btn-primary text-sm py-2 px-5">
+              <Link href={`${base}/contact`} className={`text-sm py-2 px-5 rounded-lg font-semibold transition-all ${
+                isHomepage && !scrolled
+                  ? 'bg-white/10 text-white border border-white/20 hover:bg-white/20'
+                  : 'btn-primary'
+              }`}>
                 {t('nav.getStarted')}
               </Link>
             </div>
@@ -198,13 +226,13 @@ export default function Header({ locale = 'en' }) {
             <div className="lg:hidden flex items-center gap-2">
               <button
                 onClick={switchLanguage}
-                className="p-2 text-gray-500 hover:text-navy-950 transition-colors"
+                className={`p-2 transition-colors ${isHomepage && !scrolled ? 'text-white/70 hover:text-white' : 'text-gray-500 hover:text-navy-950'}`}
               >
                 <Globe className="w-5 h-5" />
               </button>
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="p-2 text-gray-600 hover:text-navy-950 transition-colors"
+                className={`p-2 transition-colors ${isHomepage && !scrolled ? 'text-white/70 hover:text-white' : 'text-gray-600 hover:text-navy-950'}`}
               >
                 {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
@@ -271,17 +299,21 @@ export default function Header({ locale = 'en' }) {
         )}
       </header>
 
-      {/* Header spacer */}
-      <div className="h-16" />
+      {/* Header spacer — only on non-homepage pages where header isn't transparent */}
+      {!isHomepage && <div className="h-16" />}
     </>
   );
 }
 
-function NavItem({ href, label }) {
+function NavItem({ href, label, transparent = false }) {
   return (
     <Link
       href={href}
-      className="px-3 py-2 text-sm font-medium text-gray-600 hover:text-navy-950 transition-colors rounded-lg hover:bg-gray-50"
+      className={`px-3 py-2 text-sm font-medium transition-colors rounded-lg ${
+        transparent
+          ? 'text-white/80 hover:text-white hover:bg-white/10'
+          : 'text-gray-600 hover:text-navy-950 hover:bg-gray-50'
+      }`}
     >
       {label}
     </Link>

@@ -6,6 +6,7 @@ import IMAGES, { CATEGORY_IMAGES } from '@/lib/images';
 import {
   ChevronRight, Newspaper, Clock, ArrowRight, ExternalLink,
   Filter, FileText, BookOpen, Landmark, Search, X,
+  Download, Scale, Building2, Mail, ScrollText, FileDown,
 } from 'lucide-react';
 
 /**
@@ -110,12 +111,31 @@ export default function BlogPage({ params }) {
 
   /**
    * Get a fallback image for a news card based on its category.
-   * API-sourced articles often have featured_image from the publisher;
-   * if that's missing we use a relevant category image instead of a generic one.
    */
   function getCardImage(item) {
     if (item.featured_image) return item.featured_image;
     return CATEGORY_IMAGES[item.category] || IMAGES.blogDefault;
+  }
+
+  /**
+   * Get the appropriate icon for a CMS resource based on its type/icon_type.
+   */
+  function getResourceIcon(item) {
+    if (!item.is_resource) return null;
+    const iconType = item.icon_type === 'auto' ? item.resource_type : item.icon_type;
+    switch (iconType) {
+      case 'pdf': return <FileDown className="w-5 h-5" />;
+      case 'law': return <Scale className="w-5 h-5" />;
+      case 'government':
+      case 'government-document': return <Building2 className="w-5 h-5" />;
+      case 'newsletter': return <Mail className="w-5 h-5" />;
+      case 'whitepaper':
+      case 'guide': return <BookOpen className="w-5 h-5" />;
+      case 'document': return <FileText className="w-5 h-5" />;
+      case 'article':
+      case 'external-link': return <ExternalLink className="w-5 h-5" />;
+      default: return <ScrollText className="w-5 h-5" />;
+    }
   }
 
   return (
@@ -218,6 +238,8 @@ export default function BlogPage({ params }) {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredArticles.map((item, idx) => {
                   const isExternal = item.isExternal !== false && item.url?.startsWith('http');
+                  const isResource = item.is_resource;
+                  const hasDocument = isResource && item.document_url;
                   const href = isExternal ? item.url : `/${locale}/blog/${item.slug}`;
 
                   return (
@@ -228,29 +250,52 @@ export default function BlogPage({ params }) {
                       rel={isExternal ? 'noopener noreferrer' : undefined}
                       className="card-hover overflow-hidden group flex flex-col cursor-pointer"
                     >
-                      {/* Image */}
-                      <div className="h-44 bg-gradient-to-br from-sage-100 to-navy-100 overflow-hidden relative flex-shrink-0">
-                        <img
-                          src={getCardImage(item)}
-                          alt=""
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                          onError={(e) => { e.target.src = IMAGES.blogDefault; }}
-                        />
-                        {isExternal && (
-                          <div className="absolute top-3 right-3 w-7 h-7 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-sm">
-                            <ExternalLink className="w-3.5 h-3.5 text-gray-600" />
+                      {/* Image or Resource Icon */}
+                      {isResource ? (
+                        <div className="h-44 bg-gradient-to-br from-sage-50 to-navy-50 flex items-center justify-center relative flex-shrink-0">
+                          <div className="w-16 h-16 rounded-2xl bg-white shadow-md flex items-center justify-center text-sage-700">
+                            {getResourceIcon(item)}
                           </div>
-                        )}
-                      </div>
+                          {item.is_pinned && (
+                            <div className="absolute top-3 left-3 px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-semibold">
+                              Pinned
+                            </div>
+                          )}
+                          {hasDocument && (
+                            <div className="absolute top-3 right-3 w-7 h-7 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-sm">
+                              <Download className="w-3.5 h-3.5 text-sage-700" />
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <div className="h-44 bg-gradient-to-br from-sage-100 to-navy-100 overflow-hidden relative flex-shrink-0">
+                          <img
+                            src={getCardImage(item)}
+                            alt=""
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            onError={(e) => { e.target.src = IMAGES.blogDefault; }}
+                          />
+                          {isExternal && (
+                            <div className="absolute top-3 right-3 w-7 h-7 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-sm">
+                              <ExternalLink className="w-3.5 h-3.5 text-gray-600" />
+                            </div>
+                          )}
+                        </div>
+                      )}
 
                       {/* Content */}
                       <div className="p-5 space-y-2.5 flex-grow flex flex-col">
-                        {/* Source + category */}
+                        {/* Source + category + type badge */}
                         <div className="flex items-center gap-2 flex-wrap">
                           <span className="text-xs font-medium text-sage-700">
                             {item.sourceName || item.source || 'News'}
                           </span>
-                          {item.category && item.category !== 'tax' && (
+                          {isResource && item.resource_type && (
+                            <span className="px-2 py-0.5 rounded-full bg-navy-50 text-navy-700 text-[10px] font-semibold uppercase tracking-wide">
+                              {item.resource_type.replace(/-/g, ' ')}
+                            </span>
+                          )}
+                          {item.category && item.category !== 'tax' && item.category !== 'general' && (
                             <span className="px-2 py-0.5 rounded-full bg-sage-50 text-sage-600 text-[10px] font-semibold uppercase tracking-wide">
                               {item.category.replace(/-/g, ' ')}
                             </span>
@@ -269,6 +314,17 @@ export default function BlogPage({ params }) {
                           </p>
                         )}
 
+                        {/* Document download link */}
+                        {hasDocument && (
+                          <button
+                            onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.open(item.document_url, '_blank'); }}
+                            className="inline-flex items-center gap-1.5 text-xs font-semibold text-sage-700 bg-sage-50 px-3 py-1.5 rounded-lg hover:bg-sage-100 transition-colors w-fit"
+                          >
+                            <Download className="w-3.5 h-3.5" />
+                            {isAr ? 'تحميل المستند' : 'Download Document'}
+                          </button>
+                        )}
+
                         {/* Footer */}
                         <div className="flex items-center justify-between pt-3 mt-auto border-t border-gray-100">
                           <span className="text-xs text-gray-400 flex items-center gap-1">
@@ -278,9 +334,11 @@ export default function BlogPage({ params }) {
                               : ''}
                           </span>
                           <span className="inline-flex items-center gap-1 text-sage-700 font-semibold text-xs">
-                            {isExternal
-                              ? (isAr ? 'اقرأ المقال' : 'Read Article')
-                              : (isAr ? 'اقرأ المزيد' : 'Read More')}
+                            {hasDocument
+                              ? (isAr ? 'عرض التفاصيل' : 'View Details')
+                              : isExternal
+                                ? (isAr ? 'اقرأ المقال' : 'Read Article')
+                                : (isAr ? 'اقرأ المزيد' : 'Read More')}
                             {isExternal ? <ExternalLink className="w-3 h-3" /> : <ArrowRight className="w-3 h-3" />}
                           </span>
                         </div>

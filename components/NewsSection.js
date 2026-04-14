@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { ArrowRight, Newspaper, Clock, ExternalLink } from 'lucide-react';
+import { ArrowRight, Newspaper, Clock, ExternalLink, FileText, Scale, Building2, Download } from 'lucide-react';
 
 const FALLBACK_ARTICLES = [
   {
@@ -41,15 +41,24 @@ export default function NewsSection({ locale }) {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const res = await fetch('/api/news?limit=3');
-        if (res.ok) {
-          const json = await res.json();
-          const data = json.data || json.articles || [];
-          if (data.length > 0) {
-            setArticles(data.slice(0, 3));
-          } else {
-            setArticles(FALLBACK_ARTICLES);
-          }
+        // Fetch homepage-pinned resources and regular news in parallel
+        const [homepageRes, newsRes] = await Promise.all([
+          fetch('/api/news?homepage=true&limit=6').then((r) => r.ok ? r.json() : null).catch(() => null),
+          fetch('/api/news?limit=6').then((r) => r.ok ? r.json() : null).catch(() => null),
+        ]);
+
+        const homepageItems = homepageRes?.data || [];
+        const newsItems = newsRes?.data || [];
+
+        // Combine: homepage-pinned first, then fill remaining with news (deduplicated)
+        const seenIds = new Set(homepageItems.map((i) => i.id).filter(Boolean));
+        const combined = [
+          ...homepageItems,
+          ...newsItems.filter((i) => !i.id || !seenIds.has(i.id)),
+        ].slice(0, 3);
+
+        if (combined.length > 0) {
+          setArticles(combined);
         } else {
           setArticles(FALLBACK_ARTICLES);
         }
@@ -95,18 +104,38 @@ export default function NewsSection({ locale }) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {articles.map((article, idx) => {
               const isExternal = article.isExternal !== false && article.url && article.url.startsWith('http');
+              const isResource = article.is_resource;
+              const hasDocument = isResource && article.document_url;
               const Wrapper = isExternal ? 'a' : Link;
               const wrapperProps = isExternal
                 ? { href: article.url, target: '_blank', rel: 'noopener noreferrer' }
                 : { href: article.slug ? `${base}/blog/${article.slug}` : `${base}/blog` };
 
+              // Pick icon for resources
+              const resourceIcon = isResource ? (
+                article.resource_type === 'law' ? <Scale className="w-4 h-4" /> :
+                article.resource_type === 'government-document' ? <Building2 className="w-4 h-4" /> :
+                <FileText className="w-4 h-4" />
+              ) : null;
+
               return (
                 <Wrapper key={idx} {...wrapperProps} className="card-hover group flex flex-col">
                   <div className="flex-grow space-y-3">
                     <div className="flex items-center gap-2 text-xs text-gray-400">
-                      <Newspaper className="w-3.5 h-3.5" />
+                      {isResource ? (
+                        <span className="w-6 h-6 rounded bg-sage-100 text-sage-700 flex items-center justify-center flex-shrink-0">
+                          {resourceIcon}
+                        </span>
+                      ) : (
+                        <Newspaper className="w-3.5 h-3.5" />
+                      )}
                       <span>{article.sourceName || article.source || 'Sage'}</span>
-                      {isExternal && <ExternalLink className="w-3 h-3" />}
+                      {isResource && article.resource_type && (
+                        <span className="px-1.5 py-0.5 rounded bg-navy-50 text-navy-600 text-[10px] font-semibold uppercase">
+                          {article.resource_type.replace(/-/g, ' ')}
+                        </span>
+                      )}
+                      {isExternal && !isResource && <ExternalLink className="w-3 h-3" />}
                     </div>
                     <h3 className="font-bold text-sm text-navy-950 line-clamp-2 group-hover:text-sage-700 transition-colors">
                       {article.title}
@@ -114,6 +143,11 @@ export default function NewsSection({ locale }) {
                     <p className="text-sm text-gray-500 line-clamp-2 leading-relaxed">
                       {(article.description || article.excerpt || '').substring(0, 140)}
                     </p>
+                    {hasDocument && (
+                      <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-sage-700 bg-sage-50 px-2 py-1 rounded">
+                        <Download className="w-3 h-3" /> Download Available
+                      </span>
+                    )}
                   </div>
 
                   <div className="flex items-center gap-2 pt-4 mt-4 border-t border-gray-100 text-xs text-gray-400">

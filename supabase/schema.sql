@@ -96,6 +96,28 @@ CREATE TABLE IF NOT EXISTS contact_submissions (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- Create resources table (government documents, external links, guides)
+CREATE TABLE IF NOT EXISTS resources (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  title_en TEXT NOT NULL,
+  title_ar TEXT,
+  description_en TEXT,
+  description_ar TEXT,
+  resource_type TEXT NOT NULL CHECK (resource_type IN ('government-document', 'law', 'guide', 'article', 'external-link', 'newsletter', 'whitepaper')),
+  category TEXT CHECK (category IN ('vat', 'corporate-tax', 'excise-tax', 'golden-visa', 'company-registration', 'accounting', 'trademark', 'general')),
+  url TEXT,
+  document_url TEXT,
+  icon_type TEXT DEFAULT 'auto' CHECK (icon_type IN ('auto', 'pdf', 'document', 'link', 'law', 'government', 'newsletter')),
+  source_name TEXT,
+  is_pinned BOOLEAN DEFAULT FALSE,
+  pin_to_homepage BOOLEAN DEFAULT FALSE,
+  is_active BOOLEAN DEFAULT TRUE,
+  sort_order INT DEFAULT 0,
+  published_at TIMESTAMPTZ DEFAULT NOW(),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
 -- Create site_settings table
 CREATE TABLE IF NOT EXISTS site_settings (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -118,6 +140,12 @@ CREATE INDEX IF NOT EXISTS idx_testimonials_is_active ON testimonials(is_active)
 CREATE INDEX IF NOT EXISTS idx_faqs_category ON faqs(category);
 CREATE INDEX IF NOT EXISTS idx_faqs_is_active ON faqs(is_active);
 CREATE INDEX IF NOT EXISTS idx_contact_submissions_created_at ON contact_submissions(created_at);
+CREATE INDEX IF NOT EXISTS idx_resources_category ON resources(category);
+CREATE INDEX IF NOT EXISTS idx_resources_resource_type ON resources(resource_type);
+CREATE INDEX IF NOT EXISTS idx_resources_is_active ON resources(is_active);
+CREATE INDEX IF NOT EXISTS idx_resources_is_pinned ON resources(is_pinned);
+CREATE INDEX IF NOT EXISTS idx_resources_pin_to_homepage ON resources(pin_to_homepage);
+CREATE INDEX IF NOT EXISTS idx_resources_sort_order ON resources(sort_order);
 
 -- Create trigger functions for updated_at timestamps
 CREATE OR REPLACE FUNCTION update_updated_at_column()
@@ -138,6 +166,9 @@ CREATE TRIGGER update_services_updated_at BEFORE UPDATE ON services
 CREATE TRIGGER update_blog_posts_updated_at BEFORE UPDATE ON blog_posts
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+CREATE TRIGGER update_resources_updated_at BEFORE UPDATE ON resources
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
 CREATE TRIGGER update_site_settings_updated_at BEFORE UPDATE ON site_settings
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
@@ -148,6 +179,7 @@ ALTER TABLE blog_posts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE testimonials ENABLE ROW LEVEL SECURITY;
 ALTER TABLE faqs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE contact_submissions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE resources ENABLE ROW LEVEL SECURITY;
 ALTER TABLE site_settings ENABLE ROW LEVEL SECURITY;
 
 -- RLS Policies for site_content
@@ -235,6 +267,22 @@ CREATE POLICY "Authenticated UPDATE contact_submissions" ON contact_submissions
     FOR UPDATE USING (auth.role() = 'authenticated');
 
 CREATE POLICY "Authenticated DELETE contact_submissions" ON contact_submissions
+    FOR DELETE USING (auth.role() = 'authenticated');
+
+-- RLS Policies for resources
+CREATE POLICY "Public SELECT active resources" ON resources
+    FOR SELECT USING (is_active = true);
+
+CREATE POLICY "Authenticated SELECT all resources" ON resources
+    FOR SELECT USING (auth.role() = 'authenticated');
+
+CREATE POLICY "Authenticated INSERT resources" ON resources
+    FOR INSERT WITH CHECK (auth.role() = 'authenticated');
+
+CREATE POLICY "Authenticated UPDATE resources" ON resources
+    FOR UPDATE USING (auth.role() = 'authenticated');
+
+CREATE POLICY "Authenticated DELETE resources" ON resources
     FOR DELETE USING (auth.role() = 'authenticated');
 
 -- RLS Policies for site_settings
