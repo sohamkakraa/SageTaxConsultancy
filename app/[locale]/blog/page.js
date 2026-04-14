@@ -1,11 +1,6 @@
 import { getBlogPosts } from '@/lib/content';
 import Link from 'next/link';
-<<<<<<< Updated upstream
-import Image from 'next/image';
-import { ChevronRight } from 'lucide-react';
-=======
 import { ChevronRight, Newspaper, Clock, ArrowRight } from 'lucide-react';
->>>>>>> Stashed changes
 
 export const metadata = {
   title: 'Blog | Sage Tax Consultancy',
@@ -62,21 +57,11 @@ export default async function BlogPage({ params }) {
               {posts.map((post) => (
                 <article key={post.id} className="card-hover overflow-hidden group">
                   {post.featured_image && (
-<<<<<<< Updated upstream
-                    <div className="relative h-48 bg-gradient-to-br from-gold-400 to-gold-600 overflow-hidden">
-                      <Image
-                        src={post.featured_image}
-                        alt={post.title}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-=======
                     <div className="h-44 bg-gradient-to-br from-sage-100 to-navy-100 overflow-hidden">
                       <img
                         src={post.featured_image}
                         alt={post.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
->>>>>>> Stashed changes
                       />
                     </div>
                   )}

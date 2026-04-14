@@ -1,12 +1,7 @@
 import { notFound } from 'next/navigation';
 import { getBlogPostBySlug, getBlogPosts } from '@/lib/content';
 import Link from 'next/link';
-<<<<<<< Updated upstream
-import Image from 'next/image';
-import { ChevronRight, Calendar, User } from 'lucide-react';
-=======
 import { ChevronRight, Calendar, User, ArrowRight, ArrowLeft } from 'lucide-react';
->>>>>>> Stashed changes
 
 export async function generateMetadata({ params }) {
   const { slug } = params;
@@ -109,19 +104,11 @@ export default async function BlogPostPage({ params }) {
 
       {/* Featured Image */}
       {post.featured_image && (
-<<<<<<< Updated upstream
-        <div className="relative h-96 md:h-[500px] bg-navy-100 overflow-hidden">
-          <Image
-=======
         <div className="h-72 md:h-[420px] bg-gray-100 overflow-hidden">
           <img
->>>>>>> Stashed changes
             src={post.featured_image}
             alt={post.title}
-            fill
-            className="object-cover"
-            priority
-            sizes="100vw"
+            className="w-full h-full object-cover"
           />
         </div>
       )}
