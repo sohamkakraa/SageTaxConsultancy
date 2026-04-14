@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { unstable_setRequestLocale } from 'next-intl/server';
+import IMAGES from '@/lib/images';
 import {
   ChevronRight, Award, Users, Target, Eye, User,
   ShieldCheck, Zap, Heart, Lightbulb, ArrowRight,
@@ -22,6 +23,7 @@ const LEADERSHIP = [
     roleAr: 'الشريك الإداري',
     bio: 'Leading strategic direction and client advisory with deep expertise in UAE tax regulations and corporate compliance.',
     bioAr: 'يقود التوجه الاستراتيجي والاستشارات للعملاء مع خبرة عميقة في اللوائح الضريبية الإماراتية.',
+    image: IMAGES.leaderMale,
   },
   {
     name: 'Aashna Malkhani',
@@ -30,6 +32,7 @@ const LEADERSHIP = [
     roleAr: 'شريك',
     bio: 'Overseeing accounting, audit operations, and client engagement with a focus on delivering exceptional service quality.',
     bioAr: 'تشرف على عمليات المحاسبة والتدقيق وإدارة العملاء مع التركيز على جودة الخدمة.',
+    image: IMAGES.leaderFemale,
   },
 ];
 
@@ -56,8 +59,12 @@ export default function AboutPage({ params: { locale } }) {
       </div>
 
       {/* Hero */}
-      <section className="py-16 md:py-20 bg-navy-950 text-white">
-        <div className="container-max text-center space-y-5">
+      <section className="relative py-16 md:py-20 bg-navy-950 text-white overflow-hidden">
+        <div className="absolute inset-0">
+          <img src={IMAGES.aboutTeam} alt="" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-navy-950/80" />
+        </div>
+        <div className="relative container-max text-center space-y-5">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/10 text-xs font-semibold text-gold-300 tracking-wide uppercase">
             {isAr ? 'حول الشركة' : 'About Us'}
           </span>
@@ -72,11 +79,18 @@ export default function AboutPage({ params: { locale } }) {
 
       {/* Story */}
       <section className="section-padding bg-white">
-        <div className="container-narrow max-w-3xl space-y-6">
-          <h2 className="text-2xl font-bold font-display text-navy-950">{isAr ? 'قصتنا' : 'Our Story'}</h2>
-          <div className="space-y-4 text-gray-600 leading-relaxed">
-            <p>{isAr ? 'تأسست Sage Tax Consultancy برؤية واضحة: توفير خدمات استشارات ضريبية ومحاسبية عالية الجودة في الإمارات. اكتسبنا سمعة قوية كشريك موثوق يساعد الشركات على التنقل في تعقيدات القوانين الضريبية.' : 'Sage Tax Consultancy was founded with a clear vision: to provide high-quality tax and accounting consulting services in the UAE. We have earned a strong reputation as a trusted partner helping businesses navigate the complexities of tax regulations.'}</p>
-            <p>{isAr ? 'فريقنا يتكون من محترفين ذوي خبرة عميقة في الضرائب والمحاسبة. نحن ملتزمون بتوفير حلول مخصصة تلبي احتياجات عملائنا الفريدة.' : 'Our team comprises experienced professionals with deep expertise in taxation, accounting, and business consulting. We deliver customized solutions that meet each client\'s unique needs.'}</p>
+        <div className="container-narrow">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            <div className="space-y-6">
+              <h2 className="text-2xl font-bold font-display text-navy-950">{isAr ? 'قصتنا' : 'Our Story'}</h2>
+              <div className="space-y-4 text-gray-600 leading-relaxed">
+                <p>{isAr ? 'تأسست Sage Tax Consultancy برؤية واضحة: توفير خدمات استشارات ضريبية ومحاسبية عالية الجودة في الإمارات. اكتسبنا سمعة قوية كشريك موثوق يساعد الشركات على التنقل في تعقيدات القوانين الضريبية.' : 'Sage Tax Consultancy was founded with a clear vision: to provide high-quality tax and accounting consulting services in the UAE. We have earned a strong reputation as a trusted partner helping businesses navigate the complexities of tax regulations.'}</p>
+                <p>{isAr ? 'فريقنا يتكون من محترفين ذوي خبرة عميقة في الضرائب والمحاسبة. نحن ملتزمون بتوفير حلول مخصصة تلبي احتياجات عملائنا الفريدة.' : 'Our team comprises experienced professionals with deep expertise in taxation, accounting, and business consulting. We deliver customized solutions that meet each client\'s unique needs.'}</p>
+              </div>
+            </div>
+            <div className="rounded-2xl overflow-hidden h-72 shadow-lg">
+              <img src={IMAGES.aboutOffice} alt="Sage Tax Consultancy office" className="w-full h-full object-cover" />
+            </div>
           </div>
         </div>
       </section>
@@ -117,8 +131,8 @@ export default function AboutPage({ params: { locale } }) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
             {LEADERSHIP.map((leader) => (
               <div key={leader.name} className="card-hover text-center space-y-4 p-8">
-                <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-sage-100 to-sage-200 flex items-center justify-center">
-                  <User className="w-10 h-10 text-sage-500" />
+                <div className="w-28 h-28 mx-auto rounded-full overflow-hidden shadow-lg ring-4 ring-sage-100">
+                  <img src={leader.image} alt={leader.name} className="w-full h-full object-cover" />
                 </div>
                 <div>
                   <h3 className="text-lg font-bold text-navy-950">{isAr ? leader.nameAr : leader.name}</h3>

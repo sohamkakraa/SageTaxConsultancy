@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { getServiceBySlug } from '@/lib/content';
 import Link from 'next/link';
 import { unstable_setRequestLocale } from 'next-intl/server';
+import { SERVICE_IMAGES } from '@/lib/images';
 import {
   ArrowRight, ChevronRight, FileCheck, CheckCircle2,
   Phone, Clock, Shield, FileText,
@@ -206,8 +207,16 @@ export default async function ServicePage({ params }) {
       </div>
 
       {/* Hero */}
-      <section className="py-16 md:py-20 bg-navy-950 text-white">
-        <div className="container-max max-w-4xl">
+      <section className="relative py-16 md:py-20 bg-navy-950 text-white overflow-hidden">
+        {SERVICE_IMAGES[slug] && (
+          <>
+            <div className="absolute inset-0">
+              <img src={SERVICE_IMAGES[slug]} alt="" className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-navy-950/85" />
+            </div>
+          </>
+        )}
+        <div className="relative container-max max-w-4xl">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold-500/20 border border-gold-500/20 text-xs font-semibold text-gold-300 tracking-wide uppercase mb-6">
             <Shield className="w-3 h-3" />
             {isAr ? 'خدمة متخصصة' : 'Specialized Service'}

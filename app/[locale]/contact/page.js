@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import IMAGES from '@/lib/images';
 import {
   ChevronRight, Phone, Mail, MapPin, Clock,
   Send, Loader2, MessageSquare, ArrowRight,
@@ -99,8 +100,12 @@ export default function ContactPage({ params }) {
       </div>
 
       {/* Hero */}
-      <section className="py-16 md:py-20 bg-navy-950 text-white">
-        <div className="container-max text-center space-y-5">
+      <section className="relative py-16 md:py-20 bg-navy-950 text-white overflow-hidden">
+        <div className="absolute inset-0">
+          <img src={IMAGES.contact} alt="" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-navy-950/85" />
+        </div>
+        <div className="relative container-max text-center space-y-5">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/10 text-xs font-semibold text-gold-300 tracking-wide uppercase">
             <MessageSquare className="w-3.5 h-3.5" />
             {isAr ? 'تواصل معنا' : 'Get in Touch'}
@@ -285,14 +290,17 @@ export default function ContactPage({ params }) {
                 </a>
               </div>
 
-              {/* Map placeholder */}
+              {/* Location image */}
               <div className="card-hover overflow-hidden bg-white">
-                <div className="h-64 bg-gradient-to-br from-navy-100 to-sage-100 flex items-center justify-center">
-                  <div className="text-center space-y-2">
-                    <MapPin className="w-10 h-10 text-navy-400 mx-auto" />
-                    <p className="text-sm font-medium text-navy-700">
-                      {isAr ? 'دبي، الإمارات' : 'Dubai, UAE'}
-                    </p>
+                <div className="h-64 overflow-hidden relative">
+                  <img src={IMAGES.dubaiAerial} alt="Dubai, UAE" className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-navy-950/30 flex items-center justify-center">
+                    <div className="text-center space-y-2">
+                      <MapPin className="w-10 h-10 text-white mx-auto drop-shadow-lg" />
+                      <p className="text-sm font-bold text-white drop-shadow-lg">
+                        {isAr ? 'دبي، الإمارات' : 'Dubai, UAE'}
+                      </p>
+                    </div>
                   </div>
                 </div>
                 <div className="p-5 space-y-3">

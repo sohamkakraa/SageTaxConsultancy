@@ -3,7 +3,7 @@ import { ChevronRight, FileText } from 'lucide-react';
 
 export const metadata = {
   title: 'Terms & Conditions | Sage Tax Consultancy',
-  description: 'Terms and conditions for using Sage Tax Consultancy website and services.',
+  description: 'Terms and conditions for using Sage Tax Consultancy website and services, governed by UAE law.',
   robots: 'index, follow',
 };
 
@@ -35,7 +35,7 @@ export default function TermsPage({ params }) {
             {isArabic ? 'الشروط والأحكام' : 'Terms & Conditions'}
           </h1>
           <p className="text-gray-300">
-            {isArabic ? 'آخر تحديث: يناير 2026' : 'Last Updated: January 2026'}
+            {isArabic ? 'آخر تحديث: أبريل 2026' : 'Last Updated: April 2026'}
           </p>
         </div>
       </section>
@@ -48,154 +48,131 @@ export default function TermsPage({ params }) {
           </h2>
           <p>
             {isArabic
-              ? 'بالوصول واستخدام موقع Sage Tax Consultancy وخدماتها، فإنك توافق على الالتزام بهذه الشروط والأحكام بالكامل. إذا كنت لا تقبل أي من هذه الشروط، يرجى عدم استخدام الموقع أو الخدمات.'
-              : 'By accessing and using Sage Tax Consultancy website and services, you agree to comply fully with these Terms and Conditions. If you do not accept any of these terms, please do not use the website or services.'}
+              ? 'بالوصول واستخدام موقع Sage Tax Consultancy (sagetaxconsultancy.com) وخدماتها، فإنك توافق على الالتزام بهذه الشروط والأحكام بالكامل. تخضع هذه الشروط للقوانين السارية في دولة الإمارات العربية المتحدة، بما في ذلك القانون الاتحادي رقم (5) لسنة 1985 بشأن المعاملات المدنية (قانون المعاملات المدنية) والقانون الاتحادي رقم (46) لسنة 2021 بشأن المعاملات الإلكترونية. إذا كنت لا تقبل أي من هذه الشروط، يرجى عدم استخدام الموقع أو الخدمات.'
+              : 'By accessing and using Sage Tax Consultancy website (sagetaxconsultancy.com) and services, you agree to comply fully with these Terms and Conditions. These Terms are governed by the laws of the United Arab Emirates, including Federal Law No. (5) of 1985 on Civil Transactions (Civil Transactions Law) and Federal Decree-Law No. (46) of 2021 on Electronic Transactions. If you do not accept any of these terms, please do not use the website or services.'}
           </p>
 
           <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
-            {isArabic ? '2. استخدام الموقع' : '2. Use of Website'}
+            {isArabic ? '2. نطاق الخدمات' : '2. Scope of Services'}
           </h2>
           <p>
             {isArabic
-              ? 'توافق على استخدام الموقع والخدمات فقط للأغراض القانونية وبطريقة لا تنتهك حقوق الآخرين أو تقيد استخدامهم وتمتعهم بالموقع. التصرفات المحظورة تشمل:'
-              : 'You agree to use the website and services only for lawful purposes and in a way that does not infringe upon the rights of others or restrict their use and enjoyment of the website. Prohibited actions include:'}
+              ? 'تقدم Sage Tax Consultancy خدمات استشارات ضريبية ومحاسبية وتدقيق وخدمات شركات في دولة الإمارات العربية المتحدة، بما في ذلك على سبيل المثال لا الحصر:'
+              : 'Sage Tax Consultancy provides tax consulting, accounting, auditing, and corporate services in the United Arab Emirates, including but not limited to:'}
           </p>
           <ul>
-            <li>
-              {isArabic
-                ? 'الإزعاج أو الإهانة أو الترهيب أو الإيذاء المنتقصة لكرامة الآخرين'
-                : 'Harassing, insulting, intimidating, or demeaning others'}
-            </li>
-            <li>
-              {isArabic
-                ? 'نشر محتوى غير قانوني أو مسيء أو ينتهك حقوق الطبع والنشر'
-                : 'Posting illegal, offensive, or copyright-infringing content'}
-            </li>
-            <li>
-              {isArabic
-                ? 'محاولة اختراق الموقع أو نقل الفيروسات أو البرامج الضارة'
-                : 'Attempting to hack the website or transmit viruses or malware'}
-            </li>
-            <li>
-              {isArabic ? 'التخويف أو الابتزاز' : 'Blackmail or extortion'}
-            </li>
-            <li>
-              {isArabic
-                ? 'الانخراط في أي شكل من أشكال الاحتيال أو الخداع'
-                : 'Engaging in fraud or deception'}
-            </li>
+            <li>{isArabic ? 'تسجيل وتقديم ضريبة القيمة المضافة (VAT) لدى الهيئة الاتحادية للضرائب' : 'VAT registration and filing with the Federal Tax Authority (FTA)'}</li>
+            <li>{isArabic ? 'التسجيل وتقديم ضريبة الشركات (CT) لدى الهيئة الاتحادية للضرائب' : 'Corporate Tax (CT) registration and filing with the FTA'}</li>
+            <li>{isArabic ? 'خدمات المحاسبة ومسك الدفاتر والتدقيق' : 'Accounting, bookkeeping, and auditing services'}</li>
+            <li>{isArabic ? 'تسجيل الشركات والعلامات التجارية وفتح الحسابات البنكية' : 'Company registration, trademark registration, and bank account opening'}</li>
+            <li>{isArabic ? 'خدمات العلاقات الحكومية والتأشيرات بما في ذلك الإقامة الذهبية' : 'PRO services and visa services including Golden Visa'}</li>
+          </ul>
+          <p className="mt-3">
+            {isArabic
+              ? 'تُقدم جميع الخدمات وفقاً للقوانين والأنظمة المعمول بها في الإمارات. أي اتفاق على نطاق خدمة محددة سيكون موضوع عقد خدمات منفصل.'
+              : 'All services are provided in compliance with applicable UAE laws and regulations. Any agreement on specific service scope will be subject to a separate service agreement.'}
+          </p>
+
+          <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
+            {isArabic ? '3. استخدام الموقع' : '3. Use of Website'}
+          </h2>
+          <p>
+            {isArabic
+              ? 'توافق على استخدام الموقع والخدمات فقط للأغراض القانونية وبطريقة لا تنتهك حقوق الآخرين. التصرفات المحظورة تشمل:'
+              : 'You agree to use the website and services only for lawful purposes and in a manner that does not infringe upon the rights of others. Prohibited actions include:'}
+          </p>
+          <ul>
+            <li>{isArabic ? 'نشر محتوى غير قانوني أو مسيء أو ينتهك حقوق الملكية الفكرية' : 'Posting illegal, offensive, or IP-infringing content'}</li>
+            <li>{isArabic ? 'محاولة اختراق الموقع أو الوصول غير المصرح إلى الأنظمة' : 'Attempting to hack the website or gain unauthorized access to systems'}</li>
+            <li>{isArabic ? 'نقل فيروسات أو برامج ضارة أو أي شكل من أشكال الهجمات الإلكترونية' : 'Transmitting viruses, malware, or any form of cyberattacks'}</li>
+            <li>{isArabic ? 'استخدام الموقع بطريقة تنتهك قانون مكافحة جرائم تقنية المعلومات (المرسوم بقانون اتحادي رقم 34 لسنة 2021)' : 'Using the website in violation of the UAE Cybercrime Law (Federal Decree-Law No. 34 of 2021)'}</li>
           </ul>
 
           <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
-            {isArabic ? '3. الملكية الفكرية' : '3. Intellectual Property'}
+            {isArabic ? '4. الملكية الفكرية' : '4. Intellectual Property'}
           </h2>
           <p>
             {isArabic
-              ? 'جميع محتويات الموقع، بما في ذلك النصوص والرسومات والشعارات والصور ومقاطع الفيديو والبرامج، هي ملكية فكرية لـ Sage Tax Consultancy أو مرخص لها لنا. لا يُسمح بنسخ أو توزيع أو عرض أو نقل أي محتوى بدون موافقة صريحة.'
-              : 'All website content, including text, graphics, logos, images, videos, and software, is the intellectual property of Sage Tax Consultancy or licensed to us. Copying, distributing, displaying, or transmitting any content without express permission is prohibited.'}
+              ? 'جميع محتويات الموقع، بما في ذلك النصوص والرسومات والشعارات والصور والبرامج، هي ملكية فكرية لـ Sage Tax Consultancy ومحمية بموجب القانون الاتحادي رقم (38) لسنة 2021 بشأن حق المؤلف والحقوق المجاورة. لا يُسمح بنسخ أو توزيع أو عرض أو نقل أي محتوى بدون موافقة خطية صريحة.'
+              : 'All website content, including text, graphics, logos, images, and software, is the intellectual property of Sage Tax Consultancy and is protected under UAE Federal Law No. (38) of 2021 on Copyrights and Neighboring Rights. Copying, distributing, displaying, or transmitting any content without express written permission is prohibited.'}
           </p>
 
           <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
-            {isArabic ? '4. الخدمات المقدمة' : '4. Services Provided'}
+            {isArabic ? '5. السرية المهنية' : '5. Professional Confidentiality'}
           </h2>
           <p>
             {isArabic
-              ? 'نقدم خدمات استشارات الضرائب والمحاسبة والخدمات الأخرى ذات الصلة. تُقدم الخدمات على أساس "كما هي" دون أي ضمانات صريحة أو ضمنية. لا نضمن أن الخدمات ستلبي احتياجاتك المحددة أو أن الموقع سيكون خالياً من الأخطاء أو الانقطاعات.'
-              : 'We provide tax consultation, accounting, and related services. Services are provided on an "as is" basis without any express or implied warranties. We do not guarantee that services will meet your specific needs or that the website will be error-free or uninterrupted.'}
+              ? 'نلتزم بالحفاظ على سرية جميع المعلومات المقدمة من العملاء. يتم التعامل مع جميع البيانات المالية والضريبية بسرية تامة وفقاً لمعايير المهنة والقوانين المعمول بها في الإمارات. لن يتم الإفصاح عن أي معلومات للغير إلا بموافقة العميل أو عند المطالبة بموجب القانون أو أمر قضائي.'
+              : 'We maintain strict confidentiality of all client information. All financial and tax data is treated with complete confidentiality in accordance with professional standards and applicable UAE laws. No information will be disclosed to third parties without client consent or when required by law or court order.'}
           </p>
 
           <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
-            {isArabic ? '5. تحديد المسؤولية' : '5. Limitation of Liability'}
+            {isArabic ? '6. إخلاء المسؤولية المهنية' : '6. Professional Disclaimer'}
           </h2>
           <p>
             {isArabic
-              ? 'في أقصى حد يسمح به القانون، لا تتحمل Sage Tax Consultancy أي مسؤولية عن:'
-              : 'To the fullest extent permitted by law, Sage Tax Consultancy shall not be liable for:'}
+              ? 'المعلومات المقدمة على الموقع لأغراض تعليمية وإعلامية فقط ولا تشكل نصيحة قانونية أو ضريبية أو مالية احترافية. للحصول على مشورة محددة لوضعك، يرجى حجز استشارة مع فريقنا. بينما نبذل قصارى جهدنا لتقديم معلومات دقيقة ومحدثة، فإن القوانين واللوائح الضريبية في الإمارات قد تتغير. نحن غير مسؤولين عن أي قرارات تتخذها بناءً على المعلومات العامة المقدمة على الموقع.'
+              : 'Information provided on the website is for educational and informational purposes only and does not constitute professional legal, tax, or financial advice. For specific advice on your situation, please book a consultation with our team. While we strive to provide accurate and up-to-date information, UAE tax laws and regulations may change. We are not responsible for any decisions you make based on general information provided on the website.'}
+          </p>
+
+          <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
+            {isArabic ? '7. تحديد المسؤولية' : '7. Limitation of Liability'}
+          </h2>
+          <p>
+            {isArabic
+              ? 'في أقصى حد يسمح به قانون المعاملات المدنية في الإمارات، لا تتحمل Sage Tax Consultancy أي مسؤولية عن:'
+              : 'To the fullest extent permitted by UAE Civil Transactions Law, Sage Tax Consultancy shall not be liable for:'}
           </p>
           <ul>
-            <li>
-              {isArabic
-                ? 'الأضرار المباشرة أو غير المباشرة أو العرضية أو الخاصة أو العقابية'
-                : 'Direct, indirect, incidental, special, or punitive damages'}
-            </li>
-            <li>
-              {isArabic
-                ? 'فقدان الأرباح أو البيانات أو استخدام البيانات'
-                : 'Loss of profits, data, or use of data'}
-            </li>
-            <li>
-              {isArabic
-                ? 'التعطل أو الانقطاعات أو الأخطاء في الموقع'
-                : 'Downtime, interruptions, or errors in the website'}
-            </li>
-            <li>
-              {isArabic
-                ? 'أي محتوى أو معلومات حصلت عليها من الموقع'
-                : 'Any content or information obtained from the website'}
-            </li>
+            <li>{isArabic ? 'الأضرار المباشرة أو غير المباشرة الناتجة عن استخدام الموقع' : 'Direct or indirect damages resulting from use of the website'}</li>
+            <li>{isArabic ? 'فقدان الأرباح أو البيانات أو الفرص التجارية' : 'Loss of profits, data, or business opportunities'}</li>
+            <li>{isArabic ? 'التعطل أو الانقطاعات أو الأخطاء التقنية في الموقع' : 'Downtime, interruptions, or technical errors on the website'}</li>
+            <li>{isArabic ? 'أي غرامات أو عقوبات ضريبية ناتجة عن معلومات غير مكتملة أو غير دقيقة مقدمة من العميل' : 'Any tax penalties resulting from incomplete or inaccurate information provided by the client'}</li>
           </ul>
 
           <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
-            {isArabic ? '6. الإخلاء من المسؤولية' : '6. Disclaimer'}
+            {isArabic ? '8. شروط الدفع' : '8. Payment Terms'}
           </h2>
           <p>
             {isArabic
-              ? 'المعلومات المقدمة على الموقع لأغراض تعليمية وإعلامية فقط. لا تشكل المعلومات المقدمة على الموقع نصيحة قانونية أو ضريبية أو مالية احترافية. لا تستخدمها بدلاً من استشارة محترف مؤهل. نحن غير مسؤولين عن أي قرارات تتخذها بناءً على المعلومات المقدمة على الموقع.'
-              : 'Information provided on the website is for educational and informational purposes only. The information provided on the website does not constitute professional legal, tax, or financial advice. Do not use it as a substitute for consulting a qualified professional. We are not responsible for any decisions you make based on information provided on the website.'}
+              ? 'تخضع رسوم الخدمة لعقد الخدمات المتفق عليه. يجب دفع المبالغ المستحقة خلال 30 يوماً من تاريخ إصدار الفاتورة ما لم يتم الاتفاق على خلاف ذلك. الأسعار المعلنة على الموقع (إن وجدت) هي أسعار إرشادية وقد تختلف بناءً على نطاق العمل. جميع الرسوم خاضعة لضريبة القيمة المضافة بنسبة 5% وفقاً لقانون ضريبة القيمة المضافة في الإمارات.'
+              : 'Service fees are subject to the agreed service agreement. Amounts due must be paid within 30 days of invoice date unless otherwise agreed. Prices displayed on the website (if any) are indicative and may vary based on the scope of work. All fees are subject to 5% VAT in accordance with UAE VAT Law.'}
           </p>
 
           <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
-            {isArabic ? '7. تعديل الخدمات' : '7. Modification of Services'}
+            {isArabic ? '9. إنهاء الخدمات' : '9. Service Termination'}
           </h2>
           <p>
             {isArabic
-              ? 'نحتفظ بالحق في تعديل أو إيقاف الخدمات أو أي أجزاء منها في أي وقت دون إشعار. قد نفرض رسوماً على الخدمات المستقبلية. لن نتحمل أي مسؤولية تجاهك أو أي طرف ثالث عن أي تعديل أو إيقاف للخدمات.'
-              : 'We reserve the right to modify or suspend services or any part of them at any time without notice. We may charge fees for future services. We will not be liable to you or any third party for any modification or suspension of services.'}
+              ? 'يجوز لأي من الطرفين إنهاء اتفاقية الخدمة بإشعار خطي مدته 30 يوماً. في حالة الإنهاء، يلتزم العميل بدفع جميع الرسوم المستحقة عن الأعمال المنجزة حتى تاريخ الإنهاء. تبقى التزامات السرية وحماية البيانات سارية حتى بعد إنهاء العلاقة التعاقدية.'
+              : 'Either party may terminate the service agreement with 30 days written notice. Upon termination, the client is responsible for payment of all fees due for work completed up to the termination date. Confidentiality and data protection obligations survive termination of the contractual relationship.'}
           </p>
 
           <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
-            {isArabic ? '8. الروابط الخارجية' : '8. External Links'}
+            {isArabic ? '10. الروابط الخارجية' : '10. External Links'}
           </h2>
           <p>
             {isArabic
-              ? 'قد يحتوي الموقع على روابط إلى مواقع ويب خارجية. لسنا مسؤولين عن محتوى أو سياسات الخصوصية أو الممارسات الأخرى للمواقع الخارجية. استخدام أي موقع خارجي يكون على مسؤوليتك الخاصة.'
-              : 'The website may contain links to external websites. We are not responsible for the content, privacy policies, or practices of external websites. Your use of any external website is at your own risk.'}
+              ? 'قد يحتوي الموقع على روابط لمواقع خارجية بما في ذلك بوابات حكومية ومصادر إخبارية. لسنا مسؤولين عن محتوى أو سياسات تلك المواقع.'
+              : 'The website may contain links to external websites including government portals and news sources. We are not responsible for the content or policies of those sites.'}
           </p>
 
           <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
-            {isArabic ? '9. الحقوق المحفوظة' : '9. Reserved Rights'}
+            {isArabic ? '11. القانون الحاكم والاختصاص القضائي' : '11. Governing Law and Jurisdiction'}
           </h2>
           <p>
             {isArabic
-              ? 'نحتفظ بالحق في رفض الخدمة لأي شخص في أي وقت دون سبب. نحتفظ بالحق في تعديل الشروط والأحكام في أي وقت. سيتم إخطارك بأي تعديلات مهمة من خلال البريد الإلكتروني أو من خلال إشعار بارز على الموقع.'
-              : 'We reserve the right to refuse service to anyone at any time without reason. We reserve the right to modify these Terms and Conditions at any time. You will be notified of any significant changes via email or prominent notice on the website.'}
+              ? 'تخضع هذه الشروط والأحكام وتُفسَّر وفقاً لقوانين دولة الإمارات العربية المتحدة، وتحديداً القوانين السارية في إمارة دبي. يخضع أي نزاع ينشأ عن هذه الشروط للاختصاص القضائي الحصري لمحاكم دبي. يتفق الطرفان على محاولة حل أي نزاع ودياً قبل اللجوء إلى القضاء.'
+              : 'These Terms and Conditions are governed by and construed in accordance with the laws of the United Arab Emirates, specifically the laws applicable in the Emirate of Dubai. Any dispute arising from these Terms shall be subject to the exclusive jurisdiction of the courts of Dubai. Both parties agree to attempt to resolve any dispute amicably before resorting to litigation.'}
           </p>
 
           <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
-            {isArabic ? '10. القانون والاختصاص' : '10. Governing Law and Jurisdiction'}
+            {isArabic ? '12. قابلية الفصل' : '12. Severability'}
           </h2>
           <p>
             {isArabic
-              ? 'تحكم هذه الشروط والأحكام بموجب قوانين دولة الإمارات العربية المتحدة، وتحديداً القوانين السارية في إمارة دبي. توافق على الخضوع للاختصاص القضائي الحصري للمحاكم في دبي، الإمارات العربية المتحدة. في حالة أي نزاع، ستحكمه قوانين الإمارات.'
-              : 'These Terms and Conditions are governed by the laws of the United Arab Emirates, specifically the laws applicable in the Emirate of Dubai. You consent to the exclusive jurisdiction of the courts in Dubai, United Arab Emirates. In case of any dispute, it shall be governed by UAE law.'}
-          </p>
-
-          <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
-            {isArabic ? '11. الفصل' : '11. Severability'}
-          </h2>
-          <p>
-            {isArabic
-              ? 'إذا تم اعتبار أي بند من هذه الشروط والأحكام غير صحيح أو غير قابل للتنفيذ، فإن البند المتبقي سيبقى نافذاً وسارياً المفعول.'
-              : 'If any provision of these Terms and Conditions is found to be invalid or unenforceable, the remaining provisions will continue to be valid and enforceable.'}
-          </p>
-
-          <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
-            {isArabic ? '12. الاتفاق الكامل' : '12. Entire Agreement'}
-          </h2>
-          <p>
-            {isArabic
-              ? 'تمثل هذه الشروط والأحكام الاتفاق الكامل بينك وبيننا بخصوص استخدام الموقع والخدمات. إذا كانت هناك أي نسخة سابقة من هذه الشروط والأحكام، فإنها يتم استبدالها بالكامل بهذه الإصدار الجديد.'
-              : 'These Terms and Conditions constitute the entire agreement between you and us regarding the use of the website and services. Any previous versions of these Terms and Conditions are completely replaced by this new version.'}
+              ? 'إذا تم اعتبار أي بند من هذه الشروط غير صحيح أو غير قابل للتنفيذ بموجب القانون الإماراتي، فإن باقي البنود تظل سارية المفعول.'
+              : 'If any provision of these Terms is found to be invalid or unenforceable under UAE law, the remaining provisions will continue to be valid and enforceable.'}
           </p>
 
           <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
@@ -210,24 +187,23 @@ export default function TermsPage({ params }) {
             <p className="font-semibold text-navy-950">Sage Tax Consultancy</p>
             <p className="text-gray-600">
               {isArabic ? 'البريد الإلكتروني' : 'Email'}:{' '}
-              <a href="mailto:info@sageconsultancy.ae" className="text-sage-700 hover:text-sage-800">
-                info@sageconsultancy.ae
-              </a>
+              <a href="mailto:info@sageconsultancy.ae" className="text-sage-700 hover:text-sage-800">info@sageconsultancy.ae</a>
             </p>
             <p className="text-gray-600">
               {isArabic ? 'الهاتف' : 'Phone'}:{' '}
-              <a href="tel:+971585704140" className="text-sage-700 hover:text-sage-800">
-                +971 58 570 4140
-              </a>
+              <a href="tel:+971585704140" className="text-sage-700 hover:text-sage-800">+971 58 570 4140</a>
             </p>
-            <p className="text-gray-600">
-              {isArabic ? 'العنوان' : 'Address'}: Dubai, UAE
-            </p>
+            <p className="text-gray-600">{isArabic ? 'العنوان' : 'Address'}: Dubai, UAE</p>
           </div>
 
           <div className="mt-12 pt-8 border-t border-gray-200">
             <p className="text-sm text-gray-400">
-              {isArabic ? 'آخر تحديث: يناير 2026' : 'Last Updated: January 2026'}
+              {isArabic ? 'آخر تحديث: أبريل 2026' : 'Last Updated: April 2026'}
+            </p>
+            <p className="text-xs text-gray-400 mt-2">
+              {isArabic
+                ? 'خاضعة لقوانين دولة الإمارات العربية المتحدة واختصاص محاكم دبي'
+                : 'Subject to UAE Federal Laws and the jurisdiction of Dubai Courts'}
             </p>
           </div>
         </div>

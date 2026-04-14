@@ -1,7 +1,8 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { ShieldCheck, Users, Monitor, Banknote, Zap, Target, Eye, User } from 'lucide-react';
+import { ShieldCheck, Users, Monitor, Banknote, Zap, Target, Eye } from 'lucide-react';
+import IMAGES from '@/lib/images';
 
 const FEATURES = [
   { icon: ShieldCheck, titleKey: 'about.features.ftaApproved', descKey: 'about.features.ftaApprovedDesc' },
@@ -19,6 +20,7 @@ const LEADERSHIP = [
     titleAr: 'الشريك الإداري',
     bio: 'Leading strategic direction and client advisory with deep expertise in UAE tax regulations and corporate compliance.',
     bioAr: 'يقود التوجه الاستراتيجي والاستشارات للعملاء مع خبرة عميقة في اللوائح الضريبية الإماراتية والامتثال المؤسسي.',
+    image: IMAGES.leaderMale,
   },
   {
     name: 'Aashna Malkhani',
@@ -27,6 +29,7 @@ const LEADERSHIP = [
     titleAr: 'شريك',
     bio: 'Overseeing accounting, audit operations, and client engagement with a focus on delivering exceptional service quality.',
     bioAr: 'تشرف على عمليات المحاسبة والتدقيق وإدارة العملاء مع التركيز على تقديم جودة خدمة استثنائية.',
+    image: IMAGES.leaderFemale,
   },
 ];
 
@@ -38,7 +41,7 @@ export default function About({ locale }) {
     <section className="section-padding bg-white">
       <div className="container-max space-y-20">
         {/* Why Sage */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
             <span className="badge">{t('about.badge')}</span>
             <h2 className="section-heading">{t('about.title')}</h2>
@@ -65,19 +68,28 @@ export default function About({ locale }) {
             </div>
           </div>
 
-          {/* Features list */}
-          <div className="space-y-3">
-            {FEATURES.map(({ icon: Icon, titleKey, descKey }) => (
-              <div key={titleKey} className="flex items-start gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors">
-                <div className="w-10 h-10 rounded-lg bg-sage-100 text-sage-700 flex items-center justify-center flex-shrink-0">
-                  <Icon className="w-5 h-5" />
+          {/* Team image + Features */}
+          <div className="space-y-6">
+            <div className="rounded-2xl overflow-hidden h-56 shadow-lg">
+              <img
+                src={IMAGES.aboutTeam}
+                alt="Sage Tax Consultancy team"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {FEATURES.slice(0, 4).map(({ icon: Icon, titleKey, descKey }) => (
+                <div key={titleKey} className="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors">
+                  <div className="w-9 h-9 rounded-lg bg-sage-100 text-sage-700 flex items-center justify-center flex-shrink-0">
+                    <Icon className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="text-xs font-bold text-navy-950">{t(titleKey)}</h3>
+                    <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">{t(descKey)}</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-sm font-bold text-navy-950">{t(titleKey)}</h3>
-                  <p className="text-sm text-gray-500 mt-0.5 leading-relaxed">{t(descKey)}</p>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 
@@ -93,9 +105,12 @@ export default function About({ locale }) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
             {LEADERSHIP.map((leader) => (
               <div key={leader.name} className="card-hover text-center space-y-4 p-8">
-                {/* Placeholder headshot */}
-                <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-sage-100 to-sage-200 flex items-center justify-center">
-                  <User className="w-10 h-10 text-sage-500" />
+                <div className="w-28 h-28 mx-auto rounded-full overflow-hidden shadow-lg ring-4 ring-sage-100">
+                  <img
+                    src={leader.image}
+                    alt={leader.name}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <div>
                   <h3 className="text-lg font-bold text-navy-950">

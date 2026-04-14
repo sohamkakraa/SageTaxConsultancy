@@ -1,6 +1,7 @@
 import { unstable_setRequestLocale } from 'next-intl/server';
 import { getServices } from '@/lib/content';
 import Link from 'next/link';
+import IMAGES from '@/lib/images';
 import {
   Receipt, Building2, BookOpen, ArrowRight,
   ClipboardList, Search, ShieldCheck, Scale,
@@ -49,6 +50,7 @@ const CATEGORIES = [
     descAr: 'تنقّل في المشهد الضريبي المتطور في الإمارات بإرشاد الخبراء.',
     color: 'bg-sage-50 border-sage-200',
     iconColor: 'bg-sage-100 text-sage-700',
+    image: IMAGES.taxCompliance,
   },
   {
     key: 'accounting',
@@ -59,6 +61,7 @@ const CATEGORIES = [
     descAr: 'تقارير مالية متوافقة مع المعايير الدولية وخدمات التدقيق المتخصصة.',
     color: 'bg-navy-50 border-navy-200',
     iconColor: 'bg-navy-100 text-navy-700',
+    image: IMAGES.accounting,
   },
   {
     key: 'corporate',
@@ -69,6 +72,7 @@ const CATEGORIES = [
     descAr: 'تسجيل الشركات وخدمات العلاقات الحكومية والإقامة الذهبية.',
     color: 'bg-gold-50 border-gold-200',
     iconColor: 'bg-gold-100 text-gold-700',
+    image: IMAGES.corporate,
   },
 ];
 
@@ -80,8 +84,12 @@ export default async function ServicesPage({ params: { locale } }) {
   return (
     <>
       {/* Hero */}
-      <section className="py-16 md:py-20 bg-navy-950 text-white">
-        <div className="container-max text-center space-y-5">
+      <section className="relative py-16 md:py-20 bg-navy-950 text-white overflow-hidden">
+        <div className="absolute inset-0">
+          <img src={IMAGES.dubaiBusiness} alt="" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-navy-950/85" />
+        </div>
+        <div className="relative container-max text-center space-y-5">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/10 text-xs font-semibold text-gold-300 tracking-wide uppercase">
             {isArabic ? 'خدماتنا' : 'Our Services'}
           </span>
