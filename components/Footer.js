@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { Phone, Mail, MapPin } from 'lucide-react';
 
@@ -37,10 +38,8 @@ export default function Footer({ locale = 'en' }) {
           {/* Brand */}
           <div className="col-span-2 md:col-span-4 lg:col-span-1 space-y-4">
             <Link href={base || '/'} className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-sage-700 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">S</span>
-              </div>
-              <span className="font-bold text-base">Sage Tax</span>
+              <Image src="/assets/logo.png" alt="Sage Tax Consultancy" width={32} height={32} className="rounded-lg" />
+              <Image src="/assets/name.svg" alt="Sage Tax Consultancy" width={90} height={32} className="object-contain brightness-0 invert" />
             </Link>
             <p className="text-sm text-gray-400 leading-relaxed max-w-xs">
               {t('footer.tagline')}
