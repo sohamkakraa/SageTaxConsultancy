@@ -101,17 +101,19 @@ export default function Footer({ locale = 'en' }) {
             </ul>
           </div>
 
-          {/* Contact */}
-          <div>
+          {/* Contact — span full width on mobile so email doesn't overflow */}
+          <div className="col-span-2 md:col-span-1">
             <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-4">{t('contact.badge')}</h4>
-            <div className="space-y-3">
-              <a href="tel:+971585704140" className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors">
-                <Phone className="w-3.5 h-3.5 flex-shrink-0" />+971 58 570 4140
+            <div className="space-y-3 min-w-0">
+              <a href="tel:+971585704140" className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors min-w-0">
+                <Phone className="w-3.5 h-3.5 flex-shrink-0" />
+                <span className="truncate">+971 58 570 4140</span>
               </a>
-              <a href="mailto:info@sageconsultancy.ae" className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors">
-                <Mail className="w-3.5 h-3.5 flex-shrink-0" />info@sageconsultancy.ae
+              <a href="mailto:info@sageconsultancy.ae" className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors min-w-0">
+                <Mail className="w-3.5 h-3.5 flex-shrink-0" />
+                <span className="break-all">info@sageconsultancy.ae</span>
               </a>
-              <p className="flex items-center gap-2 text-sm text-gray-400">
+              <p className="flex items-center gap-2 text-sm text-gray-400 min-w-0">
                 <MapPin className="w-3.5 h-3.5 flex-shrink-0" />Dubai, U.A.E
               </p>
             </div>
