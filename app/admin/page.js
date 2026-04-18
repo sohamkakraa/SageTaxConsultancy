@@ -22,6 +22,15 @@ export default function AdminPage() {
   const router = useRouter()
   const supabase = createClient()
 
+  // Helper to set/clear the server-side auth cookie used by middleware
+  const setAdminCookie = (active) => {
+    if (active) {
+      document.cookie = 'sage-admin-session=1; path=/; max-age=86400; SameSite=Lax; Secure'
+    } else {
+      document.cookie = 'sage-admin-session=; path=/; max-age=0; SameSite=Lax; Secure'
+    }
+  }
+
   useEffect(() => {
     const checkAuth = async () => {
       try {
@@ -31,11 +40,15 @@ export default function AdminPage() {
         } = await supabase.auth.getSession()
         if (session) {
           setUser(session.user)
+          setAdminCookie(true)
           loadStats()
+        } else {
+          setAdminCookie(false)
         }
         setLoading(false)
       } catch (err) {
         console.error('Auth check error:', err)
+        setAdminCookie(false)
         setLoading(false)
       }
     }
@@ -45,6 +58,7 @@ export default function AdminPage() {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setUser(session?.user || null)
+        setAdminCookie(!!session?.user)
         if (session?.user) {
           loadStats()
         }

@@ -79,6 +79,8 @@ export default function AdminLayout({ children, user }) {
 
   const handleLogout = async () => {
     try {
+      // Clear server-side auth cookie used by middleware
+      document.cookie = 'sage-admin-session=; path=/; max-age=0; SameSite=Lax; Secure'
       await supabase.auth.signOut()
       router.push('/admin')
     } catch (err) {

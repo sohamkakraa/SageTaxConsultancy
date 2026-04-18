@@ -85,9 +85,10 @@ export default function BlogManager() {
     }
   }
 
+  // Fixed: spread operator was missing on prev — was overwriting all edit state
   const handleEditChange = (id, field, value) => {
     setEditData((prev) => ({
-      prev,
+      ...prev,
       [id]: {
         ...prev[id],
         [field]: value,

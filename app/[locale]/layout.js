@@ -108,7 +108,8 @@ export default async function LocaleLayout({ children, params: { locale } }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
       />
-      {process.env.NEXT_PUBLIC_GA_ID && (
+      {/* Fixed: sanitize GA ID to prevent injection via malformed env var */}
+      {process.env.NEXT_PUBLIC_GA_ID && /^G-[A-Z0-9]+$/i.test(process.env.NEXT_PUBLIC_GA_ID) && (
         <>
           <Script
             src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
@@ -121,11 +122,12 @@ export default async function LocaleLayout({ children, params: { locale } }) {
           />
         </>
       )}
+      {/* Fixed: validate locale/dir before injecting into script to prevent XSS */}
       <Script
         id="set-lang-dir"
         strategy="beforeInteractive"
         dangerouslySetInnerHTML={{
-          __html: `document.documentElement.lang = '${locale}'; document.documentElement.dir = '${dir}';`,
+          __html: `document.documentElement.lang = ${JSON.stringify(locale)}; document.documentElement.dir = ${JSON.stringify(dir)};`,
         }}
       />
       <div className="min-h-screen flex flex-col">

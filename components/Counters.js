@@ -33,7 +33,7 @@ function AnimatedCounter({ end, suffix = '' }) {
   }, [inView, end]);
 
   return (
-    <span ref={ref} className="text-3xl md:text-4xl font-bold text-navy-950 tabular-nums">
+    <span ref={ref} className="text-2xl md:text-4xl font-bold text-navy-950 tabular-nums">
       {count.toLocaleString()}{suffix}
     </span>
   );
@@ -43,10 +43,10 @@ export default function Counters() {
   const t = useTranslations();
 
   return (
-    <section className="relative -mt-10 z-10 pb-8">
+    <section className="relative -mt-6 md:-mt-10 z-10 pb-8">
       <div className="container-max">
-        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 px-6 py-8 md:px-10 md:py-10">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 px-4 py-6 md:px-10 md:py-10">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
             {STATS.map(({ icon: Icon, end, suffix, labelKey }) => (
               <div key={labelKey} className="text-center space-y-2">
                 <div className="w-10 h-10 rounded-xl bg-sage-50 flex items-center justify-center mx-auto mb-2">

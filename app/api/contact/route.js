@@ -158,11 +158,13 @@ export async function POST(request) {
   }
 }
 
+// Fixed: restricted CORS origin from wildcard (*) to site domain — prevents cross-origin abuse
 export async function OPTIONS(request) {
+  const allowedOrigin = process.env.NEXT_PUBLIC_SITE_URL || 'https://sageconsultancy.ae';
   return new NextResponse(null, {
     status: 200,
     headers: {
-      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': allowedOrigin,
       'Access-Control-Allow-Methods': 'POST',
       'Access-Control-Allow-Headers': 'Content-Type',
     },

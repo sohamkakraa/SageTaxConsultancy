@@ -111,7 +111,7 @@ export default function Header({ locale = 'en' }) {
     <>
       <header
         className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-          scrolled
+          scrolled || mobileOpen
             ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100'
             : isHomepage
               ? 'bg-transparent'
@@ -129,7 +129,7 @@ export default function Header({ locale = 'en' }) {
                 width={100}
                 height={36}
                 className={`hidden sm:block object-contain transition-all duration-300 ${
-                  isHomepage && !scrolled ? 'brightness-0 invert' : ''
+                  isHomepage && !scrolled && !mobileOpen ? 'brightness-0 invert' : ''
                 }`}
               />
             </Link>
@@ -222,17 +222,17 @@ export default function Header({ locale = 'en' }) {
               </Link>
             </div>
 
-            {/* Mobile Controls */}
-            <div className="lg:hidden flex items-center gap-2">
+            {/* Mobile Controls — min 44px touch targets for accessibility */}
+            <div className="lg:hidden flex items-center gap-1">
               <button
                 onClick={switchLanguage}
-                className={`p-2 transition-colors ${isHomepage && !scrolled ? 'text-white/70 hover:text-white' : 'text-gray-500 hover:text-navy-950'}`}
+                className={`p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center transition-colors ${isHomepage && !scrolled && !mobileOpen ? 'text-white/70 hover:text-white' : 'text-gray-500 hover:text-navy-950'}`}
               >
                 <Globe className="w-5 h-5" />
               </button>
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className={`p-2 transition-colors ${isHomepage && !scrolled ? 'text-white/70 hover:text-white' : 'text-gray-600 hover:text-navy-950'}`}
+                className={`p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center transition-colors ${isHomepage && !scrolled && !mobileOpen ? 'text-white/70 hover:text-white' : 'text-gray-600 hover:text-navy-950'}`}
               >
                 {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>

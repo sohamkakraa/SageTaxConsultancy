@@ -3,9 +3,18 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request) {
   try {
+    // Fixed: reject if revalidation secret is not configured or is the default placeholder
+    const configuredSecret = process.env.REVALIDATE_SECRET;
+    if (!configuredSecret || configuredSecret === 'your-random-secret-string-here') {
+      return NextResponse.json(
+        { error: 'Revalidation endpoint not configured' },
+        { status: 503 }
+      );
+    }
+
     // Verify secret token
     const secret = request.headers.get('x-revalidate-secret');
-    if (secret !== process.env.REVALIDATE_SECRET) {
+    if (secret !== configuredSecret) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
@@ -26,10 +35,13 @@ export async function POST(request) {
     const revalidatedPaths = [];
     const revalidatedTags = [];
 
+    // Fixed: limit number of paths/tags to prevent abuse
+    const MAX_ITEMS = 20;
+
     // Revalidate paths
     if (Array.isArray(paths) && paths.length > 0) {
-      for (const path of paths) {
-        if (typeof path === 'string') {
+      for (const path of paths.slice(0, MAX_ITEMS)) {
+        if (typeof path === 'string' && path.startsWith('/') && !path.includes('..')) {
           try {
             revalidatePath(path);
             revalidatedPaths.push(path);
@@ -42,8 +54,8 @@ export async function POST(request) {
 
     // Revalidate tags
     if (Array.isArray(tags) && tags.length > 0) {
-      for (const tag of tags) {
-        if (typeof tag === 'string') {
+      for (const tag of tags.slice(0, MAX_ITEMS)) {
+        if (typeof tag === 'string' && /^[a-zA-Z0-9_-]+$/.test(tag)) {
           try {
             revalidateTag(tag);
             revalidatedTags.push(tag);
@@ -81,11 +93,13 @@ export async function GET(request) {
   );
 }
 
+// Fixed: restricted CORS origin from wildcard (*) to site domain
 export async function OPTIONS(request) {
+  const allowedOrigin = process.env.NEXT_PUBLIC_SITE_URL || 'https://sageconsultancy.ae';
   return new NextResponse(null, {
     status: 200,
     headers: {
-      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': allowedOrigin,
       'Access-Control-Allow-Methods': 'POST',
       'Access-Control-Allow-Headers': 'Content-Type, x-revalidate-secret',
     },

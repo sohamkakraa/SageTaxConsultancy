@@ -59,9 +59,12 @@ async function fetchCMSResources() {
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
-    const limit = Math.min(parseInt(searchParams.get('limit') || '10'), 50);
-    const offset = parseInt(searchParams.get('offset') || '0');
-    const category = searchParams.get('category') || null;
+    const limit = Math.min(Math.max(parseInt(searchParams.get('limit') || '10') || 10, 1), 50);
+    const offset = Math.max(parseInt(searchParams.get('offset') || '0') || 0, 0);
+    const rawCategory = searchParams.get('category') || null;
+    // Fixed: validate category to prevent injection — only allow known safe values
+    const VALID_CATEGORIES = ['vat', 'corporate-tax', 'excise-tax', 'golden-visa', 'company-registration', 'accounting', 'trademark', 'general', 'business', 'finance', 'tax'];
+    const category = rawCategory && VALID_CATEGORIES.includes(rawCategory.toLowerCase()) ? rawCategory : null;
     const homepageOnly = searchParams.get('homepage') === 'true';
 
     // Check cache
@@ -135,11 +138,13 @@ export async function GET(request) {
   }
 }
 
+// Fixed: restricted CORS origin from wildcard (*) to site domain
 export async function OPTIONS(request) {
+  const allowedOrigin = process.env.NEXT_PUBLIC_SITE_URL || 'https://sageconsultancy.ae';
   return new NextResponse(null, {
     status: 200,
     headers: {
-      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': allowedOrigin,
       'Access-Control-Allow-Methods': 'GET',
       'Access-Control-Allow-Headers': 'Content-Type',
     },
