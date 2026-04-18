@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Sage Tax Consultancy | Expert Tax Advisory in UAE",
-    "description": "UAE's trusted tax consultancy. Expert VAT, Corporate Tax, Accounting & Auditing services in Dubai. FTA-approved advisors helping businesses grow with confidence."
+    "title": "Sage Advisory | Expert Tax Advisory in UAE",
+    "description": "UAE's trusted advisory firm. Expert VAT, Corporate Tax, Accounting & Auditing services in Dubai. Helping businesses grow with confidence."
   },
   "nav": {
     "home": "Home",
@@ -16,9 +16,9 @@
     "switchLang": "العربية"
   },
   "hero": {
-    "badge": "FTA-Approved Tax Advisors",
+    "badge": "Trusted Tax Advisors in the UAE",
     "title": "Tax Clarity.\nBusiness Certainty.",
-    "subtitle": "We translate complex FTA regulations into actionable strategies — optimizing cash flow, reducing risk, and enabling UAE businesses to scale with confidence.",
+    "subtitle": "We translate complex UAE tax regulations into actionable strategies — optimizing cash flow, reducing risk, and enabling businesses to scale with confidence.",
     "cta": "Book a Free Consultation",
     "ctaSecondary": "Explore Services",
     "trustedBy": "Trusted by 950+ businesses across 35 industries"
@@ -32,8 +32,8 @@
     "vision": "Our Vision",
     "visionText": "To be the most trusted name in Gulf tax advisory, recognized for clarity, client focus, and measurable impact.",
     "features": {
-      "ftaApproved": "FTA-Approved Experts",
-      "ftaApprovedDesc": "Listed with the UAE Federal Tax Authority. Our advisors hold recognized tax-agent certifications.",
+      "ftaApproved": "Qualified Tax Professionals",
+      "ftaApprovedDesc": "Experienced advisors with deep expertise in UAE tax regulations and compliance frameworks.",
       "sectorSpecialized": "Sector-Specialized Teams",
       "sectorSpecializedDesc": "Dedicated teams for e-commerce, real estate, hospitality, energy, and professional services.",
       "techDriven": "Technology-Driven",
@@ -112,19 +112,20 @@
     }
   },
   "footer": {
-    "tagline": "Expert tax advisory and business solutions in the UAE. FTA-approved consultants helping businesses navigate compliance with confidence.",
+    "tagline": "Expert tax advisory and business solutions in the UAE. Helping businesses navigate compliance with confidence.",
     "quickLinks": "Quick Links",
     "ourServices": "Our Services",
     "legal": "Legal",
     "privacyPolicy": "Privacy Policy",
     "termsConditions": "Terms & Conditions",
-    "copyright": "Sage Tax Consultancy. All rights reserved.",
+    "copyright": "Sage Advisory. All rights reserved.",
     "madeIn": "Made in Dubai, UAE"
   },
   "cookie": {
-    "message": "We use cookies to enhance your experience and analyze site usage.",
-    "accept": "Accept",
-    "decline": "Decline"
+    "message": "We use essential cookies for site functionality. Analytics cookies are only enabled with your consent. See our privacy policy for details.",
+    "accept": "Accept All",
+    "decline": "Essential Only",
+    "learnMore": "Privacy Policy"
   },
   "notFound": {
     "title": "Page Not Found",

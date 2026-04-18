@@ -1,7 +1,8 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import Link from 'next/link';
+import Image from 'next/image';
+import { Link } from '@/lib/navigation';
 import { ArrowRight, Shield, Receipt, BookOpen, Building2 } from 'lucide-react';
 import IMAGES from '@/lib/images';
 
@@ -37,17 +38,19 @@ const SERVICE_PILLS = [
 
 export default function Hero({ locale }) {
   const t = useTranslations();
-  const base = locale === 'en' ? '' : `/${locale}`;
   const isAr = locale === 'ar';
 
   return (
     <section className="relative overflow-hidden bg-navy-950 min-h-[700px] lg:min-h-[750px]">
       {/* Background image with stronger gradient */}
       <div className="absolute inset-0">
-        <img
+        <Image
           src={IMAGES.hero}
-          alt=""
-          className="w-full h-full object-cover"
+          alt="Dubai skyline"
+          fill
+          className="object-cover"
+          priority
+          sizes="100vw"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-navy-950/90 via-navy-950/80 to-navy-950/95" />
       </div>
@@ -83,11 +86,11 @@ export default function Hero({ locale }) {
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
-            <Link href={`${base}/contact`} className="btn-gold text-base px-8 py-3.5">
+            <Link href={`/contact`} className="btn-gold text-base px-8 py-3.5">
               {t('hero.cta')}
               <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href={`${base}/services`} className="btn-secondary bg-transparent text-white border-white/20 hover:bg-white/10 hover:border-white/30 text-base px-8 py-3.5">
+            <Link href={`/services`} className="btn-secondary bg-transparent text-white border-white/20 hover:bg-white/10 hover:border-white/30 text-base px-8 py-3.5">
               {t('hero.ctaSecondary')}
             </Link>
           </div>

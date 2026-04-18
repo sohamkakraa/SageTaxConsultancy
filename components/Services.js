@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import Link from 'next/link';
+import { Link } from '@/lib/navigation';
 import { Receipt, BookOpen, Building2, ArrowRight } from 'lucide-react';
 import IMAGES from '@/lib/images';
 
@@ -37,7 +37,6 @@ const SERVICE_CARDS = [
 
 export default function Services({ locale }) {
   const t = useTranslations();
-  const base = locale === 'en' ? '' : `/${locale}`;
 
   return (
     <section className="section-padding bg-gray-50">
@@ -52,7 +51,7 @@ export default function Services({ locale }) {
           {SERVICE_CARDS.map(({ icon: Icon, titleKey, descKey, slug, accent, iconBg, image }) => (
             <Link
               key={slug}
-              href={`${base}/services/${slug}`}
+              href={`/services/${slug}`}
               className={`group rounded-xl border overflow-hidden transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 ${accent}`}
             >
               <div className="h-40 overflow-hidden">
@@ -81,7 +80,7 @@ export default function Services({ locale }) {
         </div>
 
         <div className="flex justify-center">
-          <Link href={`${base}/services`} className="btn-secondary">
+          <Link href="/services" className="btn-secondary">
             {t('services.viewAll')}
             <ArrowRight className="w-4 h-4" />
           </Link>

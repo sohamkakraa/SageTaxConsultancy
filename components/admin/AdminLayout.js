@@ -201,7 +201,7 @@ export default function AdminLayout({ children, user }) {
                 />
               </svg>
             </button>
-            <h1 className="text-lg font-semibold text-slate-900">Sage Tax Consultancy</h1>
+            <h1 className="text-lg font-semibold text-slate-900">Sage Advisory</h1>
             <div className="w-6" />
           </div>
         </div>

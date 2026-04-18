@@ -73,7 +73,7 @@ export default function About({ locale }) {
             <div className="rounded-2xl overflow-hidden h-56 shadow-lg">
               <img
                 src={IMAGES.aboutTeam}
-                alt="Sage Tax Consultancy team"
+                alt="Sage Advisory team"
                 className="w-full h-full object-cover"
               />
             </div>

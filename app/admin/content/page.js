@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase'
 import AdminLayout from '@/components/admin/AdminLayout'
 import Toast from '@/components/admin/Toast'
+import AutoTranslateButton from '@/components/admin/AutoTranslateButton'
 
 export default function ContentEditor() {
   const [user, setUser] = useState(null)
@@ -214,6 +215,17 @@ export default function ContentEditor() {
                           />
                         </div>
                       </div>
+
+                      <AutoTranslateButton
+                        fields={{
+                          value_ar: itemChanges.value_en ?? item.value_en ?? '',
+                        }}
+                        onTranslated={(translated) => {
+                          Object.entries(translated).forEach(([key, value]) => {
+                            handleChange(item.id, key, value)
+                          })
+                        }}
+                      />
 
                       {changes[item.id] && (
                         <div className="mt-3 flex items-center gap-2 text-sm text-amber-700">

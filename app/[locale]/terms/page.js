@@ -2,8 +2,8 @@ import Link from 'next/link';
 import { ChevronRight, FileText } from 'lucide-react';
 
 export const metadata = {
-  title: 'Terms & Conditions | Sage Tax Consultancy',
-  description: 'Terms and conditions for using Sage Tax Consultancy website and services, governed by UAE law.',
+  title: 'Terms & Conditions | Sage Advisory',
+  description: 'Terms and conditions for using Sage Advisory website and services, governed by UAE law.',
   robots: 'index, follow',
 };
 
@@ -48,8 +48,8 @@ export default function TermsPage({ params }) {
           </h2>
           <p>
             {isArabic
-              ? 'بالوصول واستخدام موقع Sage Tax Consultancy (sagetaxconsultancy.com) وخدماتها، فإنك توافق على الالتزام بهذه الشروط والأحكام بالكامل. تخضع هذه الشروط للقوانين السارية في دولة الإمارات العربية المتحدة، بما في ذلك القانون الاتحادي رقم (5) لسنة 1985 بشأن المعاملات المدنية (قانون المعاملات المدنية) والقانون الاتحادي رقم (46) لسنة 2021 بشأن المعاملات الإلكترونية. إذا كنت لا تقبل أي من هذه الشروط، يرجى عدم استخدام الموقع أو الخدمات.'
-              : 'By accessing and using Sage Tax Consultancy website (sagetaxconsultancy.com) and services, you agree to comply fully with these Terms and Conditions. These Terms are governed by the laws of the United Arab Emirates, including Federal Law No. (5) of 1985 on Civil Transactions (Civil Transactions Law) and Federal Decree-Law No. (46) of 2021 on Electronic Transactions. If you do not accept any of these terms, please do not use the website or services.'}
+              ? 'بالوصول واستخدام موقع Sage Advisory (sageadvisory.ae) وخدماتها، فإنك توافق على الالتزام بهذه الشروط والأحكام بالكامل. تخضع هذه الشروط للقوانين السارية في دولة الإمارات العربية المتحدة، بما في ذلك القانون الاتحادي رقم (5) لسنة 1985 بشأن المعاملات المدنية (قانون المعاملات المدنية) والقانون الاتحادي رقم (46) لسنة 2021 بشأن المعاملات الإلكترونية. إذا كنت لا تقبل أي من هذه الشروط، يرجى عدم استخدام الموقع أو الخدمات.'
+              : 'By accessing and using Sage Advisory website (sageadvisory.ae) and services, you agree to comply fully with these Terms and Conditions. These Terms are governed by the laws of the United Arab Emirates, including Federal Law No. (5) of 1985 on Civil Transactions (Civil Transactions Law) and Federal Decree-Law No. (46) of 2021 on Electronic Transactions. If you do not accept any of these terms, please do not use the website or services.'}
           </p>
 
           <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
@@ -57,8 +57,8 @@ export default function TermsPage({ params }) {
           </h2>
           <p>
             {isArabic
-              ? 'تقدم Sage Tax Consultancy خدمات استشارات ضريبية ومحاسبية وتدقيق وخدمات شركات في دولة الإمارات العربية المتحدة، بما في ذلك على سبيل المثال لا الحصر:'
-              : 'Sage Tax Consultancy provides tax consulting, accounting, auditing, and corporate services in the United Arab Emirates, including but not limited to:'}
+              ? 'تقدم Sage Advisory خدمات استشارات ضريبية ومحاسبية وتدقيق وخدمات شركات في دولة الإمارات العربية المتحدة، بما في ذلك على سبيل المثال لا الحصر:'
+              : 'Sage Advisory provides tax consulting, accounting, auditing, and corporate services in the United Arab Emirates, including but not limited to:'}
           </p>
           <ul>
             <li>{isArabic ? 'تسجيل وتقديم ضريبة القيمة المضافة (VAT) لدى الهيئة الاتحادية للضرائب' : 'VAT registration and filing with the Federal Tax Authority (FTA)'}</li>
@@ -93,8 +93,8 @@ export default function TermsPage({ params }) {
           </h2>
           <p>
             {isArabic
-              ? 'جميع محتويات الموقع، بما في ذلك النصوص والرسومات والشعارات والصور والبرامج، هي ملكية فكرية لـ Sage Tax Consultancy ومحمية بموجب القانون الاتحادي رقم (38) لسنة 2021 بشأن حق المؤلف والحقوق المجاورة. لا يُسمح بنسخ أو توزيع أو عرض أو نقل أي محتوى بدون موافقة خطية صريحة.'
-              : 'All website content, including text, graphics, logos, images, and software, is the intellectual property of Sage Tax Consultancy and is protected under UAE Federal Law No. (38) of 2021 on Copyrights and Neighboring Rights. Copying, distributing, displaying, or transmitting any content without express written permission is prohibited.'}
+              ? 'جميع محتويات الموقع، بما في ذلك النصوص والرسومات والشعارات والصور والبرامج، هي ملكية فكرية لـ Sage Advisory ومحمية بموجب القانون الاتحادي رقم (38) لسنة 2021 بشأن حق المؤلف والحقوق المجاورة. لا يُسمح بنسخ أو توزيع أو عرض أو نقل أي محتوى بدون موافقة خطية صريحة.'
+              : 'All website content, including text, graphics, logos, images, and software, is the intellectual property of Sage Advisory and is protected under UAE Federal Law No. (38) of 2021 on Copyrights and Neighboring Rights. Copying, distributing, displaying, or transmitting any content without express written permission is prohibited.'}
           </p>
 
           <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
@@ -120,8 +120,8 @@ export default function TermsPage({ params }) {
           </h2>
           <p>
             {isArabic
-              ? 'في أقصى حد يسمح به قانون المعاملات المدنية في الإمارات، لا تتحمل Sage Tax Consultancy أي مسؤولية عن:'
-              : 'To the fullest extent permitted by UAE Civil Transactions Law, Sage Tax Consultancy shall not be liable for:'}
+              ? 'في أقصى حد يسمح به قانون المعاملات المدنية في الإمارات، لا تتحمل Sage Advisory أي مسؤولية عن:'
+              : 'To the fullest extent permitted by UAE Civil Transactions Law, Sage Advisory shall not be liable for:'}
           </p>
           <ul>
             <li>{isArabic ? 'الأضرار المباشرة أو غير المباشرة الناتجة عن استخدام الموقع' : 'Direct or indirect damages resulting from use of the website'}</li>
@@ -184,10 +184,10 @@ export default function TermsPage({ params }) {
               : 'If you have any questions about these Terms and Conditions, please contact us:'}
           </p>
           <div className="bg-gray-50 p-6 rounded-lg mt-4 space-y-2">
-            <p className="font-semibold text-navy-950">Sage Tax Consultancy</p>
+            <p className="font-semibold text-navy-950">Sage Advisory</p>
             <p className="text-gray-600">
               {isArabic ? 'البريد الإلكتروني' : 'Email'}:{' '}
-              <a href="mailto:info@sageconsultancy.ae" className="text-sage-700 hover:text-sage-800">info@sageconsultancy.ae</a>
+              <a href="mailto:info@sageadvisory.ae" className="text-sage-700 hover:text-sage-800">info@sageadvisory.ae</a>
             </p>
             <p className="text-gray-600">
               {isArabic ? 'الهاتف' : 'Phone'}:{' '}
@@ -210,7 +210,7 @@ export default function TermsPage({ params }) {
       </section>
 
       {/* CTA */}
-      <section className="py-16 bg-sage-900 text-white">
+      <section className="py-16 bg-navy-900 text-white">
         <div className="container-max text-center space-y-5">
           <h2 className="text-2xl md:text-3xl font-bold font-display">
             {isArabic ? 'هل لديك أسئلة حول شروطنا؟' : 'Have Questions About Our Terms?'}

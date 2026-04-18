@@ -2,9 +2,22 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { Cookie } from 'lucide-react';
+import { Link } from '@/lib/navigation';
+import { Cookie, ExternalLink } from 'lucide-react';
 
-export default function CookieConsent() {
+/**
+ * Returns the current cookie consent status: 'accepted', 'declined', or null.
+ * Used by other components (e.g. GA loader) to check consent.
+ */
+export function getCookieConsent() {
+  try {
+    return localStorage.getItem('sage-cookie-consent');
+  } catch {
+    return null;
+  }
+}
+
+export default function CookieConsent({ locale }) {
   const t = useTranslations();
   const [visible, setVisible] = useState(false);
 
@@ -25,6 +38,8 @@ export default function CookieConsent() {
     } catch {
       // ignore
     }
+    // Dispatch event so GA loader and other components can react
+    window.dispatchEvent(new CustomEvent('cookie-consent-change', { detail: { consent: choice } }));
     setVisible(false);
   };
 
@@ -39,6 +54,13 @@ export default function CookieConsent() {
             <p className="text-sm text-gray-300 leading-relaxed">
               {t('cookie.message')}
             </p>
+            <Link
+              href="/privacy-policy"
+              className="inline-flex items-center gap-1 text-xs text-gold-400 hover:text-gold-300 transition-colors"
+            >
+              {t('cookie.learnMore') || 'Privacy Policy'}
+              <ExternalLink className="w-3 h-3" />
+            </Link>
             <div className="flex gap-2">
               <button
                 onClick={() => handleChoice('declined')}

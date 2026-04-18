@@ -20,7 +20,6 @@ export default function middleware(request) {
     const authCookie = request.cookies.get('sage-admin-session');
 
     if (!authCookie?.value) {
-      // Redirect unauthenticated users to the admin login page
       const loginUrl = new URL('/admin', request.url);
       return NextResponse.redirect(loginUrl);
     }
@@ -35,11 +34,17 @@ export default function middleware(request) {
     pathname.startsWith('/assets') ||
     pathname.includes('.')
   ) {
-    return NextResponse.next();
+    // Set locale header so root layout can read it for lang/dir
+    const response = NextResponse.next();
+    response.headers.set('x-locale', pathname.startsWith('/ar') ? 'ar' : 'en');
+    return response;
   }
 
-  // Apply i18n middleware to all other routes
-  return intlMiddleware(request);
+  // Apply i18n middleware and add locale header to its response
+  const response = intlMiddleware(request);
+  const locale = pathname.startsWith('/ar') ? 'ar' : 'en';
+  response.headers.set('x-locale', locale);
+  return response;
 }
 
 export const config = {

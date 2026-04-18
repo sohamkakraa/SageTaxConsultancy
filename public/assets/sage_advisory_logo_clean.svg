@@ -1,0 +1,30 @@
+<svg width="100%" viewBox="0 0 680 280" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Sage Advisory — Modern Minimal Logo</title>
+  <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Modern minimal centered logo for Sage Advisory with a clean geometric sage leaf icon above serif wordmark</desc>
+
+  <defs>
+    
+  </defs>
+
+  <!-- Leaf icon centered at 340 -->
+  <path d="M340,55 C340,55 318,72 318,96 C318,116 328,128 340,130 C352,128 362,116 362,96 C362,72 340,55 340,55 Z" fill="#3a6650" style="fill:rgb(58, 102, 80);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <!-- Stem -->
+  <line x1="340" y1="130" x2="340" y2="148" stroke="#3a6650" stroke-width="1.5" stroke-linecap="round" style="fill:rgb(0, 0, 0);stroke:rgb(58, 102, 80);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <!-- Gold centre vein -->
+  <path d="M340,68 C340,90 340,112 340,130" fill="none" stroke="#c9a84c" stroke-width="0.9" stroke-linecap="round" opacity="0.8" style="fill:none;stroke:rgb(201, 168, 76);color:rgb(255, 255, 255);stroke-width:0.9px;stroke-linecap:round;stroke-linejoin:miter;opacity:0.8;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <!-- Left side vein -->
+  <path d="M340,90 C333,98 324,104 320,112" fill="none" stroke="#c9a84c" stroke-width="0.6" stroke-linecap="round" opacity="0.5" style="fill:none;stroke:rgb(201, 168, 76);color:rgb(255, 255, 255);stroke-width:0.6px;stroke-linecap:round;stroke-linejoin:miter;opacity:0.5;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <!-- Right side vein -->
+  <path d="M340,90 C347,98 356,104 360,112" fill="none" stroke="#c9a84c" stroke-width="0.6" stroke-linecap="round" opacity="0.5" style="fill:none;stroke:rgb(201, 168, 76);color:rgb(255, 255, 255);stroke-width:0.6px;stroke-linecap:round;stroke-linejoin:miter;opacity:0.5;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Gold dot below stem -->
+  <circle cx="340" cy="153" r="2" fill="#c9a84c" opacity="0.8" style="fill:rgb(201, 168, 76);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.8;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Wordmark -->
+  <text x="340" y="200" text-anchor="middle" style="fill:rgb(144, 196, 168);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Georgia, &quot;Times New Roman&quot;, serif;font-size:38px;font-weight:400;text-anchor:middle;dominant-baseline:auto">SAGE</text>
+  <text x="340" y="226" text-anchor="middle" style="fill:rgb(144, 196, 168);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif;font-size:11px;font-weight:400;text-anchor:middle;dominant-baseline:auto">ADVISORY</text>
+
+  <!-- Gold hairline -->
+  <line x1="280" y1="243" x2="400" y2="243" stroke="#c9a84c" stroke-width="0.6" opacity="0.6" style="fill:rgb(0, 0, 0);stroke:rgb(201, 168, 76);color:rgb(255, 255, 255);stroke-width:0.6px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.6;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+</svg>

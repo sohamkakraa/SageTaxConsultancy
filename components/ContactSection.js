@@ -6,7 +6,7 @@ import { Phone, Mail, MapPin, Clock, Send, Loader2 } from 'lucide-react';
 
 const CONTACT_INFO = [
   { icon: Phone, label: 'contact.info.phone', value: '+971 58 570 4140', link: 'tel:+971585704140' },
-  { icon: Mail, label: 'contact.info.email', value: 'info@sageconsultancy.ae', link: 'mailto:info@sageconsultancy.ae' },
+  { icon: Mail, label: 'contact.info.email', value: 'info@sageadvisory.ae', link: 'mailto:info@sageadvisory.ae' },
   { icon: MapPin, label: 'contact.info.location', value: 'Dubai, U.A.E' },
   { icon: Clock, label: 'contact.info.hours', valueKey: 'contact.info.hoursValue' },
 ];

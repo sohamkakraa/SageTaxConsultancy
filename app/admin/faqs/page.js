@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase'
 import AdminLayout from '@/components/admin/AdminLayout'
 import Toast from '@/components/admin/Toast'
+import AutoTranslateButton from '@/components/admin/AutoTranslateButton'
 
 export default function FAQsManager() {
   const [user, setUser] = useState(null)
@@ -325,6 +326,18 @@ export default function FAQsManager() {
                 </div>
               </div>
 
+              <AutoTranslateButton
+                fields={{
+                  question_ar: newData.question_en || '',
+                  answer_ar: newData.answer_en || '',
+                }}
+                onTranslated={(translated) => {
+                  Object.entries(translated).forEach(([key, value]) => {
+                    handleNewChange(key, value)
+                  })
+                }}
+              />
+
               <div className="grid gap-6 md:grid-cols-2">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">
@@ -504,6 +517,18 @@ export default function FAQsManager() {
                           />
                         </div>
                       </div>
+
+                      <AutoTranslateButton
+                        fields={{
+                          question_ar: data.question_en || '',
+                          answer_ar: data.answer_en || '',
+                        }}
+                        onTranslated={(translated) => {
+                          Object.entries(translated).forEach(([key, value]) => {
+                            handleEditChange(faq.id, key, value)
+                          })
+                        }}
+                      />
 
                       <div className="grid gap-6 md:grid-cols-2">
                         <div>

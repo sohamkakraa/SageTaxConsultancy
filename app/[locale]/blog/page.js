@@ -202,7 +202,7 @@ export default function BlogPage({ params }) {
                 onClick={() => setActiveCategory(cat.key)}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
                   activeCategory === cat.key
-                    ? 'bg-sage-700 text-white shadow-sm'
+                    ? 'bg-navy-700 text-white shadow-sm'
                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                 }`}
               >
@@ -302,15 +302,15 @@ export default function BlogPage({ params }) {
                           )}
                         </div>
 
-                        {/* Title */}
+                        {/* Title — show Arabic if available and locale is ar */}
                         <h3 className="text-base font-bold text-navy-950 line-clamp-2 group-hover:text-sage-700 transition-colors flex-grow">
-                          {item.title}
+                          {isAr && item.title_ar ? item.title_ar : item.title}
                         </h3>
 
                         {/* Excerpt */}
-                        {item.excerpt && (
+                        {(item.excerpt || (isAr && item.excerpt_ar)) && (
                           <p className="text-sm text-gray-500 line-clamp-2 leading-relaxed">
-                            {item.excerpt}
+                            {isAr && item.excerpt_ar ? item.excerpt_ar : item.excerpt}
                           </p>
                         )}
 
@@ -421,12 +421,12 @@ export default function BlogPage({ params }) {
       </section>
 
       {/* CTA */}
-      <section className="py-16 bg-sage-900 text-white">
+      <section className="py-16 bg-navy-900 text-white">
         <div className="container-max text-center space-y-5">
           <h2 className="text-2xl md:text-3xl font-bold font-display">
             {isAr ? 'هل تحتاج إرشاد متخصص؟' : 'Need Expert Guidance?'}
           </h2>
-          <p className="text-sage-200 max-w-lg mx-auto">
+          <p className="text-gray-300 max-w-lg mx-auto">
             {isAr
               ? 'فريقنا يساعدك على فهم اللوائح الضريبية والامتثال لها بشكل كامل'
               : 'Our team helps you understand and fully comply with UAE tax regulations'}

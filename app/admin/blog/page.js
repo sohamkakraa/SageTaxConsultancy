@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase'
 import AdminLayout from '@/components/admin/AdminLayout'
+import AutoTranslateButton from '@/components/admin/AutoTranslateButton'
 import Toast from '@/components/admin/Toast'
 
 const generateSlug = (text) => {
@@ -365,6 +366,19 @@ export default function BlogManager() {
                 </div>
               </div>
 
+              <AutoTranslateButton
+                fields={{
+                  title_ar: newPostData.title_en,
+                  excerpt_ar: newPostData.excerpt_en,
+                  content_ar: newPostData.content_en,
+                }}
+                onTranslated={(translated) => {
+                  Object.entries(translated).forEach(([key, value]) => {
+                    handleNewPostChange(key, value)
+                  })
+                }}
+              />
+
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">
                   Category
@@ -585,6 +599,19 @@ export default function BlogManager() {
                           />
                         </div>
                       </div>
+
+                      <AutoTranslateButton
+                        fields={{
+                          title_ar: data.title_en,
+                          excerpt_ar: data.excerpt_en,
+                          content_ar: data.content_en,
+                        }}
+                        onTranslated={(translated) => {
+                          Object.entries(translated).forEach(([key, value]) => {
+                            handleEditChange(post.id, key, value)
+                          })
+                        }}
+                      />
 
                       <div>
                         <label className="block text-sm font-medium text-slate-700 mb-2">

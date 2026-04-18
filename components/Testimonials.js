@@ -5,8 +5,8 @@ import { Star, Quote } from 'lucide-react';
 
 const TESTIMONIALS = [
   {
-    quote: 'Sage guided us through an FTA VAT inspection — zero penalties, zero stress. Their team knew the regulations inside out.',
-    quoteAr: 'أرشدنا فريق سيج خلال تفتيش ضريبة القيمة المضافة من الهيئة الاتحادية — بدون غرامات وبدون ضغوط. فريقهم يعرف اللوائح من الداخل والخارج.',
+    quote: 'Sage guided us through a complex VAT audit — zero penalties, zero stress. Their team knew the regulations inside out.',
+    quoteAr: 'أرشدنا فريق سيج خلال تدقيق ضريبة القيمة المضافة المعقد — بدون غرامات وبدون ضغوط. فريقهم يعرف اللوائح من الداخل والخارج.',
     author: 'Fatima Al-Suwaidi',
     title: 'Finance Director',
     titleAr: 'مديرة مالية',

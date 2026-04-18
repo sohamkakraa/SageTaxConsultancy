@@ -1,6 +1,6 @@
 {
-  "short_name": "Sage Tax",
-  "name": "Sage Tax Consultancy",
+  "short_name": "Sage",
+  "name": "Sage Advisory",
   "icons": [
     {
       "src": "/favicon.ico",
@@ -10,6 +10,6 @@
   ],
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#384031",
+  "theme_color": "#1a3328",
   "background_color": "#ffffff"
 }

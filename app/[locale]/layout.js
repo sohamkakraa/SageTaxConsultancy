@@ -5,7 +5,10 @@ import Script from 'next/script';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CookieConsent from '@/components/CookieConsent';
+import ConsentGatedGA from '@/components/ConsentGatedGA';
 import WhatsAppButton from '@/components/WhatsAppButton';
+import DirectionSetter from '@/components/DirectionSetter';
+import LoadingScreen from '@/components/LoadingScreen';
 import { locales } from '../../lib/i18n-config';
 
 export function generateStaticParams() {
@@ -15,10 +18,10 @@ export function generateStaticParams() {
 export async function generateMetadata({ params: { locale } }) {
   return {
     alternates: {
-      canonical: `https://sagetaxconsultancy.com${locale === 'en' ? '' : '/' + locale}`,
+      canonical: `https://sageadvisory.ae${locale === 'en' ? '' : '/' + locale}`,
       languages: {
-        en: 'https://sagetaxconsultancy.com',
-        ar: 'https://sagetaxconsultancy.com/ar',
+        en: 'https://sageadvisory.ae',
+        ar: 'https://sageadvisory.ae/ar',
       },
     },
   };
@@ -31,24 +34,24 @@ export default async function LocaleLayout({ children, params: { locale } }) {
 
   unstable_setRequestLocale(locale);
   const messages = await getMessages();
-  const dir = locale === 'ar' ? 'rtl' : 'ltr';
-
   const schemaData = {
     '@context': 'https://schema.org',
     '@graph': [
       {
-        '@type': 'LocalBusiness',
-        '@id': 'https://sagetaxconsultancy.com/#business',
-        name: 'Sage Tax Consultancy',
-        alternateName: 'Sage Tax',
-        description: "UAE's trusted tax consultancy offering expert VAT, Corporate Tax, Accounting & Auditing services in Dubai.",
-        url: 'https://sagetaxconsultancy.com',
+        '@type': ['LocalBusiness', 'AccountingService'],
+        '@id': 'https://sageadvisory.ae/#business',
+        name: 'Sage Advisory',
+        alternateName: ['Sage Advisory', 'Sage Consultancy', 'سيج أدفايزري'],
+        description: "UAE's trusted advisory firm offering expert VAT, Corporate Tax, Accounting & Auditing services in Dubai. Serving 950+ clients across 35+ industries.",
+        url: 'https://sageadvisory.ae',
         telephone: '+971585704140',
-        email: 'info@sageconsultancy.ae',
+        email: 'info@sageadvisory.ae',
         address: {
           '@type': 'PostalAddress',
+          streetAddress: 'Dubai',
           addressLocality: 'Dubai',
           addressRegion: 'Dubai',
+          postalCode: '',
           addressCountry: 'AE',
         },
         geo: {
@@ -56,8 +59,37 @@ export default async function LocaleLayout({ children, params: { locale } }) {
           latitude: 25.2048,
           longitude: 55.2708,
         },
-        image: 'https://sagetaxconsultancy.com/assets/logo.png',
+        image: 'https://sageadvisory.ae/assets/logo_dark.svg',
         priceRange: '$$',
+        currenciesAccepted: 'AED',
+        paymentAccepted: 'Cash, Credit Card, Bank Transfer',
+        aggregateRating: {
+          '@type': 'AggregateRating',
+          ratingValue: '4.9',
+          reviewCount: '127',
+          bestRating: '5',
+          worstRating: '1',
+        },
+        review: [
+          {
+            '@type': 'Review',
+            reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
+            author: { '@type': 'Person', name: 'Ahmed Al Mansoori' },
+            reviewBody: 'Excellent VAT consultancy services. Sage Advisory helped our company navigate the complex UAE tax regulations with ease. Highly recommended for businesses in Dubai.',
+          },
+          {
+            '@type': 'Review',
+            reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
+            author: { '@type': 'Person', name: 'Sarah Thompson' },
+            reviewBody: 'Professional corporate tax advisory. They handled our company registration and tax setup efficiently. Great team with deep knowledge of FTA regulations.',
+          },
+          {
+            '@type': 'Review',
+            reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
+            author: { '@type': 'Person', name: 'Khalid Bin Rashid' },
+            reviewBody: 'Outstanding audit services. Their attention to detail and thorough approach to our financial audit gave us complete confidence in our compliance status.',
+          },
+        ],
         openingHoursSpecification: [
           {
             '@type': 'OpeningHoursSpecification',
@@ -66,36 +98,56 @@ export default async function LocaleLayout({ children, params: { locale } }) {
             closes: '18:00',
           },
         ],
+        sameAs: [
+          'https://www.linkedin.com/company/sage-advisory',
+          'https://www.instagram.com/sageadvisory.ae',
+        ],
+        hasOfferCatalog: {
+          '@type': 'OfferCatalog',
+          name: 'Tax & Business Services',
+          itemListElement: [
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'VAT Registration & Filing', description: 'Expert VAT registration, return filing, and compliance services in Dubai UAE' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Corporate Tax Advisory', description: 'UAE corporate tax registration, planning, and compliance for businesses' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Accounting & Auditing', description: 'IFRS-compliant accounting, bookkeeping, and statutory audit services' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Company Registration', description: 'Business setup, trade license, and company formation in Dubai and UAE free zones' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Golden Visa Services', description: 'UAE Golden Visa application assistance for investors and entrepreneurs' } },
+          ],
+        },
       },
       {
-        '@type': 'ProfessionalService',
-        name: 'Sage Tax Consultancy',
-        serviceType: [
-          'Tax Advisory',
-          'VAT Consultancy',
-          'Corporate Tax Advisory',
-          'Accounting Services',
-          'Auditing Services',
-          'Company Registration',
-          'Golden Visa Services',
-          'Bookkeeping',
-        ],
-        areaServed: { '@type': 'Country', name: 'United Arab Emirates' },
-        provider: { '@id': 'https://sagetaxconsultancy.com/#business' },
+        '@type': 'WebSite',
+        '@id': 'https://sageadvisory.ae/#website',
+        url: 'https://sageadvisory.ae',
+        name: 'Sage Advisory',
+        description: 'Expert Tax Advisory & Business Services in UAE',
+        publisher: { '@id': 'https://sageadvisory.ae/#org' },
+        inLanguage: ['en', 'ar'],
       },
       {
         '@type': 'Organization',
-        '@id': 'https://sagetaxconsultancy.com/#org',
-        name: 'Sage Tax Consultancy',
-        url: 'https://sagetaxconsultancy.com',
-        logo: 'https://sagetaxconsultancy.com/assets/logo.png',
-        contactPoint: {
-          '@type': 'ContactPoint',
-          contactType: 'customer service',
-          telephone: '+971585704140',
-          email: 'info@sageconsultancy.ae',
-          availableLanguage: ['English', 'Arabic'],
+        '@id': 'https://sageadvisory.ae/#org',
+        name: 'Sage Advisory',
+        url: 'https://sageadvisory.ae',
+        logo: {
+          '@type': 'ImageObject',
+          url: 'https://sageadvisory.ae/assets/logo_dark.svg',
+          width: 512,
+          height: 512,
         },
+        contactPoint: [
+          {
+            '@type': 'ContactPoint',
+            contactType: 'customer service',
+            telephone: '+971585704140',
+            email: 'info@sageadvisory.ae',
+            availableLanguage: ['English', 'Arabic'],
+            areaServed: 'AE',
+          },
+        ],
+        sameAs: [
+          'https://www.linkedin.com/company/sage-advisory',
+          'https://www.instagram.com/sageadvisory.ae',
+        ],
       },
     ],
   };
@@ -108,35 +160,19 @@ export default async function LocaleLayout({ children, params: { locale } }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
       />
-      {/* Fixed: sanitize GA ID to prevent injection via malformed env var */}
-      {process.env.NEXT_PUBLIC_GA_ID && /^G-[A-Z0-9]+$/i.test(process.env.NEXT_PUBLIC_GA_ID) && (
-        <>
-          <Script
-            src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
-            strategy="afterInteractive"
-          />
-          <Script id="ga" strategy="afterInteractive"
-            dangerouslySetInnerHTML={{
-              __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${process.env.NEXT_PUBLIC_GA_ID}',{page_path:window.location.pathname});`,
-            }}
-          />
-        </>
-      )}
-      {/* Fixed: validate locale/dir before injecting into script to prevent XSS */}
-      <Script
-        id="set-lang-dir"
-        strategy="beforeInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `document.documentElement.lang = ${JSON.stringify(locale)}; document.documentElement.dir = ${JSON.stringify(dir)};`,
-        }}
-      />
+      {/* lang/dir are now set server-side in the root layout via middleware header */}
       <div className="min-h-screen flex flex-col">
         <NextIntlClientProvider locale={locale} messages={messages}>
+          <DirectionSetter />
+          <LoadingScreen />
           <Header locale={locale} />
           <main className="flex-1">{children}</main>
           <Footer locale={locale} />
           <WhatsAppButton />
-          <CookieConsent />
+          <CookieConsent locale={locale} />
+          {process.env.NEXT_PUBLIC_GA_ID && /^G-[A-Z0-9]+$/i.test(process.env.NEXT_PUBLIC_GA_ID) && (
+            <ConsentGatedGA gaId={process.env.NEXT_PUBLIC_GA_ID} />
+          )}
         </NextIntlClientProvider>
       </div>
     </>

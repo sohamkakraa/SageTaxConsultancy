@@ -268,7 +268,7 @@ export default async function ServicePage({ params }) {
             <div className="space-y-4">
               {flowSteps.map((step, idx) => (
                 <div key={idx} className="flex gap-4">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-sage-800 text-white text-sm font-bold flex items-center justify-center">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-navy-800 text-white text-sm font-bold flex items-center justify-center">
                     {idx + 1}
                   </div>
                   <div className="pt-0.5">

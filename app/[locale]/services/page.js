@@ -32,8 +32,8 @@ const ICON_MAP = {
 export async function generateMetadata({ params: { locale } }) {
   return {
     title: locale === 'ar'
-      ? 'خدماتنا | سيج للاستشارات الضريبية'
-      : 'Our Services | Sage Tax Consultancy',
+      ? 'خدماتنا | سيج أدفايزري'
+      : 'Our Services | Sage Advisory',
     description: locale === 'ar'
       ? 'استكشف خدماتنا الشاملة في الضرائب والمحاسبة والتدقيق وخدمات الشركات في الإمارات'
       : 'Explore our comprehensive tax, accounting, auditing, and corporate services across the UAE.',
@@ -157,12 +157,12 @@ export default async function ServicesPage({ params: { locale } }) {
       })}
 
       {/* CTA */}
-      <section className="py-16 bg-sage-900 text-white">
+      <section className="py-16 bg-navy-900 text-white">
         <div className="container-max text-center space-y-5">
           <h2 className="text-2xl md:text-3xl font-bold font-display">
             {isArabic ? 'لست متأكدًا من أين تبدأ؟' : 'Not Sure Where to Start?'}
           </h2>
-          <p className="text-sage-200 max-w-lg mx-auto">
+          <p className="text-gray-300 max-w-lg mx-auto">
             {isArabic
               ? 'احجز استشارة مجانية وسنوصي بأفضل الخدمات لاحتياجات عملك.'
               : "Book a free consultation and we'll recommend the right services for your business."}

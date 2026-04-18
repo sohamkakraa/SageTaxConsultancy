@@ -12,11 +12,11 @@ export async function generateMetadata({ params: { locale } }) {
   const isArabic = locale === 'ar';
   return {
     title: isArabic
-      ? 'سيج للاستشارات الضريبية | مستشارون ضريبيون خبراء في الإمارات'
-      : 'Sage Tax Consultancy | Expert Tax Advisory in UAE',
+      ? 'سيج أدفايزري | مستشارون ضريبيون خبراء في الإمارات'
+      : 'Sage Advisory | Expert Tax Advisory in UAE',
     description: isArabic
-      ? 'استشارات ضريبية موثوقة في الإمارات. معتمدة من هيئة الضرائب الاتحادية.'
-      : "UAE's trusted tax consultancy. FTA-approved advisors specializing in corporate tax, VAT, accounting, and business setup.",
+      ? 'استشارات ضريبية موثوقة في الإمارات. متخصصون في الضرائب والمحاسبة وتأسيس الشركات.'
+      : "UAE's trusted advisory firm specializing in corporate tax, VAT, accounting, and business setup.",
   };
 }
 

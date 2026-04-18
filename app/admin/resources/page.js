@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase'
 import AdminLayout from '@/components/admin/AdminLayout'
 import Toast from '@/components/admin/Toast'
+import AutoTranslateButton from '@/components/admin/AutoTranslateButton'
 
 const RESOURCE_TYPES = [
   { value: 'government-document', label: 'Government Document' },
@@ -318,6 +319,18 @@ export default function ResourcesManager() {
           />
         </div>
       </div>
+
+      <AutoTranslateButton
+        fields={{
+          title_ar: data.title_en || '',
+          description_ar: data.description_en || '',
+        }}
+        onTranslated={(translated) => {
+          Object.entries(translated).forEach(([key, value]) => {
+            isNew ? handleNewChange(key, value) : handleEditChange(id, key, value)
+          })
+        }}
+      />
 
       {/* Type, Category, Icon */}
       <div className="grid gap-6 md:grid-cols-3">

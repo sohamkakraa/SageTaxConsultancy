@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase'
 import AdminLayout from '@/components/admin/AdminLayout'
 import Toast from '@/components/admin/Toast'
+import AutoTranslateButton from '@/components/admin/AutoTranslateButton'
 
 export default function ServicesManager() {
   const [user, setUser] = useState(null)
@@ -436,6 +437,19 @@ export default function ServicesManager() {
                           ))}
                         </div>
                       </div>
+
+                      <AutoTranslateButton
+                        fields={{
+                          name_ar: data.name_en || '',
+                          description_ar: data.description_en || '',
+                          long_description_ar: data.long_description_en || '',
+                        }}
+                        onTranslated={(translated) => {
+                          Object.entries(translated).forEach(([key, value]) => {
+                            handleEditChange(service.id, key, value)
+                          })
+                        }}
+                      />
 
                       {/* Status */}
                       <div>

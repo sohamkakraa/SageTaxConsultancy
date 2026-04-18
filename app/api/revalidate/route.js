@@ -95,7 +95,7 @@ export async function GET(request) {
 
 // Fixed: restricted CORS origin from wildcard (*) to site domain
 export async function OPTIONS(request) {
-  const allowedOrigin = process.env.NEXT_PUBLIC_SITE_URL || 'https://sageconsultancy.ae';
+  const allowedOrigin = process.env.NEXT_PUBLIC_SITE_URL || 'https://sageadvisory.ae';
   return new NextResponse(null, {
     status: 200,
     headers: {

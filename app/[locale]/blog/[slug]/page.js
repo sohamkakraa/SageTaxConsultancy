@@ -190,12 +190,12 @@ export default async function BlogPostPage({ params }) {
       </div>
 
       {/* CTA */}
-      <section className="py-16 bg-sage-900 text-white">
+      <section className="py-16 bg-navy-900 text-white">
         <div className="container-max text-center space-y-5">
           <h2 className="text-2xl md:text-3xl font-bold font-display">
             {isAr ? 'هل تحتاج إلى استشارة متخصصة؟' : 'Need Professional Advice?'}
           </h2>
-          <p className="text-sage-200 max-w-lg mx-auto">
+          <p className="text-gray-300 max-w-lg mx-auto">
             {isAr ? 'تحدث إلى أحد خبرائنا لمناقشة احتياجاتك' : 'Talk to one of our experts to discuss your specific needs'}
           </p>
           <Link href={`/${locale}/contact`} className="btn-gold">

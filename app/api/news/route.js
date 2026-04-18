@@ -32,8 +32,11 @@ async function fetchCMSResources() {
     return (data || []).map((r) => ({
       id: r.id,
       title: r.title_en,
+      title_ar: r.title_ar || '',
       excerpt: r.description_en || '',
+      excerpt_ar: r.description_ar || '',
       content: r.description_en || '',
+      content_ar: r.description_ar || '',
       url: r.url || r.document_url || '#',
       document_url: r.document_url || null,
       source: r.source_name || 'Sage Resources',
@@ -140,7 +143,7 @@ export async function GET(request) {
 
 // Fixed: restricted CORS origin from wildcard (*) to site domain
 export async function OPTIONS(request) {
-  const allowedOrigin = process.env.NEXT_PUBLIC_SITE_URL || 'https://sageconsultancy.ae';
+  const allowedOrigin = process.env.NEXT_PUBLIC_SITE_URL || 'https://sageadvisory.ae';
   return new NextResponse(null, {
     status: 200,
     headers: {

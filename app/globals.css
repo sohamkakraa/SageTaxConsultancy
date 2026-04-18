@@ -2,11 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Cairo:wght@300;400;500;600;700&display=swap');
-
 @layer base {
   html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%; /* Prevent iOS font scaling */
+    text-size-adjust: 100%;
+  }
+
+  /* Respect users who prefer reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 
   [dir="rtl"] {
@@ -15,6 +28,34 @@
 
   body {
     @apply bg-white text-navy-950 antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Ensure images behave consistently across browsers */
+  img, video {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Fix Safari button styling */
+  button, [type="button"], [type="reset"], [type="submit"] {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  /* Fix Safari input zoom on focus (font-size < 16px triggers zoom on iOS) */
+  @media screen and (max-width: 767px) {
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="number"],
+    input[type="password"],
+    textarea,
+    select {
+      font-size: 16px;
+    }
   }
 }
 
@@ -36,11 +77,11 @@
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-sage-800 text-white font-semibold text-sm transition-all duration-200 hover:bg-sage-900 hover:shadow-lg active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-navy-800 text-white font-semibold text-sm transition-all duration-200 hover:bg-navy-900 hover:shadow-lg active:scale-[0.98];
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-white text-sage-800 font-semibold text-sm border border-sage-200 transition-all duration-200 hover:border-sage-400 hover:shadow-md active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-white text-navy-800 font-semibold text-sm border border-gray-200 transition-all duration-200 hover:border-navy-300 hover:shadow-md active:scale-[0.98];
   }
 
   .btn-gold {
@@ -64,16 +105,31 @@
   }
 }
 
-/* Custom scrollbar */
+/* Scrollbar — Chrome/Safari/Edge */
 ::-webkit-scrollbar {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  @apply bg-transparent;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-300 rounded-full;
+  background: #d1d5db;
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-400;
+  background: #9ca3af;
+}
+
+/* Scrollbar — Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db transparent;
+}
+
+/* Safari backdrop-filter fallback */
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .backdrop-blur-md,
+  .backdrop-blur-sm {
+    background-color: rgba(255, 255, 255, 0.98) !important;
+  }
 }

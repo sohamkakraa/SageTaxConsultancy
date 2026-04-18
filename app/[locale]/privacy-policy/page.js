@@ -2,8 +2,8 @@ import Link from 'next/link';
 import { ChevronRight, ShieldCheck } from 'lucide-react';
 
 export const metadata = {
-  title: 'Privacy Policy | Sage Tax Consultancy',
-  description: 'Privacy policy for Sage Tax Consultancy. Learn how we collect, use, and protect your personal information in compliance with UAE law.',
+  title: 'Privacy Policy | Sage Advisory',
+  description: 'Privacy policy for Sage Advisory. Learn how we collect, use, and protect your personal information in compliance with UAE law.',
   robots: 'index, follow',
 };
 
@@ -48,8 +48,8 @@ export default function PrivacyPolicyPage({ params }) {
           </h2>
           <p>
             {isArabic
-              ? 'تحترم شركة Sage Tax Consultancy ("الشركة" أو "نحن" أو "لنا")، المسجلة في إمارة دبي، دولة الإمارات العربية المتحدة، خصوصيتك وتلتزم بحماية بياناتك الشخصية وفقاً لـ المرسوم بقانون اتحادي رقم (45) لسنة 2021 بشأن حماية البيانات الشخصية ("قانون حماية البيانات الشخصية") ولائحته التنفيذية. توضح سياسة الخصوصية هذه كيفية جمع واستخدام وحماية معلوماتك الشخصية عند استخدام موقعنا الإلكتروني (sagetaxconsultancy.com) وخدماتنا.'
-              : 'Sage Tax Consultancy ("Company", "we", "us", or "our"), registered in the Emirate of Dubai, United Arab Emirates, respects your privacy and is committed to protecting your personal data in accordance with UAE Federal Decree-Law No. (45) of 2021 on the Protection of Personal Data ("PDPL") and its Executive Regulations. This Privacy Policy explains how we collect, use, and protect your personal information when you use our website (sagetaxconsultancy.com) and services.'}
+              ? 'تحترم شركة Sage Advisory ("الشركة" أو "نحن" أو "لنا")، المسجلة في إمارة دبي، دولة الإمارات العربية المتحدة، خصوصيتك وتلتزم بحماية بياناتك الشخصية وفقاً لـ المرسوم بقانون اتحادي رقم (45) لسنة 2021 بشأن حماية البيانات الشخصية ("قانون حماية البيانات الشخصية") ولائحته التنفيذية. توضح سياسة الخصوصية هذه كيفية جمع واستخدام وحماية معلوماتك الشخصية عند استخدام موقعنا الإلكتروني (sageadvisory.ae) وخدماتنا.'
+              : 'Sage Advisory ("Company", "we", "us", or "our"), registered in the Emirate of Dubai, United Arab Emirates, respects your privacy and is committed to protecting your personal data in accordance with UAE Federal Decree-Law No. (45) of 2021 on the Protection of Personal Data ("PDPL") and its Executive Regulations. This Privacy Policy explains how we collect, use, and protect your personal information when you use our website (sageadvisory.ae) and services.'}
           </p>
 
           <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
@@ -57,8 +57,8 @@ export default function PrivacyPolicyPage({ params }) {
           </h2>
           <p>
             {isArabic
-              ? 'Sage Tax Consultancy هي المسؤولة عن معالجة بياناتك الشخصية بصفتها "مسؤول البيانات" بموجب قانون حماية البيانات الشخصية الإماراتي. لأي استفسارات تتعلق بالخصوصية، يمكنك التواصل معنا عبر البريد الإلكتروني: info@sageconsultancy.ae'
-              : 'Sage Tax Consultancy is the "Data Controller" responsible for processing your personal data under the UAE PDPL. For any privacy-related inquiries, you can contact us at: info@sageconsultancy.ae'}
+              ? 'Sage Advisory هي المسؤولة عن معالجة بياناتك الشخصية بصفتها "مسؤول البيانات" بموجب قانون حماية البيانات الشخصية الإماراتي. لأي استفسارات تتعلق بالخصوصية، يمكنك التواصل معنا عبر البريد الإلكتروني: info@sageadvisory.ae'
+              : 'Sage Advisory is the "Data Controller" responsible for processing your personal data under the UAE PDPL. For any privacy-related inquiries, you can contact us at: info@sageadvisory.ae'}
           </p>
 
           <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
@@ -176,8 +176,8 @@ export default function PrivacyPolicyPage({ params }) {
           </ul>
           <p className="mt-3">
             {isArabic
-              ? 'لممارسة حقوقك، يرجى التواصل معنا عبر البريد الإلكتروني: info@sageconsultancy.ae — سنرد على طلبك خلال 14 يوم عمل.'
-              : 'To exercise your rights, please contact us at: info@sageconsultancy.ae — we will respond to your request within 14 business days.'}
+              ? 'لممارسة حقوقك، يرجى التواصل معنا عبر البريد الإلكتروني: info@sageadvisory.ae — سنرد على طلبك خلال 14 يوم عمل.'
+              : 'To exercise your rights, please contact us at: info@sageadvisory.ae — we will respond to your request within 14 business days.'}
           </p>
 
           <h2 className="text-xl font-bold text-navy-950 mt-8 mb-4">
@@ -216,10 +216,10 @@ export default function PrivacyPolicyPage({ params }) {
               : 'If you have any questions about this Privacy Policy or our data processing practices, please contact us:'}
           </p>
           <div className="bg-gray-50 p-6 rounded-lg mt-4 space-y-2">
-            <p className="font-semibold text-navy-950">Sage Tax Consultancy</p>
+            <p className="font-semibold text-navy-950">Sage Advisory</p>
             <p className="text-gray-600">
               {isArabic ? 'البريد الإلكتروني' : 'Email'}:{' '}
-              <a href="mailto:info@sageconsultancy.ae" className="text-sage-700 hover:text-sage-800">info@sageconsultancy.ae</a>
+              <a href="mailto:info@sageadvisory.ae" className="text-sage-700 hover:text-sage-800">info@sageadvisory.ae</a>
             </p>
             <p className="text-gray-600">
               {isArabic ? 'الهاتف' : 'Phone'}:{' '}
@@ -251,7 +251,7 @@ export default function PrivacyPolicyPage({ params }) {
       </section>
 
       {/* CTA */}
-      <section className="py-16 bg-sage-900 text-white">
+      <section className="py-16 bg-navy-900 text-white">
         <div className="container-max text-center space-y-5">
           <h2 className="text-2xl md:text-3xl font-bold font-display">
             {isArabic ? 'أسئلة حول خصوصيتك؟' : 'Questions About Your Privacy?'}

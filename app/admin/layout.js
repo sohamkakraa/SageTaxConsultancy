@@ -1,8 +1,8 @@
 import '../globals.css'
 
 export const metadata = {
-  title: 'Sage Tax Consultancy - Admin',
-  description: 'Admin panel for Sage Tax Consultancy',
+  title: 'Sage Advisory - Admin',
+  description: 'Admin panel for Sage Advisory',
 }
 
 export default function AdminLayout({ children }) {

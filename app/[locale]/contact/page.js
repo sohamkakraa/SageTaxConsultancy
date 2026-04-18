@@ -66,8 +66,8 @@ export default function ContactPage({ params }) {
     {
       icon: Mail,
       label: isAr ? 'البريد الإلكتروني' : 'Email',
-      value: 'info@sageconsultancy.ae',
-      href: 'mailto:info@sageconsultancy.ae',
+      value: 'info@sageadvisory.ae',
+      href: 'mailto:info@sageadvisory.ae',
       color: 'bg-gold-100 text-gold-700',
     },
     {
@@ -290,18 +290,20 @@ export default function ContactPage({ params }) {
                 </a>
               </div>
 
-              {/* Location image */}
+              {/* Google Maps */}
               <div className="card-hover overflow-hidden bg-white">
-                <div className="h-64 overflow-hidden relative">
-                  <img src={IMAGES.dubaiAerial} alt="Dubai, UAE" className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-navy-950/30 flex items-center justify-center">
-                    <div className="text-center space-y-2">
-                      <MapPin className="w-10 h-10 text-white mx-auto drop-shadow-lg" />
-                      <p className="text-sm font-bold text-white drop-shadow-lg">
-                        {isAr ? 'دبي، الإمارات' : 'Dubai, UAE'}
-                      </p>
-                    </div>
-                  </div>
+                <div className="h-64 overflow-hidden">
+                  <iframe
+                    title={isAr ? 'موقعنا على الخريطة' : 'Our Location on Map'}
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3609.7!2d55.2708!3d25.2048!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjXCsDEyJzE3LjMiTiA1NcKwMTYnMTQuOSJF!5e0!3m2!1sen!2sae!4v1700000000000"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen=""
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="w-full h-full"
+                  />
                 </div>
                 <div className="p-5 space-y-3">
                   <div className="flex items-start gap-3">
@@ -312,8 +314,8 @@ export default function ContactPage({ params }) {
                   </div>
                   <div className="flex items-start gap-3">
                     <Mail className="w-4 h-4 text-sage-600 mt-0.5 flex-shrink-0" />
-                    <a href="mailto:info@sageconsultancy.ae" className="text-sm text-gray-700 hover:text-sage-700 transition-colors">
-                      info@sageconsultancy.ae
+                    <a href="mailto:info@sageadvisory.ae" className="text-sm text-gray-700 hover:text-sage-700 transition-colors break-all">
+                      info@sageadvisory.ae
                     </a>
                   </div>
                   <div className="flex items-start gap-3">
@@ -322,6 +324,15 @@ export default function ContactPage({ params }) {
                       {isAr ? 'الأحد - الخميس: 9 صباحاً - 6 مساءً' : 'Sun - Thu: 9:00 AM - 6:00 PM'}
                     </p>
                   </div>
+                  <a
+                    href="https://g.co/kgs/sage-advisory"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 mt-2 text-xs font-semibold text-sage-700 hover:text-sage-800 transition-colors"
+                  >
+                    <MapPin className="w-3.5 h-3.5" />
+                    {isAr ? 'افتح في خرائط جوجل' : 'Open in Google Maps'}
+                  </a>
                 </div>
               </div>
             </div>
@@ -330,12 +341,12 @@ export default function ContactPage({ params }) {
       </section>
 
       {/* CTA */}
-      <section className="py-16 bg-sage-900 text-white">
+      <section className="py-16 bg-navy-900 text-white">
         <div className="container-max text-center space-y-5">
           <h2 className="text-2xl md:text-3xl font-bold font-display">
             {isAr ? 'لم تجد ما تبحث عنه؟' : "Can't Find What You're Looking For?"}
           </h2>
-          <p className="text-sage-200 max-w-lg mx-auto">
+          <p className="text-gray-300 max-w-lg mx-auto">
             {isAr ? 'تحقق من صفحة الأسئلة الشائعة أو تصفح خدماتنا' : 'Check our FAQ section or browse our services'}
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">

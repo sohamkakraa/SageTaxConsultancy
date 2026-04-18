@@ -8,10 +8,10 @@ import {
 
 export async function generateMetadata({ params: { locale } }) {
   return {
-    title: locale === 'ar' ? 'من نحن | سيج للاستشارات الضريبية' : 'About Us | Sage Tax Consultancy',
+    title: locale === 'ar' ? 'من نحن | سيج أدفايزري' : 'About Us | Sage Advisory',
     description: locale === 'ar'
-      ? 'تعرف على سيج للاستشارات الضريبية ورسالتنا ورؤيتنا والتزامنا بالخدمات الضريبية'
-      : 'Learn about Sage Tax Consultancy, our mission, vision, and commitment to UAE tax and accounting services.',
+      ? 'تعرف على سيج أدفايزري ورسالتنا ورؤيتنا والتزامنا بالخدمات الضريبية'
+      : 'Learn about Sage Advisory, our mission, vision, and commitment to UAE tax and accounting services.',
   };
 }
 
@@ -84,12 +84,12 @@ export default function AboutPage({ params: { locale } }) {
             <div className="space-y-6">
               <h2 className="text-2xl font-bold font-display text-navy-950">{isAr ? 'قصتنا' : 'Our Story'}</h2>
               <div className="space-y-4 text-gray-600 leading-relaxed">
-                <p>{isAr ? 'تأسست Sage Tax Consultancy برؤية واضحة: توفير خدمات استشارات ضريبية ومحاسبية عالية الجودة في الإمارات. اكتسبنا سمعة قوية كشريك موثوق يساعد الشركات على التنقل في تعقيدات القوانين الضريبية.' : 'Sage Tax Consultancy was founded with a clear vision: to provide high-quality tax and accounting consulting services in the UAE. We have earned a strong reputation as a trusted partner helping businesses navigate the complexities of tax regulations.'}</p>
+                <p>{isAr ? 'تأسست Sage Advisory برؤية واضحة: توفير خدمات استشارات ضريبية ومحاسبية عالية الجودة في الإمارات. اكتسبنا سمعة قوية كشريك موثوق يساعد الشركات على التنقل في تعقيدات القوانين الضريبية.' : 'Sage Advisory was founded with a clear vision: to provide high-quality tax and accounting consulting services in the UAE. We have earned a strong reputation as a trusted partner helping businesses navigate the complexities of tax regulations.'}</p>
                 <p>{isAr ? 'فريقنا يتكون من محترفين ذوي خبرة عميقة في الضرائب والمحاسبة. نحن ملتزمون بتوفير حلول مخصصة تلبي احتياجات عملائنا الفريدة.' : 'Our team comprises experienced professionals with deep expertise in taxation, accounting, and business consulting. We deliver customized solutions that meet each client\'s unique needs.'}</p>
               </div>
             </div>
             <div className="rounded-2xl overflow-hidden h-72 shadow-lg">
-              <img src={IMAGES.aboutOffice} alt="Sage Tax Consultancy office" className="w-full h-full object-cover" />
+              <img src={IMAGES.aboutOffice} alt="Sage Advisory office" className="w-full h-full object-cover" />
             </div>
           </div>
         </div>
@@ -166,10 +166,10 @@ export default function AboutPage({ params: { locale } }) {
       </section>
 
       {/* CTA */}
-      <section className="py-16 bg-sage-900 text-white">
+      <section className="py-16 bg-navy-900 text-white">
         <div className="container-max text-center space-y-5">
           <h2 className="text-2xl md:text-3xl font-bold font-display">{isAr ? 'جاهز للبدء معنا؟' : 'Ready to Work With Us?'}</h2>
-          <p className="text-sage-200 max-w-lg mx-auto">{isAr ? 'اتصل بنا اليوم للحصول على استشارة مجانية' : 'Contact us today for a free consultation'}</p>
+          <p className="text-gray-300 max-w-lg mx-auto">{isAr ? 'اتصل بنا اليوم للحصول على استشارة مجانية' : 'Contact us today for a free consultation'}</p>
           <Link href={`/${locale}/contact`} className="btn-gold">
             {isAr ? 'اتصل بنا' : 'Get in Touch'}
             <ArrowRight className="w-4 h-4" />

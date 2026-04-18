@@ -5,13 +5,13 @@ INSERT INTO site_content (key, value_en, value_ar, section, updated_at) VALUES
 ('hero_cta', 'Get Expert Consultation', 'احصل على استشارة خبيرة', 'hero', NOW()),
 ('about_mission', 'To provide comprehensive tax and accounting solutions that empower UAE businesses to achieve sustainable growth and regulatory compliance', 'تقديم حلول ضرائب ومحاسبة شاملة تمكن الشركات الإماراتية من تحقيق النمو المستدام والامتثال التنظيمي', 'about', NOW()),
 ('about_vision', 'To be the most trusted tax advisory partner for UAE businesses, known for expertise, innovation, and client success', 'أن نكون شريك الاستشارات الضريبية الأكثر ثقة للشركات الإماراتية، معروفون بالخبرة والابتكار ونجاح العملاء', 'about', NOW()),
-('about_description', 'Sage Consultancy is a leading UAE-based tax and accounting firm dedicated to helping businesses navigate complex tax regulations, optimize financial operations, and achieve their growth objectives. With 12 years of industry experience and a team of qualified professionals, we deliver tailored solutions for startups, SMEs, and large corporations.', 'تعد Sage Consultancy شركة استشارات ضرائب ومحاسبة رائدة مقرها الإمارات وتكرس جهودها لمساعدة الشركات على التنقل في لوائح الضرائب المعقدة وتحسين العمليات المالية وتحقيق أهدافها النمائية. مع 12 سنة من خبرة الصناعة وفريق من المتخصصين المؤهلين، نقدم حلولاً مخصصة للشركات الناشئة والشركات الصغيرة والمتوسطة والشركات الكبرى.', 'about', NOW()),
+('about_description', 'Sage Advisory is a leading UAE-based tax and accounting firm dedicated to helping businesses navigate complex tax regulations, optimize financial operations, and achieve their growth objectives. With 12 years of industry experience and a team of qualified professionals, we deliver tailored solutions for startups, SMEs, and large corporations.', 'تعد Sage Advisory شركة استشارات ضرائب ومحاسبة رائدة مقرها الإمارات وتكرس جهودها لمساعدة الشركات على التنقل في لوائح الضرائب المعقدة وتحسين العمليات المالية وتحقيق أهدافها النمائية. مع 12 سنة من خبرة الصناعة وفريق من المتخصصين المؤهلين، نقدم حلولاً مخصصة للشركات الناشئة والشركات الصغيرة والمتوسطة والشركات الكبرى.', 'about', NOW()),
 ('counter_clients', '950', '950', 'counters', NOW()),
 ('counter_saved', '120', '120', 'counters', NOW()),
 ('counter_industries', '35', '35', 'counters', NOW()),
 ('counter_years', '12', '12', 'counters', NOW()),
 ('contact_phone', '+971 58 570 4140', '+971 58 570 4140', 'contact', NOW()),
-('contact_email', 'info@sageconsultancy.ae', 'info@sageconsultancy.ae', 'contact', NOW()),
+('contact_email', 'info@sageadvisory.ae', 'info@sageadvisory.ae', 'contact', NOW()),
 ('contact_location', 'Dubai, U.A.E', 'دبي، الإمارات العربية المتحدة', 'contact', NOW()),
 ('footer_tagline', 'Your trusted partner for tax compliance and financial excellence in the UAE', 'شريكك الموثوق لالتزام الضرائب والتميز المالي في الإمارات', 'footer', NOW());
 
@@ -269,8 +269,8 @@ INSERT INTO services (slug, category, name_en, name_ar, description_en, descript
 INSERT INTO testimonials (name, title, company, quote_en, quote_ar, rating, is_active, sort_order, created_at) VALUES
 
 ('Fatima Al-Suwaidi', 'Finance Director', 'AltimaCare LLC',
-'Sage Consultancy successfully navigated our complex VAT audit with the FTA. Their expertise and attention to detail saved us significant time and stress. Highly recommended!',
-'تنقلت Sage Consultancy بنجاح من خلال تدقيق ضريبة القيمة المضافة المعقد لدينا مع سلطة الضرائب الفيدرالية. أدت خبرتهم واهتمامهم بالتفاصيل إلى توفير وقت وضغط كبير. موصى به بشدة!',
+'Sage Advisory successfully navigated our complex VAT audit with the FTA. Their expertise and attention to detail saved us significant time and stress. Highly recommended!',
+'تنقلت Sage Advisory بنجاح من خلال تدقيق ضريبة القيمة المضافة المعقد لدينا مع سلطة الضرائب الفيدرالية. أدت خبرتهم واهتمامهم بالتفاصيل إلى توفير وقت وضغط كبير. موصى به بشدة!',
 5, TRUE, 1, NOW()),
 
 ('Arjun Mehta', 'Founder', 'Tectonic DMCC',

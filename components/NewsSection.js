@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import Link from 'next/link';
+import { Link } from '@/lib/navigation';
 import { ArrowRight, Newspaper, Clock, ExternalLink, FileText, Scale, Building2, Download } from 'lucide-react';
 
 const FALLBACK_ARTICLES = [
@@ -34,7 +34,7 @@ const FALLBACK_ARTICLES = [
 
 export default function NewsSection({ locale }) {
   const t = useTranslations();
-  const base = locale === 'en' ? '' : `/${locale}`;
+  const isAr = locale === 'ar';
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -80,7 +80,7 @@ export default function NewsSection({ locale }) {
             <h2 className="section-heading">{t('blog.title')}</h2>
             <p className="section-subheading">{t('blog.subtitle')}</p>
           </div>
-          <Link href={`${base}/blog`} className="hidden md:flex btn-secondary text-sm py-2 px-4">
+          <Link href="/blog" className="hidden md:flex btn-secondary text-sm py-2 px-4">
             {t('blog.allPosts')}
             <ArrowRight className="w-4 h-4" />
           </Link>
@@ -109,7 +109,7 @@ export default function NewsSection({ locale }) {
               const Wrapper = isExternal ? 'a' : Link;
               const wrapperProps = isExternal
                 ? { href: article.url, target: '_blank', rel: 'noopener noreferrer' }
-                : { href: article.slug ? `${base}/blog/${article.slug}` : `${base}/blog` };
+                : { href: article.slug ? `/blog/${article.slug}` : '/blog' };
 
               // Pick icon for resources
               const resourceIcon = isResource ? (
@@ -138,14 +138,17 @@ export default function NewsSection({ locale }) {
                       {isExternal && !isResource && <ExternalLink className="w-3 h-3" />}
                     </div>
                     <h3 className="font-bold text-sm text-navy-950 line-clamp-2 group-hover:text-sage-700 transition-colors">
-                      {article.title}
+                      {isAr && article.title_ar ? article.title_ar : article.title}
                     </h3>
                     <p className="text-sm text-gray-500 line-clamp-2 leading-relaxed">
-                      {(article.description || article.excerpt || '').substring(0, 140)}
+                      {(isAr && (article.excerpt_ar || article.description_ar)
+                        ? (article.excerpt_ar || article.description_ar)
+                        : (article.description || article.excerpt || '')
+                      ).substring(0, 140)}
                     </p>
                     {hasDocument && (
                       <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-sage-700 bg-sage-50 px-2 py-1 rounded">
-                        <Download className="w-3 h-3" /> Download Available
+                        <Download className="w-3 h-3" /> {isAr ? 'تحميل متاح' : 'Download Available'}
                       </span>
                     )}
                   </div>
@@ -161,7 +164,7 @@ export default function NewsSection({ locale }) {
         )}
 
         <div className="flex justify-center md:hidden">
-          <Link href={`${base}/blog`} className="btn-secondary text-sm py-2 px-4">
+          <Link href="/blog" className="btn-secondary text-sm py-2 px-4">
             {t('blog.allPosts')}
             <ArrowRight className="w-4 h-4" />
           </Link>
