@@ -304,103 +304,104 @@ export default function Header() {
           </div>
         )}
 
-        {/* ─── Mobile Full-Screen Overlay ─── */}
-        {mobileOpen && (
-          <div className="lg:hidden fixed inset-0 top-16 bg-white z-40 overflow-y-auto">
-            <div className="container-max py-6 space-y-6">
+      </header>
 
-              {/* Solutions Accordion */}
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-gray-300 mb-3">
-                  {isRTL ? 'الحلول' : 'Solutions'}
-                </p>
-                <div className="space-y-1">
-                  {SOLUTIONS.map((category) => {
-                    const CatIcon = category.icon;
-                    const isExpanded = mobileExpanded === category.key;
-                    return (
-                      <div key={category.key}>
-                        <button
-                          onClick={() => setMobileExpanded(isExpanded ? null : category.key)}
-                          className="w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-gray-50 transition-colors"
-                        >
-                          <div className={`w-9 h-9 rounded-lg flex items-center justify-center transition-colors ${
-                            isExpanded ? 'bg-sage-100 text-sage-700' : 'bg-gray-100 text-gray-400'
-                          }`}>
-                            <CatIcon className="w-4.5 h-4.5" />
-                          </div>
-                          <div className={`flex-1 text-${isRTL ? 'right' : 'left'}`}>
-                            <span className="text-sm font-semibold text-navy-950">
-                              {isRTL ? category.labelAr : category.label}
-                            </span>
-                            <p className="text-xs text-gray-400">
-                              {isRTL ? category.descriptionAr : category.description}
-                            </p>
-                          </div>
-                          <ChevronDown className={`w-4 h-4 text-gray-300 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
-                        </button>
+      {/* ─── Mobile Full-Screen Overlay ─── */}
+      {mobileOpen && (
+        <div className="lg:hidden fixed inset-0 top-16 bg-white z-40 overflow-y-auto">
+          <div className="container-max py-6 space-y-6">
 
-                        {isExpanded && (
-                          <div className={`${isRTL ? 'pr-12' : 'pl-12'} pb-2 space-y-0.5 animate-fade-in`}>
-                            {category.items.map((item) => {
-                              const Icon = item.icon;
-                              return (
-                                <Link
-                                  key={item.slug}
-                                  href={`/services/${item.slug}`}
-                                  onClick={() => setMobileOpen(false)}
-                                  className="flex items-center gap-2.5 px-3 py-2 text-sm text-gray-500 hover:text-navy-950 hover:bg-sage-50 rounded-lg transition-colors"
-                                >
-                                  <Icon className="w-3.5 h-3.5 text-sage-500 flex-shrink-0" />
-                                  {isRTL ? item.labelAr : item.label}
-                                </Link>
-                              );
-                            })}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Divider */}
-              <div className="border-t border-gray-100" />
-
-              {/* Quick Links */}
+            {/* Solutions Accordion */}
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-gray-300 mb-3">
+                {isRTL ? 'الحلول' : 'Solutions'}
+              </p>
               <div className="space-y-1">
-                <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-gray-300 mb-3">
-                  {isRTL ? 'الشركة' : 'Company'}
-                </p>
-                <MobileNavLink href={`/about`} label={isRTL ? 'عن الشركة' : 'About Us'} onClick={() => setMobileOpen(false)} />
-                <MobileNavLink href={`/blog`} label={isRTL ? 'المقالات' : 'Insights'} onClick={() => setMobileOpen(false)} />
-                <MobileNavLink href={`/services`} label={isRTL ? 'جميع الخدمات' : 'All Services'} onClick={() => setMobileOpen(false)} />
-              </div>
+                {SOLUTIONS.map((category) => {
+                  const CatIcon = category.icon;
+                  const isExpanded = mobileExpanded === category.key;
+                  return (
+                    <div key={category.key}>
+                      <button
+                        onClick={() => setMobileExpanded(isExpanded ? null : category.key)}
+                        className="w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-gray-50 transition-colors"
+                      >
+                        <div className={`w-9 h-9 rounded-lg flex items-center justify-center transition-colors ${
+                          isExpanded ? 'bg-sage-100 text-sage-700' : 'bg-gray-100 text-gray-400'
+                        }`}>
+                          <CatIcon className="w-4.5 h-4.5" />
+                        </div>
+                        <div className={`flex-1 text-${isRTL ? 'right' : 'left'}`}>
+                          <span className="text-sm font-semibold text-navy-950">
+                            {isRTL ? category.labelAr : category.label}
+                          </span>
+                          <p className="text-xs text-gray-400">
+                            {isRTL ? category.descriptionAr : category.description}
+                          </p>
+                        </div>
+                        <ChevronDown className={`w-4 h-4 text-gray-300 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
+                      </button>
 
-              {/* Divider */}
-              <div className="border-t border-gray-100" />
-
-              {/* CTA */}
-              <div className="space-y-3">
-                <Link
-                  href={`/contact`}
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-navy-800 text-white font-semibold text-sm hover:bg-navy-900 transition-colors"
-                >
-                  <Phone className="w-4 h-4" />
-                  {isRTL ? 'احجز مكالمة' : 'Book a Call'}
-                </Link>
-                <a
-                  href="tel:+971585704140"
-                  className="flex items-center justify-center gap-2 w-full py-3 rounded-xl border border-gray-200 text-sm text-gray-600 font-medium hover:border-sage-300 hover:text-sage-700 transition-colors"
-                >
-                  +971 58 570 4140
-                </a>
+                      {isExpanded && (
+                        <div className={`${isRTL ? 'pr-12' : 'pl-12'} pb-2 space-y-0.5 animate-fade-in`}>
+                          {category.items.map((item) => {
+                            const Icon = item.icon;
+                            return (
+                              <Link
+                                key={item.slug}
+                                href={`/services/${item.slug}`}
+                                onClick={() => setMobileOpen(false)}
+                                className="flex items-center gap-2.5 px-3 py-2 text-sm text-gray-500 hover:text-navy-950 hover:bg-sage-50 rounded-lg transition-colors"
+                              >
+                                <Icon className="w-3.5 h-3.5 text-sage-500 flex-shrink-0" />
+                                {isRTL ? item.labelAr : item.label}
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </div>
+
+            {/* Divider */}
+            <div className="border-t border-gray-100" />
+
+            {/* Quick Links */}
+            <div className="space-y-1">
+              <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-gray-300 mb-3">
+                {isRTL ? 'الشركة' : 'Company'}
+              </p>
+              <MobileNavLink href={`/about`} label={isRTL ? 'عن الشركة' : 'About Us'} onClick={() => setMobileOpen(false)} />
+              <MobileNavLink href={`/blog`} label={isRTL ? 'المقالات' : 'Insights'} onClick={() => setMobileOpen(false)} />
+              <MobileNavLink href={`/services`} label={isRTL ? 'جميع الخدمات' : 'All Services'} onClick={() => setMobileOpen(false)} />
+            </div>
+
+            {/* Divider */}
+            <div className="border-t border-gray-100" />
+
+            {/* CTA */}
+            <div className="space-y-3">
+              <Link
+                href={`/contact`}
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-navy-800 text-white font-semibold text-sm hover:bg-navy-900 transition-colors"
+              >
+                <Phone className="w-4 h-4" />
+                {isRTL ? 'احجز مكالمة' : 'Book a Call'}
+              </Link>
+              <a
+                href="tel:+971585704140"
+                className="flex items-center justify-center gap-2 w-full py-3 rounded-xl border border-gray-200 text-sm text-gray-600 font-medium hover:border-sage-300 hover:text-sage-700 transition-colors"
+              >
+                +971 58 570 4140
+              </a>
+            </div>
           </div>
-        )}
-      </header>
+        </div>
+      )}
 
       {/* Header spacer — only on non-homepage pages where header isn't transparent */}
       {!isHomepage && <div className="h-16" />}
