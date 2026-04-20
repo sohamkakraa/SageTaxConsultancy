@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { getBlogPostBySlug, getBlogPosts } from '@/lib/content';
-import Link from 'next/link';
+import { Link } from '@/lib/navigation';
 import { ChevronRight, Calendar, User, ArrowRight, ArrowLeft } from 'lucide-react';
 
 export async function generateMetadata({ params }) {

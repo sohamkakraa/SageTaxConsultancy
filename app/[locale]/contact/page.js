@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
+import { Link } from '@/lib/navigation';
 import IMAGES from '@/lib/images';
 import {
   ChevronRight, Phone, Mail, MapPin, Clock,

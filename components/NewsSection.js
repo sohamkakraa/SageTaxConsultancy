@@ -43,8 +43,28 @@ export default function NewsSection({ locale }) {
       try {
         // Fetch homepage-pinned resources and regular news in parallel
         const [homepageRes, newsRes] = await Promise.all([
-          fetch('/api/news?homepage=true&limit=6').then((r) => r.ok ? r.json() : null).catch(() => null),
-          fetch('/api/news?limit=6').then((r) => r.ok ? r.json() : null).catch(() => null),
+          fetch('/api/news?homepage=true&limit=6')
+            .then((r) => {
+              if (!r.ok) {
+                console.warn(`Failed to fetch homepage news: ${r.status} ${r.statusText}`);
+              }
+              return r.ok ? r.json() : null;
+            })
+            .catch((err) => {
+              console.warn('Homepage news fetch error:', err);
+              return null;
+            }),
+          fetch('/api/news?limit=6')
+            .then((r) => {
+              if (!r.ok) {
+                console.warn(`Failed to fetch news: ${r.status} ${r.statusText}`);
+              }
+              return r.ok ? r.json() : null;
+            })
+            .catch((err) => {
+              console.warn('News fetch error:', err);
+              return null;
+            }),
         ]);
 
         const homepageItems = homepageRes?.data || [];

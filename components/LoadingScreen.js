@@ -55,8 +55,8 @@ export default function LoadingScreen() {
       style={{ pointerEvents: exiting ? 'none' : 'auto' }}
       aria-hidden="true"
     >
-      {/* Ambient glow */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Ambient glow — hidden on mobile to prevent overflow */}
+      <div className="hidden md:block absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-sage-600/[0.07] rounded-full blur-[120px]" />
         <div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-gold-400/[0.05] rounded-full blur-[80px]"

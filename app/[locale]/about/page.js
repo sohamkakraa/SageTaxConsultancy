@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from '@/lib/navigation';
 import { unstable_setRequestLocale } from 'next-intl/server';
 import IMAGES from '@/lib/images';
 import {

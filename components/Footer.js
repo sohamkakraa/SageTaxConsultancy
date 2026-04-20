@@ -33,7 +33,7 @@ export default function Footer({ locale = 'en' }) {
   return (
     <footer className={`bg-navy-950 text-white ${isRTL ? 'rtl' : 'ltr'}`}>
       <div className="container-max py-16">
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6 md:gap-10">
           {/* Brand */}
           <div className="col-span-2 md:col-span-4 lg:col-span-1 space-y-4">
             <Link href="/" className="flex items-center">

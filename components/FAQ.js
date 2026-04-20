@@ -58,7 +58,7 @@ export default function FAQ({ locale }) {
               <div key={idx} className="bg-white rounded-xl border border-gray-200/80 overflow-hidden">
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : idx)}
-                  className="w-full flex items-center gap-3 p-5 text-left hover:bg-gray-50 transition-colors"
+                  className="w-full flex items-center gap-3 p-5 text-left hover:bg-gray-50 transition-colors min-h-[44px]"
                 >
                   <HelpCircle className={`w-5 h-5 flex-shrink-0 transition-colors ${isOpen ? 'text-sage-700' : 'text-gray-400'}`} />
                   <span className="flex-grow font-semibold text-sm text-navy-950">
@@ -67,7 +67,7 @@ export default function FAQ({ locale }) {
                   <ChevronDown className={`w-4 h-4 text-gray-400 flex-shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
                 </button>
                 {isOpen && (
-                  <div className="px-5 pb-5 pl-13 text-sm text-gray-600 leading-relaxed">
+                  <div className="px-5 pb-5 text-sm text-gray-600 leading-relaxed">
                     <div className={`${isArabic ? 'pr-8' : 'pl-8'}`}>
                       {isArabic ? faq.aAr : faq.a}
                     </div>

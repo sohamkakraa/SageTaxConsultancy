@@ -1,6 +1,6 @@
 import { unstable_setRequestLocale } from 'next-intl/server';
 import { getServices } from '@/lib/content';
-import Link from 'next/link';
+import { Link } from '@/lib/navigation';
 import IMAGES from '@/lib/images';
 import {
   Receipt, Building2, BookOpen, ArrowRight,
@@ -123,7 +123,7 @@ export default async function ServicesPage({ params: { locale } }) {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
                 {catServices.map((service) => {
                   const ServiceIcon = ICON_MAP[service.slug] || FileText;
                   return (

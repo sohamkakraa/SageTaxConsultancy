@@ -50,6 +50,15 @@ async function translateToArabic(text) {
 }
 
 export async function POST(request) {
+  // Check for valid admin session cookie
+  const authCookie = request.cookies.get('sage-admin-session');
+  if (!authCookie?.value) {
+    return NextResponse.json(
+      { error: 'Unauthorized. Admin session required.' },
+      { status: 401 }
+    );
+  }
+
   try {
     const body = await request.json();
     const { texts } = body;

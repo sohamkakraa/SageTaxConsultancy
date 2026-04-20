@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { Link } from '@/lib/navigation';
 import IMAGES, { CATEGORY_IMAGES } from '@/lib/images';
 import {
   ChevronRight, Newspaper, Clock, ArrowRight, ExternalLink,
@@ -174,7 +174,7 @@ export default function BlogPage({ params }) {
       </section>
 
       {/* Filters Bar */}
-      <section className="py-5 bg-white border-b border-gray-100 sticky top-0 z-20 shadow-sm">
+      <section className="py-5 bg-white border-b border-gray-100 sticky top-16 z-[45] shadow-sm">
         <div className="container-max space-y-4">
           {/* Search */}
           <div className="relative max-w-md">

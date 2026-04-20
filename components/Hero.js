@@ -41,7 +41,7 @@ export default function Hero({ locale }) {
   const isAr = locale === 'ar';
 
   return (
-    <section className="relative overflow-hidden bg-navy-950 min-h-[700px] lg:min-h-[750px]">
+    <section className="relative overflow-hidden bg-navy-950 min-h-[500px] sm:min-h-[600px] lg:min-h-[750px]">
       {/* Background image with stronger gradient */}
       <div className="absolute inset-0">
         <Image
@@ -55,9 +55,9 @@ export default function Hero({ locale }) {
         <div className="absolute inset-0 bg-gradient-to-b from-navy-950/90 via-navy-950/80 to-navy-950/95" />
       </div>
 
-      {/* Ambient glow effects */}
-      <div className="absolute top-20 left-1/4 w-[500px] h-[500px] bg-sage-700/8 rounded-full blur-[120px]" />
-      <div className="absolute bottom-10 right-1/4 w-[400px] h-[400px] bg-gold-400/6 rounded-full blur-[100px]" />
+      {/* Ambient glow effects — hidden on mobile to prevent overflow */}
+      <div className="hidden md:block absolute top-20 left-1/4 w-[500px] h-[500px] bg-sage-700/8 rounded-full blur-[120px]" />
+      <div className="hidden md:block absolute bottom-10 right-1/4 w-[400px] h-[400px] bg-gold-400/6 rounded-full blur-[100px]" />
 
       <div className="relative container-max pt-28 md:pt-36 lg:pt-40 pb-20 md:pb-28">
         <div className="max-w-3xl mx-auto text-center space-y-8">
