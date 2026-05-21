@@ -170,7 +170,10 @@ export default async function LocaleLayout({ children, params: { locale } }) {
           <Footer locale={locale} />
           <WhatsAppButton />
           <CookieConsent locale={locale} />
-          {process.env.NEXT_PUBLIC_GA_ID && /^G-[A-Z0-9]+$/i.test(process.env.NEXT_PUBLIC_GA_ID) && (
+          {process.env.NEXT_PUBLIC_GA_ID &&
+            /^G-[A-Z0-9]+$/i.test(process.env.NEXT_PUBLIC_GA_ID) &&
+            !/^G-?X+$/i.test(process.env.NEXT_PUBLIC_GA_ID) &&
+            process.env.NEXT_PUBLIC_GA_ID !== 'G-XXXXXXXXXX' && (
             <ConsentGatedGA gaId={process.env.NEXT_PUBLIC_GA_ID} />
           )}
         </NextIntlClientProvider>

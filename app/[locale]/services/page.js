@@ -129,7 +129,7 @@ export default async function ServicesPage({ params: { locale } }) {
                   return (
                     <Link
                       key={service.slug}
-                      href={`/${locale}/services/${service.slug}`}
+                      href={`/services/${service.slug}`}
                       className="group card-hover flex items-start gap-4"
                     >
                       <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${cat.iconColor}`}>
@@ -167,7 +167,7 @@ export default async function ServicesPage({ params: { locale } }) {
               ? 'احجز استشارة مجانية وسنوصي بأفضل الخدمات لاحتياجات عملك.'
               : "Book a free consultation and we'll recommend the right services for your business."}
           </p>
-          <Link href={`/${locale}/contact`} className="btn-gold">
+          <Link href="/contact" className="btn-gold">
             {isArabic ? 'احجز استشارة مجانية' : 'Book a Free Consultation'}
             <ArrowRight className="w-4 h-4" />
           </Link>

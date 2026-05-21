@@ -16,7 +16,7 @@ export default function PrivacyPolicyPage({ params }) {
       {/* Breadcrumb */}
       <div className="bg-gray-50 border-b border-gray-100">
         <div className="container-max py-3 flex items-center gap-1.5 text-xs text-gray-400">
-          <Link href={`/${locale}`} className="hover:text-sage-700 transition-colors">
+          <Link href="/" className="hover:text-sage-700 transition-colors">
             {isArabic ? 'الرئيسية' : 'Home'}
           </Link>
           <ChevronRight className="w-3 h-3" />
@@ -256,7 +256,7 @@ export default function PrivacyPolicyPage({ params }) {
           <h2 className="text-2xl md:text-3xl font-bold font-display">
             {isArabic ? 'أسئلة حول خصوصيتك؟' : 'Questions About Your Privacy?'}
           </h2>
-          <Link href={`/${locale}/contact`} className="btn-gold">
+          <Link href="/contact" className="btn-gold">
             {isArabic ? 'اتصل بنا' : 'Contact Us'}
           </Link>
         </div>

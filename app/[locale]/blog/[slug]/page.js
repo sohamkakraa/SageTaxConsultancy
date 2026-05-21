@@ -54,11 +54,11 @@ export default async function BlogPostPage({ params }) {
       {/* Breadcrumb */}
       <div className="bg-gray-50 border-b border-gray-100">
         <div className="container-max py-3 flex items-center gap-1.5 text-xs text-gray-400 flex-wrap">
-          <Link href={`/${locale}`} className="hover:text-sage-700 transition-colors">
+          <Link href="/" className="hover:text-sage-700 transition-colors">
             {isAr ? 'الرئيسية' : 'Home'}
           </Link>
           <ChevronRight className="w-3 h-3" />
-          <Link href={`/${locale}/blog`} className="hover:text-sage-700 transition-colors">
+          <Link href="/blog" className="hover:text-sage-700 transition-colors">
             {isAr ? 'المدونة' : 'Blog'}
           </Link>
           <ChevronRight className="w-3 h-3" />
@@ -149,7 +149,7 @@ export default async function BlogPostPage({ params }) {
             {/* Back to blog */}
             <div className="mt-8">
               <Link
-                href={`/${locale}/blog`}
+                href="/blog"
                 className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-sage-700 transition-colors"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
@@ -169,7 +169,7 @@ export default async function BlogPostPage({ params }) {
                   {relatedPosts.map((relatedPost) => (
                     <Link
                       key={relatedPost.id}
-                      href={`/${locale}/blog/${relatedPost.slug}`}
+                      href={`/blog/${relatedPost.slug}`}
                       className="block group"
                     >
                       <h4 className="text-sm font-medium text-navy-950 group-hover:text-sage-700 transition-colors line-clamp-2">
@@ -198,7 +198,7 @@ export default async function BlogPostPage({ params }) {
           <p className="text-gray-300 max-w-lg mx-auto">
             {isAr ? 'تحدث إلى أحد خبرائنا لمناقشة احتياجاتك' : 'Talk to one of our experts to discuss your specific needs'}
           </p>
-          <Link href={`/${locale}/contact`} className="btn-gold">
+          <Link href="/contact" className="btn-gold">
             {isAr ? 'اتصل بنا' : 'Contact Us'}
             <ArrowRight className="w-4 h-4" />
           </Link>

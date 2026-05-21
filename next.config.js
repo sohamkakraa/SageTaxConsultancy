@@ -30,7 +30,7 @@ const nextConfig = {
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "img-src 'self' data: blob: https://*.supabase.co https://www.google-analytics.com https://images.unsplash.com",
               "font-src 'self' https://fonts.gstatic.com",
-              "connect-src 'self' https://*.supabase.co https://www.google-analytics.com https://gnews.io https://newsapi.org https://api.mymemory.translated.net",
+              "connect-src 'self' https://*.supabase.co https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://gnews.io https://newsapi.org https://api.mymemory.translated.net",
               "frame-src https://www.google.com https://maps.google.com",
               "frame-ancestors 'none'",
               "base-uri 'self'",

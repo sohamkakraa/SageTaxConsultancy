@@ -194,11 +194,11 @@ export default async function ServicePage({ params }) {
       {/* Breadcrumb */}
       <div className="bg-gray-50 border-b border-gray-100">
         <div className="container-max py-3 flex items-center gap-1.5 text-xs text-gray-400">
-          <Link href={`/${locale}`} className="hover:text-sage-700 transition-colors">
+          <Link href="/" className="hover:text-sage-700 transition-colors">
             {isAr ? 'الرئيسية' : 'Home'}
           </Link>
           <ChevronRight className="w-3 h-3" />
-          <Link href={`/${locale}/services`} className="hover:text-sage-700 transition-colors">
+          <Link href="/services" className="hover:text-sage-700 transition-colors">
             {isAr ? 'الخدمات' : 'Services'}
           </Link>
           <ChevronRight className="w-3 h-3" />
@@ -339,7 +339,7 @@ export default async function ServicePage({ params }) {
             {isAr ? 'احجز استشارة مجانية مع أحد خبرائنا اليوم' : 'Book a free consultation with one of our experts today'}
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href={`/${locale}/contact`} className="btn-gold">
+            <Link href="/contact" className="btn-gold">
               {isAr ? 'حدد موعدًا الآن' : 'Schedule Now'}
               <ArrowRight className="w-4 h-4" />
             </Link>

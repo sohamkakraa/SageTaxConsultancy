@@ -34,3 +34,6 @@ next-env.d.ts
 
 # backup of old CRA project
 /_backup
+
+# OpenAI testing agent demo (cloned locally)
+/.testing-agent-demo

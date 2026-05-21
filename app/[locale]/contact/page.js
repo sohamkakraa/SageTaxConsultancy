@@ -91,7 +91,7 @@ export default function ContactPage({ params }) {
       {/* Breadcrumb */}
       <div className="bg-gray-50 border-b border-gray-100">
         <div className="container-max py-3 flex items-center gap-1.5 text-xs text-gray-400">
-          <Link href={`/${locale}`} className="hover:text-sage-700 transition-colors">
+          <Link href="/" className="hover:text-sage-700 transition-colors">
             {isAr ? 'الرئيسية' : 'Home'}
           </Link>
           <ChevronRight className="w-3 h-3" />
@@ -299,7 +299,7 @@ export default function ContactPage({ params }) {
                     width="100%"
                     height="100%"
                     style={{ border: 0 }}
-                    allowFullScreen=""
+                    allowFullScreen
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
                     className="w-full h-full"
@@ -350,11 +350,11 @@ export default function ContactPage({ params }) {
             {isAr ? 'تحقق من صفحة الأسئلة الشائعة أو تصفح خدماتنا' : 'Check our FAQ section or browse our services'}
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href={`/${locale}/#faqs`} className="btn-gold">
+            <Link href="/#faqs" className="btn-gold">
               {isAr ? 'الأسئلة الشائعة' : 'View FAQs'}
               <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href={`/${locale}/services`} className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white border border-white/20 hover:bg-white/10 transition-colors">
+            <Link href="/services" className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white border border-white/20 hover:bg-white/10 transition-colors">
               {isAr ? 'خدماتنا' : 'Our Services'}
             </Link>
           </div>

@@ -52,7 +52,7 @@ export default function AboutPage({ params: { locale } }) {
       {/* Breadcrumb */}
       <div className="bg-gray-50 border-b border-gray-100">
         <div className="container-max py-3 flex items-center gap-1.5 text-xs text-gray-400">
-          <Link href={`/${locale}`} className="hover:text-sage-700 transition-colors">{isAr ? 'الرئيسية' : 'Home'}</Link>
+          <Link href="/" className="hover:text-sage-700 transition-colors">{isAr ? 'الرئيسية' : 'Home'}</Link>
           <ChevronRight className="w-3 h-3" />
           <span className="text-navy-950 font-medium">{isAr ? 'من نحن' : 'About Us'}</span>
         </div>
@@ -170,7 +170,7 @@ export default function AboutPage({ params: { locale } }) {
         <div className="container-max text-center space-y-5">
           <h2 className="text-2xl md:text-3xl font-bold font-display">{isAr ? 'جاهز للبدء معنا؟' : 'Ready to Work With Us?'}</h2>
           <p className="text-gray-300 max-w-lg mx-auto">{isAr ? 'اتصل بنا اليوم للحصول على استشارة مجانية' : 'Contact us today for a free consultation'}</p>
-          <Link href={`/${locale}/contact`} className="btn-gold">
+          <Link href="/contact" className="btn-gold">
             {isAr ? 'اتصل بنا' : 'Get in Touch'}
             <ArrowRight className="w-4 h-4" />
           </Link>

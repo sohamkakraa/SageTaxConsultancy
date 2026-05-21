@@ -143,7 +143,7 @@ export default function BlogPage({ params }) {
       {/* Breadcrumb */}
       <div className="bg-gray-50 border-b border-gray-100">
         <div className="container-max py-3 flex items-center gap-1.5 text-xs text-gray-400">
-          <Link href={`/${locale}`} className="hover:text-sage-700 transition-colors">
+          <Link href="/" className="hover:text-sage-700 transition-colors">
             {isAr ? 'الرئيسية' : 'Home'}
           </Link>
           <ChevronRight className="w-3 h-3" />
@@ -240,16 +240,11 @@ export default function BlogPage({ params }) {
                   const isExternal = item.isExternal !== false && item.url?.startsWith('http');
                   const isResource = item.is_resource;
                   const hasDocument = isResource && item.document_url;
-                  const href = isExternal ? item.url : `/${locale}/blog/${item.slug}`;
+                  const cardClass =
+                    'card-hover overflow-hidden group flex flex-col cursor-pointer';
 
-                  return (
-                    <a
-                      key={idx}
-                      href={href}
-                      target={isExternal ? '_blank' : '_self'}
-                      rel={isExternal ? 'noopener noreferrer' : undefined}
-                      className="card-hover overflow-hidden group flex flex-col cursor-pointer"
-                    >
+                  const cardBody = (
+                    <>
                       {/* Image or Resource Icon */}
                       {isResource ? (
                         <div className="h-44 bg-gradient-to-br from-sage-50 to-navy-50 flex items-center justify-center relative flex-shrink-0">
@@ -343,7 +338,27 @@ export default function BlogPage({ params }) {
                           </span>
                         </div>
                       </div>
-                    </a>
+                    </>
+                  );
+
+                  if (isExternal) {
+                    return (
+                      <a
+                        key={idx}
+                        href={item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={cardClass}
+                      >
+                        {cardBody}
+                      </a>
+                    );
+                  }
+
+                  return (
+                    <Link key={idx} href={`/blog/${item.slug}`} className={cardClass}>
+                      {cardBody}
+                    </Link>
                   );
                 })}
               </div>
@@ -431,7 +446,7 @@ export default function BlogPage({ params }) {
               ? 'فريقنا يساعدك على فهم اللوائح الضريبية والامتثال لها بشكل كامل'
               : 'Our team helps you understand and fully comply with UAE tax regulations'}
           </p>
-          <Link href={`/${locale}/contact`} className="btn-gold">
+          <Link href="/contact" className="btn-gold">
             {isAr ? 'احجز استشارة مجانية' : 'Book a Free Consultation'}
             <ArrowRight className="w-4 h-4" />
           </Link>
