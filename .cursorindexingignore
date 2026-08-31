@@ -1,0 +1,18 @@
+# Same as .cursorignore — keep secrets out of codebase search/index
+.env
+.env.*
+.env.local
+!.env*.example
+!.env.example
+
+**/credentials.json
+**/secrets.json
+**/*secret*
+**/*.pem
+**/*.key
+**/id_rsa
+**/id_rsa.pub
+**/*.p12
+**/*.pfx
+
+.vercel/

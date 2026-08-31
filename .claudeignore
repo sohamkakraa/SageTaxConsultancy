@@ -1,0 +1,19 @@
+# Secrets and environment
+.env
+.env.*
+.env.local
+!.env*.example
+!.env.example
+
+# Credentials and keys
+**/credentials.json
+**/secrets.json
+**/*secret*
+**/*.pem
+**/*.key
+**/id_rsa
+**/id_rsa.pub
+**/*.p12
+**/*.pfx
+
+.vercel/

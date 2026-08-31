@@ -1,0 +1,20 @@
+# Secrets and environment (explicit block for AI tools)
+.env
+.env.*
+.env.local
+!.env*.example
+!.env.example
+
+# Credentials and keys
+**/credentials.json
+**/secrets.json
+**/*secret*
+**/*.pem
+**/*.key
+**/id_rsa
+**/id_rsa.pub
+**/*.p12
+**/*.pfx
+
+# Local / deployment config that may contain tokens
+.vercel/
