@@ -1,7 +1,8 @@
-import { unstable_setRequestLocale } from 'next-intl/server';
+import { setRequestLocale } from 'next-intl/server';
 import { getServices } from '@/lib/content';
 import { Link } from '@/lib/navigation';
-import IMAGES from '@/lib/images';
+import { getSiteContent } from '@/lib/cms/store';
+import { pick } from '@/lib/cms/tree';
 import {
   Receipt, Building2, BookOpen, ArrowRight,
   ClipboardList, Search, ShieldCheck, Scale,
@@ -29,77 +30,53 @@ const ICON_MAP = {
   'company-reconstruction': RefreshCcw,
 };
 
-export async function generateMetadata({ params: { locale } }) {
-  return {
-    title: locale === 'ar'
-      ? 'خدماتنا | سيج أدفايزري'
-      : 'Our Services | Sage Advisory',
-    description: locale === 'ar'
-      ? 'استكشف خدماتنا الشاملة في الضرائب والمحاسبة والتدقيق وخدمات الشركات في الإمارات'
-      : 'Explore our comprehensive tax, accounting, auditing, and corporate services across the UAE.',
-  };
+export async function generateMetadata(props) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
+  const c = await getSiteContent();
+  return { title: pick(c.servicesPage.hero.badge, locale), description: pick(c.servicesPage.hero.subtitle, locale) };
 }
 
 const CATEGORIES = [
-  {
-    key: 'tax',
-    icon: Receipt,
-    en: 'Tax Consultancy',
-    ar: 'الاستشارات الضريبية',
-    descEn: "Navigate UAE's evolving tax landscape with expert guidance on VAT, Corporate Tax, and Excise Tax.",
-    descAr: 'تنقّل في المشهد الضريبي المتطور في الإمارات بإرشاد الخبراء.',
-    color: 'bg-sage-50 border-sage-200',
-    iconColor: 'bg-sage-100 text-sage-700',
-    image: IMAGES.taxCompliance,
-  },
-  {
-    key: 'accounting',
-    icon: BookOpen,
-    en: 'Accounting & Auditing',
-    ar: 'المحاسبة والتدقيق',
-    descEn: 'IFRS-compliant financial reporting, bookkeeping, and specialized audit services.',
-    descAr: 'تقارير مالية متوافقة مع المعايير الدولية وخدمات التدقيق المتخصصة.',
-    color: 'bg-navy-50 border-navy-200',
-    iconColor: 'bg-navy-100 text-navy-700',
-    image: IMAGES.accounting,
-  },
-  {
-    key: 'corporate',
-    icon: Building2,
-    en: 'Corporate Services',
-    ar: 'خدمات الشركات',
-    descEn: 'Company registration, PRO services, Golden Visa, and full business setup support.',
-    descAr: 'تسجيل الشركات وخدمات العلاقات الحكومية والإقامة الذهبية.',
-    color: 'bg-gold-50 border-gold-200',
-    iconColor: 'bg-gold-100 text-gold-700',
-    image: IMAGES.corporate,
-  },
+  { key: 'tax', icon: Receipt, iconColor: 'bg-sage-100 text-sage-700' },
+  { key: 'accounting', icon: BookOpen, iconColor: 'bg-navy-100 text-navy-700' },
+  { key: 'corporate', icon: Building2, iconColor: 'bg-gold-100 text-gold-700' },
 ];
 
-export default async function ServicesPage({ params: { locale } }) {
-  unstable_setRequestLocale(locale);
+export default async function ServicesPage(props) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
+  setRequestLocale(locale);
   const isArabic = locale === 'ar';
-  const allServices = await getServices();
+  const [allServices, c] = await Promise.all([getServices(), getSiteContent()]);
+  const tr = (v) => pick(v, locale);
+  const p = c.servicesPage;
 
   return (
     <>
       {/* Hero */}
       <section className="relative py-16 md:py-20 bg-navy-950 text-white overflow-hidden">
         <div className="absolute inset-0">
-          <img src={IMAGES.dubaiBusiness} alt="" className="w-full h-full object-cover" />
+          <img src={p.hero.image.url} alt="" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-navy-950/85" />
         </div>
         <div className="relative container-max text-center space-y-5">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/10 text-xs font-semibold text-gold-300 tracking-wide uppercase">
-            {isArabic ? 'خدماتنا' : 'Our Services'}
+            {tr(p.hero.badge)}
           </span>
           <h1 className="text-3xl md:text-5xl font-bold font-display">
-            {isArabic ? 'حلول ضريبية وتجارية شاملة' : 'Comprehensive Tax & Business Solutions'}
+            {tr(p.hero.title)}
           </h1>
           <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-            {isArabic
-              ? 'من الامتثال لضريبة القيمة المضافة إلى تأسيس الشركات — استشارات شاملة مصممة لأعمال الإمارات.'
-              : 'From VAT compliance to company formation — end-to-end advisory built for UAE businesses.'}
+            {tr(p.hero.subtitle)}
           </p>
         </div>
       </section>
@@ -107,6 +84,7 @@ export default async function ServicesPage({ params: { locale } }) {
       {/* Service Categories */}
       {CATEGORIES.map((cat, catIdx) => {
         const catServices = allServices.filter((s) => s.category === cat.key);
+        if (!catServices.length) return null;
         const CatIcon = cat.icon;
         return (
           <section key={cat.key} id={cat.key} className={`section-padding ${catIdx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}>
@@ -117,9 +95,9 @@ export default async function ServicesPage({ params: { locale } }) {
                 </div>
                 <div>
                   <h2 className="text-2xl md:text-3xl font-bold font-display text-navy-950">
-                    {isArabic ? cat.ar : cat.en}
+                    {tr(p.categories[cat.key]?.title)}
                   </h2>
-                  <p className="text-gray-500 mt-1">{isArabic ? cat.descAr : cat.descEn}</p>
+                  <p className="text-gray-500 mt-1">{tr(p.categories[cat.key]?.text)}</p>
                 </div>
               </div>
 
@@ -160,15 +138,13 @@ export default async function ServicesPage({ params: { locale } }) {
       <section className="py-16 bg-navy-900 text-white">
         <div className="container-max text-center space-y-5">
           <h2 className="text-2xl md:text-3xl font-bold font-display">
-            {isArabic ? 'لست متأكدًا من أين تبدأ؟' : 'Not Sure Where to Start?'}
+            {tr(p.cta.title)}
           </h2>
           <p className="text-gray-300 max-w-lg mx-auto">
-            {isArabic
-              ? 'احجز استشارة مجانية وسنوصي بأفضل الخدمات لاحتياجات عملك.'
-              : "Book a free consultation and we'll recommend the right services for your business."}
+            {tr(p.cta.text)}
           </p>
           <Link href="/contact" className="btn-gold">
-            {isArabic ? 'احجز استشارة مجانية' : 'Book a Free Consultation'}
+            {tr(p.cta.button)}
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

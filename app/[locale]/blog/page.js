@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, use } from 'react';
 import { Link } from '@/lib/navigation';
-import IMAGES, { CATEGORY_IMAGES } from '@/lib/images';
+import { CATEGORY_IMAGES } from '@/lib/images';
+import { useSite } from '@/components/SiteContent';
 import {
   ChevronRight, Newspaper, Clock, ArrowRight, ExternalLink,
   Filter, FileText, BookOpen, Landmark, Search, X,
@@ -67,7 +68,9 @@ const FILTER_CATEGORIES = [
   { key: 'accounting', en: 'Accounting & Audit', ar: 'المحاسبة والتدقيق' },
 ];
 
-export default function BlogPage({ params }) {
+export default function BlogPage(props) {
+  const params = use(props.params);
+  const site = useSite();
   const { locale } = params;
   const isAr = locale === 'ar';
 
@@ -114,7 +117,7 @@ export default function BlogPage({ params }) {
    */
   function getCardImage(item) {
     if (item.featured_image) return item.featured_image;
-    return CATEGORY_IMAGES[item.category] || IMAGES.blogDefault;
+    return CATEGORY_IMAGES[item.category] || site.c.blogPage.defaultPostImage.url;
   }
 
   /**
@@ -154,7 +157,7 @@ export default function BlogPage({ params }) {
       {/* Hero */}
       <section className="relative py-16 md:py-20 bg-navy-950 text-white overflow-hidden">
         <div className="absolute inset-0">
-          <img src={IMAGES.dubaiBusiness} alt="" className="w-full h-full object-cover" />
+          <img src={site.c.blogPage.heroImage.url} alt="" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-navy-950/85" />
         </div>
         <div className="relative container-max text-center space-y-5">
@@ -268,7 +271,7 @@ export default function BlogPage({ params }) {
                             src={getCardImage(item)}
                             alt=""
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                            onError={(e) => { e.target.src = IMAGES.blogDefault; }}
+                            onError={(e) => { e.target.src = site.c.blogPage.defaultPostImage.url; }}
                           />
                           {isExternal && (
                             <div className="absolute top-3 right-3 w-7 h-7 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-sm">

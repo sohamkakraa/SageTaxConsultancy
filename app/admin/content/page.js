@@ -1,250 +1,186 @@
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
-import { createClient } from '@/lib/supabase'
-import AdminLayout from '@/components/admin/AdminLayout'
-import Toast from '@/components/admin/Toast'
-import AutoTranslateButton from '@/components/admin/AutoTranslateButton'
+import { useEffect, useMemo, useState } from 'react';
+import { ChevronDown, ChevronUp, Plus, Trash2, Loader2, Save, ArrowUp, ArrowDown } from 'lucide-react';
+import Shell, { PageHeader, Toast, useToast } from '@/components/cms/Shell';
+import { api } from '@/components/cms/api';
+import { BilingualField, ImageField, PlainField, humanLabel } from '@/components/cms/fields';
+import { getAt, isImage, isPlainObject, isText, setAt } from '@/lib/cms/tree';
 
-export default function ContentEditor() {
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [saving, setSaving] = useState(null)
-  const [content, setContent] = useState({})
-  const [changes, setChanges] = useState({})
-  const [toast, setToast] = useState(null)
-  const supabase = createClient()
+export default function ContentEditorPage() {
+  const [saved, setSaved] = useState(null);
+  const [draft, setDraft] = useState(null);
+  const [sections, setSections] = useState([]);
+  const [open, setOpen] = useState(null);
+  const [saving, setSaving] = useState(false);
+  const [toast, showToast] = useToast();
 
   useEffect(() => {
-    const checkAuth = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession()
-      setUser(session?.user || null)
-      if (session?.user) {
-        await loadContent()
-      }
-      setLoading(false)
-    }
-
-    checkAuth()
-  }, [])
-
-  const loadContent = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('site_content')
-        .select('*')
-        .order('section')
-
-      if (error) throw error
-
-      const grouped = {}
-      data.forEach((item) => {
-        if (!grouped[item.section]) {
-          grouped[item.section] = []
-        }
-        grouped[item.section].push(item)
+    api('/api/cms/content')
+      .then((d) => {
+        setSaved(d.content);
+        setDraft(d.content);
+        setSections(d.sections);
       })
+      .catch((e) => showToast(e.message, 'error'));
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-      setContent(grouped)
-      setChanges({})
-    } catch (err) {
-      console.error('Error loading content:', err)
-      showToast('Error loading content', 'error')
-    }
-  }
+  const dirty = useMemo(() => {
+    if (!saved || !draft) return [];
+    return sections.filter((s) => JSON.stringify(getAt(saved, s.path)) !== JSON.stringify(getAt(draft, s.path))).map((s) => s.path);
+  }, [saved, draft, sections]);
 
-  const showToast = (message, type = 'success') => {
-    setToast({ message, type })
-    setTimeout(() => setToast(null), 3000)
-  }
+  useEffect(() => {
+    const warn = (e) => {
+      if (dirty.length) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    };
+    window.addEventListener('beforeunload', warn);
+    return () => window.removeEventListener('beforeunload', warn);
+  }, [dirty]);
 
-  const handleChange = (id, field, value) => {
-    setChanges((prev) => ({
-      ...prev,
-      [id]: {
-        ...prev[id],
-        [field]: value,
-      },
-    }))
-  }
+  const update = (path, value) => setDraft((d) => setAt(d, path, value));
 
-  const handleSaveSection = async (section) => {
-    setSaving(section)
+  const save = async () => {
+    if (!dirty.length) return;
+    setSaving(true);
     try {
-      const sectionItems = content[section] || []
-      const updates = []
-
-      for (const item of sectionItems) {
-        const itemChanges = changes[item.id]
-        if (itemChanges) {
-          const updatePayload = {
-            ...item,
-            ...itemChanges,
-            updated_at: new Date().toISOString(),
-          }
-
-          updates.push(
-            supabase
-              .from('site_content')
-              .update(updatePayload)
-              .eq('id', item.id)
-          )
-        }
-      }
-
-      if (updates.length > 0) {
-        const results = await Promise.all(updates)
-        const hasError = results.some((r) => r.error)
-
-        if (hasError) {
-          throw new Error('One or more updates failed')
-        }
-      }
-
-      setChanges((prev) => {
-        const updated = { ...prev }
-        sectionItems.forEach((item) => {
-          delete updated[item.id]
-        })
-        return updated
-      })
-
-      showToast(`${section} updated successfully`, 'success')
-    } catch (err) {
-      console.error('Error saving content:', err)
-      showToast('Error saving content', 'error')
+      const labels = sections.filter((s) => dirty.includes(s.path)).map((s) => s.label);
+      await api('/api/cms/content', {
+        method: 'PUT',
+        body: { changes: dirty.map((p) => ({ path: p, value: getAt(draft, p) })), summary: `Edited by hand: ${labels.join(', ')}` },
+      });
+      setSaved(draft);
+      showToast('Saved — the website is updated');
+    } catch (e) {
+      showToast(e.message, 'error');
     } finally {
-      setSaving(null)
+      setSaving(false);
     }
-  }
-
-  if (loading) {
-    return (
-      <AdminLayout>
-        <div className="flex h-96 items-center justify-center">
-          <div className="text-center">
-            <div className="mb-4 h-12 w-12 animate-spin rounded-full border-4 border-slate-200 border-t-[#6b8e6f] mx-auto"></div>
-            <p className="text-slate-600">Loading content...</p>
-          </div>
-        </div>
-      </AdminLayout>
-    )
-  }
-
-  if (!user) {
-    return null
-  }
-
-  const sections = Object.keys(content).sort()
+  };
 
   return (
-    <AdminLayout user={user}>
-      <div className="space-y-8">
-        <div>
-          <h1 className="text-3xl font-bold text-slate-900">Site Content</h1>
-          <p className="mt-1 text-slate-600">Edit all site content with English and Arabic translations</p>
-        </div>
+    <Shell>
+      <div className="max-w-5xl mx-auto p-4 sm:p-8 pb-28">
+        <PageHeader title="Edit pages" subtitle="Change any text or picture by hand. Prefer talking? The Assistant can do all of this for you.">
+          {dirty.length > 0 && <button onClick={() => setDraft(saved)} className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm">Discard changes</button>}
+        </PageHeader>
 
-        {sections.length === 0 ? (
-          <div className="rounded-lg border border-slate-200 bg-white p-12 text-center">
-            <p className="text-slate-600">No content found. Create content items to get started.</p>
-          </div>
+        {!draft ? (
+          <div className="py-20 text-center text-gray-400"><Loader2 className="w-6 h-6 animate-spin mx-auto" /></div>
         ) : (
-          sections.map((section) => (
-            <div key={section} className="rounded-lg border border-slate-200 bg-white overflow-hidden">
-              <div className="border-b border-slate-200 bg-slate-50 px-6 py-4">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-lg font-semibold text-slate-900 capitalize">
-                    {section}
-                  </h2>
-                  <button
-                    onClick={() => handleSaveSection(section)}
-                    disabled={
-                      saving === section ||
-                      !content[section].some((item) => changes[item.id])
-                    }
-                    className="rounded-lg bg-[#6b8e6f] px-4 py-2 text-sm font-medium text-white hover:bg-[#5a7a5f] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                  >
-                    {saving === section ? 'Saving...' : 'Save Changes'}
+          <div className="space-y-3">
+            {sections.map((s) => {
+              const isOpen = open === s.path;
+              return (
+                <div key={s.path} className="rounded-2xl bg-white border border-gray-200 overflow-hidden">
+                  <button onClick={() => setOpen(isOpen ? null : s.path)} className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left hover:bg-gray-50">
+                    <span>
+                      <span className="block font-semibold">{s.label}{dirty.includes(s.path) && <span className="ml-2 text-[10px] font-bold uppercase tracking-wide text-gold-600">unsaved</span>}</span>
+                      <span className="block text-xs text-gray-500 mt-0.5">{s.where}</span>
+                    </span>
+                    {isOpen ? <ChevronUp className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
                   </button>
-                </div>
-              </div>
-
-              <div className="divide-y divide-slate-200">
-                {(content[section] || []).map((item) => {
-                  const itemChanges = changes[item.id] || {}
-                  return (
-                    <div key={item.id} className="p-6">
-                      <div className="mb-4">
-                        <label className="block text-sm font-medium text-slate-700 mb-1">
-                          Key: {item.key}
-                        </label>
-                      </div>
-
-                      <div className="grid gap-6 md:grid-cols-2">
-                        <div>
-                          <label className="block text-sm font-medium text-slate-700 mb-2">
-                            English
-                          </label>
-                          <textarea
-                            value={itemChanges.value_en ?? item.value_en ?? ''}
-                            onChange={(e) =>
-                              handleChange(item.id, 'value_en', e.target.value)
-                            }
-                            className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 placeholder-slate-400 focus:border-[#6b8e6f] focus:outline-none focus:ring-2 focus:ring-[#6b8e6f]/10"
-                            rows="4"
-                            placeholder="Enter English content..."
-                          />
-                        </div>
-
-                        <div>
-                          <label className="block text-sm font-medium text-slate-700 mb-2">
-                            Arabic
-                          </label>
-                          <textarea
-                            value={itemChanges.value_ar ?? item.value_ar ?? ''}
-                            onChange={(e) =>
-                              handleChange(item.id, 'value_ar', e.target.value)
-                            }
-                            className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 placeholder-slate-400 focus:border-[#6b8e6f] focus:outline-none focus:ring-2 focus:ring-[#6b8e6f]/10 text-right"
-                            rows="4"
-                            placeholder="أدخل المحتوى بالعربية..."
-                            dir="rtl"
-                          />
-                        </div>
-                      </div>
-
-                      <AutoTranslateButton
-                        fields={{
-                          value_ar: itemChanges.value_en ?? item.value_en ?? '',
-                        }}
-                        onTranslated={(translated) => {
-                          Object.entries(translated).forEach(([key, value]) => {
-                            handleChange(item.id, key, value)
-                          })
-                        }}
-                      />
-
-                      {changes[item.id] && (
-                        <div className="mt-3 flex items-center gap-2 text-sm text-amber-700">
-                          <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.487 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                          </svg>
-                          Unsaved changes
-                        </div>
-                      )}
+                  {isOpen && (
+                    <div className="px-5 pb-6 pt-2 border-t border-gray-100 space-y-5">
+                      <Node node={getAt(draft, s.path)} path={s.path} onChange={update} depth={0} />
                     </div>
-                  )
-                })}
-              </div>
-            </div>
-          ))
+                  )}
+                </div>
+              );
+            })}
+          </div>
         )}
       </div>
 
-      {toast && <Toast message={toast.message} type={toast.type} />}
-    </AdminLayout>
-  )
+      {dirty.length > 0 && (
+        <div className="fixed bottom-0 inset-x-0 lg:left-64 z-30 bg-white border-t border-gray-200 px-4 py-3 flex items-center justify-between gap-3 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+          <p className="text-sm text-gray-600">You have unsaved changes in {dirty.length} section{dirty.length > 1 ? 's' : ''}.</p>
+          <button onClick={save} disabled={saving} className="inline-flex items-center gap-2 rounded-lg bg-navy-950 text-white px-5 py-2.5 text-sm font-semibold disabled:opacity-60">
+            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} Save & publish
+          </button>
+        </div>
+      )}
+      <Toast toast={toast} />
+    </Shell>
+  );
+}
+
+function Node({ node, path, onChange, depth, label }) {
+  const key = path.split('.').pop();
+  const title = label || humanLabel(key);
+  if (isText(node)) return <BilingualField label={title} value={node} onChange={(v) => onChange(path, v)} />;
+  if (isImage(node)) return <ImageField label={title} value={node} onChange={(v) => onChange(path, v)} />;
+  if (typeof node === 'string') return <PlainField label={title} value={node} onChange={(v) => onChange(path, v)} />;
+  if (Array.isArray(node)) return <ListNode list={node} path={path} onChange={onChange} depth={depth} title={title} />;
+  if (isPlainObject(node)) {
+    const inner = Object.entries(node).map(([k, v]) => <Node key={k} node={v} path={`${path}.${k}`} onChange={onChange} depth={depth + 1} />);
+    if (depth === 0) return <>{inner}</>;
+    return (
+      <fieldset className="rounded-xl border border-gray-200 p-4 space-y-4">
+        <legend className="px-2 text-xs font-bold uppercase tracking-wide text-gray-500">{title}</legend>
+        {inner}
+      </fieldset>
+    );
+  }
+  return null;
+}
+
+function blankLike(template) {
+  if (isText(template)) return { en: '', ar: '' };
+  if (isImage(template)) return structuredClone(template);
+  if (Array.isArray(template)) return [];
+  if (isPlainObject(template)) return Object.fromEntries(Object.entries(template).map(([k, v]) => [k, blankLike(v)]));
+  return '';
+}
+
+function ListNode({ list, path, onChange, depth, title }) {
+  const [openIdx, setOpenIdx] = useState(null);
+  const move = (i, dir) => {
+    const next = [...list];
+    const [it] = next.splice(i, 1);
+    next.splice(i + dir, 0, it);
+    onChange(path, next);
+  };
+  const preview = (item) => {
+    if (!isPlainObject(item)) return '';
+    const first = Object.values(item).find((v) => isText(v) && v.en) || Object.values(item).find((v) => typeof v === 'string' && v);
+    return (isText(first) ? first.en : first) || '';
+  };
+  return (
+    <div className="space-y-2">
+      <p className="text-xs font-bold uppercase tracking-wide text-gray-500">{title} ({list.length})</p>
+      {list.map((item, i) => (
+        <div key={i} className="rounded-xl border border-gray-200">
+          <div className="flex items-center gap-2 px-3 py-2">
+            <button onClick={() => setOpenIdx(openIdx === i ? null : i)} className="flex-1 min-w-0 text-left text-sm truncate">
+              <span className="text-gray-400 mr-2">{i + 1}.</span>{preview(item) || 'Untitled'}
+            </button>
+            <button disabled={i === 0} onClick={() => move(i, -1)} className="p-1.5 text-gray-400 hover:text-navy-950 disabled:opacity-20" aria-label="Move up"><ArrowUp className="w-3.5 h-3.5" /></button>
+            <button disabled={i === list.length - 1} onClick={() => move(i, 1)} className="p-1.5 text-gray-400 hover:text-navy-950 disabled:opacity-20" aria-label="Move down"><ArrowDown className="w-3.5 h-3.5" /></button>
+            <button
+              disabled={list.length <= 1}
+              onClick={() => { if (window.confirm('Remove this item?')) onChange(path, list.filter((_, j) => j !== i)); }}
+              className="p-1.5 text-gray-400 hover:text-red-600 disabled:opacity-20"
+              aria-label="Remove"
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+            </button>
+          </div>
+          {openIdx === i && (
+            <div className="px-4 pb-4 pt-1 border-t border-gray-100 space-y-4">
+              <Node node={item} path={`${path}.${i}`} onChange={onChange} depth={0} />
+            </div>
+          )}
+        </div>
+      ))}
+      {list.length < 60 && (
+        <button onClick={() => { onChange(path, [...list, blankLike(list[0])]); setOpenIdx(list.length); }} className="inline-flex items-center gap-1.5 text-sm font-semibold text-sage-700 hover:text-navy-950">
+          <Plus className="w-4 h-4" /> Add item
+        </button>
+      )}
+    </div>
+  );
 }

@@ -26,8 +26,12 @@ export default function LoadingScreen() {
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, []);
 
-  // Initial page load — longer animation
+  // Initial page load — longer animation (skipped inside the CMS live preview)
   useEffect(() => {
+    if (window.self !== window.top) {
+      setVisible(false);
+      return undefined;
+    }
     return startExit(1800);
   }, [startExit]);
 
@@ -39,6 +43,7 @@ export default function LoadingScreen() {
     }
     if (pathname !== prevPathname.current) {
       prevPathname.current = pathname;
+      if (window.self !== window.top) return undefined;
       setExiting(false);
       setVisible(true);
       return startExit(1200);
@@ -160,13 +165,13 @@ export default function LoadingScreen() {
 
           {/* Advisory */}
           <span
-            className="text-[0.7rem] md:text-xs tracking-[0.35em] uppercase text-sage-400/80 font-medium"
+            className="text-[0.7rem] md:text-xs tracking-[0.3em] uppercase text-sage-400/80 font-medium"
             style={{
               opacity: 0,
               animation: 'advisoryExpand 0.5s ease-out 1.05s forwards',
             }}
           >
-            Advisory
+            Global Advisory
           </span>
         </div>
 

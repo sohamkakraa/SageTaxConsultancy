@@ -1,7 +1,6 @@
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages, unstable_setRequestLocale } from 'next-intl/server';
+import { getMessages, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import Script from 'next/script';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CookieConsent from '@/components/CookieConsent';
@@ -9,173 +8,119 @@ import ConsentGatedGA from '@/components/ConsentGatedGA';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import DirectionSetter from '@/components/DirectionSetter';
 import LoadingScreen from '@/components/LoadingScreen';
+import { SiteContentProvider } from '@/components/SiteContent';
+import { getServiceMenu, getSiteContent } from '@/lib/cms/store';
+import { pick } from '@/lib/cms/tree';
+import { SITE_URL } from '@/lib/site';
 import { locales } from '../../lib/i18n-config';
+
+// Safety net: pages refresh at least hourly even if an on-demand refresh was missed.
+export const revalidate = 3600;
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({ params: { locale } }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
+  const c = await getSiteContent();
   return {
+    title: { absolute: pick(c.site.seoTitle, locale) },
+    description: pick(c.site.seoDescription, locale),
     alternates: {
-      canonical: `https://sageadvisory.ae${locale === 'en' ? '' : '/' + locale}`,
-      languages: {
-        en: 'https://sageadvisory.ae',
-        ar: 'https://sageadvisory.ae/ar',
-      },
+      canonical: `${SITE_URL}${locale === 'en' ? '' : `/${locale}`}`,
+      languages: { en: SITE_URL, ar: `${SITE_URL}/ar`, 'x-default': SITE_URL },
     },
   };
 }
 
-export default async function LocaleLayout({ children, params: { locale } }) {
-  if (!locales.includes(locale)) {
-    notFound();
-  }
-
-  unstable_setRequestLocale(locale);
-  const messages = await getMessages();
-  const schemaData = {
+function structuredData(c) {
+  const name = pick(c.site.brandName, 'en');
+  const phone = c.site.contact.phone.replace(/[^\d+]/g, '');
+  const sameAs = [c.site.social.linkedin, c.site.social.instagram].filter(Boolean);
+  return {
     '@context': 'https://schema.org',
     '@graph': [
       {
         '@type': ['LocalBusiness', 'AccountingService'],
-        '@id': 'https://sageadvisory.ae/#business',
-        name: 'Sage Advisory',
-        alternateName: ['Sage Advisory', 'Sage Consultancy', 'سيج أدفايزري'],
-        description: "UAE's trusted advisory firm offering expert VAT, Corporate Tax, Accounting & Auditing services in Dubai. Serving 950+ clients across 35+ industries.",
-        url: 'https://sageadvisory.ae',
-        telephone: '+971585704140',
-        email: 'info@sageadvisory.ae',
-        address: {
-          '@type': 'PostalAddress',
-          streetAddress: 'Dubai',
-          addressLocality: 'Dubai',
-          addressRegion: 'Dubai',
-          postalCode: '',
-          addressCountry: 'AE',
-        },
-        geo: {
-          '@type': 'GeoCoordinates',
-          latitude: 25.2048,
-          longitude: 55.2708,
-        },
-        image: 'https://sageadvisory.ae/assets/logo_dark.svg',
-        priceRange: '$$',
+        '@id': `${SITE_URL}/#business`,
+        name,
+        alternateName: [pick(c.site.brandName, 'ar'), 'Sage Advisory'],
+        description: pick(c.site.seoDescription, 'en'),
+        url: SITE_URL,
+        telephone: phone,
+        email: c.site.contact.email,
+        address: { '@type': 'PostalAddress', addressLocality: 'Dubai', addressRegion: 'Dubai', addressCountry: 'AE' },
+        image: `${SITE_URL}/assets/logo_dark.svg`,
         currenciesAccepted: 'AED',
-        paymentAccepted: 'Cash, Credit Card, Bank Transfer',
-        aggregateRating: {
-          '@type': 'AggregateRating',
-          ratingValue: '4.9',
-          reviewCount: '127',
-          bestRating: '5',
-          worstRating: '1',
-        },
-        review: [
-          {
-            '@type': 'Review',
-            reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
-            author: { '@type': 'Person', name: 'Ahmed Al Mansoori' },
-            reviewBody: 'Excellent VAT consultancy services. Sage Advisory helped our company navigate the complex UAE tax regulations with ease. Highly recommended for businesses in Dubai.',
-          },
-          {
-            '@type': 'Review',
-            reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
-            author: { '@type': 'Person', name: 'Sarah Thompson' },
-            reviewBody: 'Professional corporate tax advisory. They handled our company registration and tax setup efficiently. Great team with deep knowledge of FTA regulations.',
-          },
-          {
-            '@type': 'Review',
-            reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
-            author: { '@type': 'Person', name: 'Khalid Bin Rashid' },
-            reviewBody: 'Outstanding audit services. Their attention to detail and thorough approach to our financial audit gave us complete confidence in our compliance status.',
-          },
-        ],
         openingHoursSpecification: [
-          {
-            '@type': 'OpeningHoursSpecification',
-            dayOfWeek: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'],
-            opens: '09:00',
-            closes: '18:00',
-          },
+          { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'], opens: '09:00', closes: '18:00' },
         ],
-        sameAs: [
-          'https://www.linkedin.com/company/sage-advisory',
-          'https://www.instagram.com/sageadvisory.ae',
-        ],
-        hasOfferCatalog: {
-          '@type': 'OfferCatalog',
-          name: 'Tax & Business Services',
-          itemListElement: [
-            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'VAT Registration & Filing', description: 'Expert VAT registration, return filing, and compliance services in Dubai UAE' } },
-            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Corporate Tax Advisory', description: 'UAE corporate tax registration, planning, and compliance for businesses' } },
-            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Accounting & Auditing', description: 'IFRS-compliant accounting, bookkeeping, and statutory audit services' } },
-            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Company Registration', description: 'Business setup, trade license, and company formation in Dubai and UAE free zones' } },
-            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Golden Visa Services', description: 'UAE Golden Visa application assistance for investors and entrepreneurs' } },
-          ],
-        },
+        sameAs,
       },
       {
         '@type': 'WebSite',
-        '@id': 'https://sageadvisory.ae/#website',
-        url: 'https://sageadvisory.ae',
-        name: 'Sage Advisory',
-        description: 'Expert Tax Advisory & Business Services in UAE',
-        publisher: { '@id': 'https://sageadvisory.ae/#org' },
+        '@id': `${SITE_URL}/#website`,
+        url: SITE_URL,
+        name,
+        publisher: { '@id': `${SITE_URL}/#org` },
         inLanguage: ['en', 'ar'],
       },
       {
         '@type': 'Organization',
-        '@id': 'https://sageadvisory.ae/#org',
-        name: 'Sage Advisory',
-        url: 'https://sageadvisory.ae',
-        logo: {
-          '@type': 'ImageObject',
-          url: 'https://sageadvisory.ae/assets/logo_dark.svg',
-          width: 512,
-          height: 512,
-        },
-        contactPoint: [
-          {
-            '@type': 'ContactPoint',
-            contactType: 'customer service',
-            telephone: '+971585704140',
-            email: 'info@sageadvisory.ae',
-            availableLanguage: ['English', 'Arabic'],
-            areaServed: 'AE',
-          },
-        ],
-        sameAs: [
-          'https://www.linkedin.com/company/sage-advisory',
-          'https://www.instagram.com/sageadvisory.ae',
-        ],
+        '@id': `${SITE_URL}/#org`,
+        name,
+        url: SITE_URL,
+        logo: { '@type': 'ImageObject', url: `${SITE_URL}/assets/logo_dark.svg` },
+        contactPoint: [{ '@type': 'ContactPoint', contactType: 'customer service', telephone: phone, email: c.site.contact.email, availableLanguage: ['English', 'Arabic'], areaServed: 'AE' }],
+        sameAs,
       },
     ],
   };
+}
+
+export default async function LocaleLayout(props) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
+  const {
+    children
+  } = props;
+
+  if (!locales.includes(locale)) notFound();
+  setRequestLocale(locale);
+
+  const [messages, content, serviceMenu] = await Promise.all([getMessages(), getSiteContent(), getServiceMenu()]);
+  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+  const gaEnabled = gaId && /^G-[A-Z0-9]{4,}$/i.test(gaId) && !/^G-X+$/i.test(gaId);
 
   return (
     <>
-      <link rel="icon" href="/favicon.ico" />
-      <Script
-        id="schema-org"
+      <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+        // JSON.stringify output with "<" escaped so CMS text can never break out of the script tag.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData(content)).replace(/</g, '\\u003c') }}
       />
-      {/* lang/dir are now set server-side in the root layout via middleware header */}
       <div className="min-h-screen flex flex-col">
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <DirectionSetter />
-          <LoadingScreen />
-          <Header locale={locale} />
-          <main className="flex-1">{children}</main>
-          <Footer locale={locale} />
-          <WhatsAppButton />
-          <CookieConsent locale={locale} />
-          {process.env.NEXT_PUBLIC_GA_ID &&
-            /^G-[A-Z0-9]+$/i.test(process.env.NEXT_PUBLIC_GA_ID) &&
-            !/^G-?X+$/i.test(process.env.NEXT_PUBLIC_GA_ID) &&
-            process.env.NEXT_PUBLIC_GA_ID !== 'G-XXXXXXXXXX' && (
-            <ConsentGatedGA gaId={process.env.NEXT_PUBLIC_GA_ID} />
-          )}
+          <SiteContentProvider content={content} serviceMenu={serviceMenu} locale={locale}>
+            <DirectionSetter />
+            <LoadingScreen />
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+            <WhatsAppButton />
+            <CookieConsent />
+            {gaEnabled && <ConsentGatedGA gaId={gaId} />}
+          </SiteContentProvider>
         </NextIntlClientProvider>
       </div>
     </>

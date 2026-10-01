@@ -1,9 +1,11 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import Image from 'next/image';
 import { useTranslations, useLocale } from 'next-intl';
 import { Link, useRouter, usePathname } from '@/lib/navigation';
+import { useSite } from '@/components/SiteContent';
+import { telHref } from '@/lib/cms/format';
 import {
   Menu,
   X,
@@ -28,55 +30,15 @@ import {
   Phone,
 } from 'lucide-react';
 
-const SOLUTIONS = [
-  {
-    key: 'tax',
-    label: 'Tax Consultancy',
-    labelAr: 'الاستشارات الضريبية',
-    description: 'VAT, Corporate & Excise Tax advisory',
-    descriptionAr: 'استشارات ضريبة القيمة المضافة والشركات والانتقائية',
-    icon: Receipt,
-    items: [
-      { label: 'VAT', labelAr: 'ضريبة القيمة المضافة', slug: 'vat', icon: Receipt },
-      { label: 'Corporate Tax', labelAr: 'ضريبة الشركات', slug: 'corporate-tax', icon: Building2 },
-      { label: 'Excise Tax', labelAr: 'الضريبة الانتقائية', slug: 'excise-tax', icon: FileText },
-    ],
-  },
-  {
-    key: 'accounting',
-    label: 'Accounting & Auditing',
-    labelAr: 'المحاسبة والتدقيق',
-    description: 'IFRS-compliant reporting & audit services',
-    descriptionAr: 'تقارير متوافقة مع المعايير الدولية وخدمات التدقيق',
-    icon: BookOpen,
-    items: [
-      { label: 'Accounting Services', labelAr: 'خدمات المحاسبة', slug: 'accounting-services', icon: BookOpen },
-      { label: 'Bookkeeping', labelAr: 'مسك الدفاتر', slug: 'bookkeeping-services', icon: ClipboardList },
-      { label: 'Internal Auditing', labelAr: 'التدقيق الداخلي', slug: 'internal-auditing', icon: Search },
-      { label: 'External Auditing', labelAr: 'التدقيق الخارجي', slug: 'external-auditing', icon: ShieldCheck },
-      { label: 'Statutory Auditing', labelAr: 'التدقيق القانوني', slug: 'statutory-auditing', icon: Scale },
-      { label: 'VAT Auditing', labelAr: 'تدقيق ضريبة القيمة المضافة', slug: 'vat-auditing', icon: BarChart3 },
-      { label: 'Corporate Tax Auditing', labelAr: 'تدقيق ضريبة الشركات', slug: 'corporate-tax-auditing', icon: FileText },
-      { label: 'Forensic Auditing', labelAr: 'التدقيق الجنائي', slug: 'forensic-auditing', icon: Search },
-    ],
-  },
-  {
-    key: 'corporate',
-    label: 'Corporate Services',
-    labelAr: 'الخدمات الإدارية',
-    description: 'Business setup, visa & PRO services',
-    descriptionAr: 'تأسيس الشركات والتأشيرات والخدمات الحكومية',
-    icon: Building2,
-    items: [
-      { label: 'Company Registration', labelAr: 'تسجيل الشركات', slug: 'company-registration', icon: Landmark },
-      { label: 'Trademark Registration', labelAr: 'تسجيل العلامات التجارية', slug: 'trademark-registration', icon: Stamp },
-      { label: 'Business Bank Account', labelAr: 'حساب مصرفي تجاري', slug: 'business-bank-account', icon: CreditCard },
-      { label: 'PRO Services', labelAr: 'خدمات العلاقات الحكومية', slug: 'pro-services', icon: UserCheck },
-      { label: 'Golden Visa', labelAr: 'الإقامة الذهبية', slug: 'golden-visa', icon: Award },
-      { label: 'Company Reconstruction', labelAr: 'إعادة هيكلة الشركات', slug: 'company-reconstruction', icon: RefreshCcw },
-    ],
-  },
-];
+const CATEGORY_ICONS = { tax: Receipt, accounting: BookOpen, corporate: Building2 };
+const SERVICE_ICONS = {
+  'vat': Receipt, 'corporate-tax': Building2, 'excise-tax': FileText,
+  'accounting-services': BookOpen, 'bookkeeping-services': ClipboardList, 'internal-auditing': Search,
+  'external-auditing': ShieldCheck, 'statutory-auditing': Scale, 'vat-auditing': BarChart3,
+  'corporate-tax-auditing': FileText, 'forensic-auditing': Search, 'company-registration': Landmark,
+  'trademark-registration': Stamp, 'business-bank-account': CreditCard, 'pro-services': UserCheck,
+  'golden-visa': Award, 'company-reconstruction': RefreshCcw,
+};
 
 export default function Header() {
   const t = useTranslations();
@@ -88,6 +50,21 @@ export default function Header() {
   const [megaOpen, setMegaOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState(null);
   const megaTimeout = useRef(null);
+  const { c, tr, serviceMenu } = useSite();
+
+  // Menu is built from the live services list, grouped by category (category titles come from the CMS).
+  const SOLUTIONS = useMemo(() => ['tax', 'accounting', 'corporate'].map((key) => ({
+    key,
+    label: tr(c.servicesPage.categories[key]?.title),
+    description: tr(c.servicesPage.categories[key]?.menuText),
+    icon: CATEGORY_ICONS[key],
+    items: serviceMenu.filter((s) => s.category === key).map((s) => ({
+      slug: s.slug,
+      label: locale === 'ar' ? s.name_ar : s.name_en,
+      icon: SERVICE_ICONS[s.slug] || FileText,
+    })),
+  })).filter((cat) => cat.items.length), [c, serviceMenu, locale]); // eslint-disable-line react-hooks/exhaustive-deps
+  const firstCounter = c.home.counters.items[0];
 
   const isRTL = locale === 'ar';
   // next-intl's usePathname returns the path without locale prefix,
@@ -152,7 +129,7 @@ export default function Header() {
             <Link href="/" className="flex items-center flex-shrink-0">
               <Image
                 src={isTransparent && !megaOpen ? '/assets/logo_light.svg' : '/assets/logo_dark.svg'}
-                alt="Sage Advisory"
+                alt={tr(c.site.brandName)}
                 width={130}
                 height={52}
                 className="object-contain transition-all duration-300"
@@ -257,10 +234,10 @@ export default function Header() {
                         </div>
                         <div>
                           <h3 className="text-sm font-bold text-navy-950">
-                            {isRTL ? category.labelAr : category.label}
+                            {category.label}
                           </h3>
                           <p className="text-xs text-gray-400">
-                            {isRTL ? category.descriptionAr : category.description}
+                            {category.description}
                           </p>
                         </div>
                       </div>
@@ -276,7 +253,7 @@ export default function Header() {
                                 className="group flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm text-gray-600 hover:text-navy-950 hover:bg-sage-50/70 transition-colors"
                               >
                                 <Icon className="w-4 h-4 text-gray-300 group-hover:text-sage-600 transition-colors flex-shrink-0" />
-                                {isRTL ? item.labelAr : item.label}
+                                {item.label}
                               </Link>
                             </li>
                           );
@@ -297,7 +274,7 @@ export default function Header() {
                   <ArrowRight className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} />
                 </Link>
                 <p className="text-xs text-gray-400">
-                  {isRTL ? 'خدمة أكثر من 950 شركة في الإمارات' : 'Serving 950+ businesses across the UAE'}
+                  {firstCounter ? `${firstCounter.value}${firstCounter.suffix} ${tr(firstCounter.label)}` : ''}
                 </p>
               </div>
             </div>
@@ -331,12 +308,12 @@ export default function Header() {
                         }`}>
                           <CatIcon className="w-4.5 h-4.5" />
                         </div>
-                        <div className={`flex-1 text-${isRTL ? 'right' : 'left'}`}>
+                        <div className="flex-1 text-start">
                           <span className="text-sm font-semibold text-navy-950">
-                            {isRTL ? category.labelAr : category.label}
+                            {category.label}
                           </span>
                           <p className="text-xs text-gray-400">
-                            {isRTL ? category.descriptionAr : category.description}
+                            {category.description}
                           </p>
                         </div>
                         <ChevronDown className={`w-4 h-4 text-gray-300 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
@@ -354,7 +331,7 @@ export default function Header() {
                                 className="flex items-center gap-2.5 px-3 py-2 text-sm text-gray-500 hover:text-navy-950 hover:bg-sage-50 rounded-lg transition-colors"
                               >
                                 <Icon className="w-3.5 h-3.5 text-sage-500 flex-shrink-0" />
-                                {isRTL ? item.labelAr : item.label}
+                                {item.label}
                               </Link>
                             );
                           })}
@@ -393,10 +370,11 @@ export default function Header() {
                 {isRTL ? 'احجز مكالمة' : 'Book a Call'}
               </Link>
               <a
-                href="tel:+971585704140"
+                href={telHref(c.site.contact.phone)}
+                dir="ltr"
                 className="flex items-center justify-center gap-2 w-full py-3 rounded-xl border border-gray-200 text-sm text-gray-600 font-medium hover:border-sage-300 hover:text-sage-700 transition-colors"
               >
-                +971 58 570 4140
+                {c.site.contact.phone}
               </a>
             </div>
           </div>

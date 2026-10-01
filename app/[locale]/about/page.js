@@ -1,178 +1,126 @@
 import { Link } from '@/lib/navigation';
-import { unstable_setRequestLocale } from 'next-intl/server';
-import IMAGES from '@/lib/images';
-import {
-  ChevronRight, Award, Users, Target, Eye, User,
-  ShieldCheck, Zap, Heart, Lightbulb, ArrowRight,
-} from 'lucide-react';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { ChevronRight, Target, Eye, Users, Heart, Lightbulb, ArrowRight } from 'lucide-react';
+import { getSiteContent } from '@/lib/cms/store';
+import { pick } from '@/lib/cms/tree';
+import { paragraphs } from '@/lib/cms/format';
+import TeamGrid from '@/components/TeamGrid';
 
-export async function generateMetadata({ params: { locale } }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
+  const c = await getSiteContent();
   return {
-    title: locale === 'ar' ? 'من نحن | سيج أدفايزري' : 'About Us | Sage Advisory',
-    description: locale === 'ar'
-      ? 'تعرف على سيج أدفايزري ورسالتنا ورؤيتنا والتزامنا بالخدمات الضريبية'
-      : 'Learn about Sage Advisory, our mission, vision, and commitment to UAE tax and accounting services.',
+    title: pick(c.aboutPage.hero.badge, locale),
+    description: pick(c.aboutPage.hero.subtitle, locale),
   };
 }
 
-const LEADERSHIP = [
-  {
-    name: 'Jay Kakra',
-    nameAr: 'جاي كاكرا',
-    role: 'Managing Partner',
-    roleAr: 'الشريك الإداري',
-    bio: 'Leading strategic direction and client advisory with deep expertise in UAE tax regulations and corporate compliance.',
-    bioAr: 'يقود التوجه الاستراتيجي والاستشارات للعملاء مع خبرة عميقة في اللوائح الضريبية الإماراتية.',
-    image: IMAGES.leaderMale,
-  },
-  {
-    name: 'Aashna Malkhani',
-    nameAr: 'آشنا مالخاني',
-    role: 'Partner',
-    roleAr: 'شريك',
-    bio: 'Overseeing accounting, audit operations, and client engagement with a focus on delivering exceptional service quality.',
-    bioAr: 'تشرف على عمليات المحاسبة والتدقيق وإدارة العملاء مع التركيز على جودة الخدمة.',
-    image: IMAGES.leaderFemale,
-  },
-];
+const VALUE_ICONS = [Target, Heart, Lightbulb, Users];
 
-const VALUES = [
-  { icon: Target, en: 'Excellence', ar: 'التميز', descEn: 'Meticulous attention to detail and accuracy in every engagement.', descAr: 'اهتمام دقيق بالتفاصيل والدقة في كل مشروع.' },
-  { icon: Heart, en: 'Integrity', ar: 'النزاهة', descEn: 'Complete transparency and ethical standards in all dealings.', descAr: 'شفافية كاملة ومعايير أخلاقية في جميع المعاملات.' },
-  { icon: Lightbulb, en: 'Innovation', ar: 'الابتكار', descEn: 'Latest technologies and methodologies for cutting-edge solutions.', descAr: 'أحدث التقنيات والمنهجيات لحلول متقدمة.' },
-  { icon: Users, en: 'Client Focus', ar: 'التركيز على العميل', descEn: 'Your success is our priority — services tailored to your needs.', descAr: 'نجاحك أولويتنا — خدمات مخصصة لاحتياجاتك.' },
-];
+export default async function AboutPage(props) {
+  const params = await props.params;
 
-export default function AboutPage({ params: { locale } }) {
-  unstable_setRequestLocale(locale);
-  const isAr = locale === 'ar';
+  const {
+    locale
+  } = params;
+
+  setRequestLocale(locale);
+  const [c, t] = await Promise.all([getSiteContent(), getTranslations('common')]);
+  const tr = (v) => pick(v, locale);
+  const p = c.aboutPage;
 
   return (
-    <main className={isAr ? 'rtl' : 'ltr'}>
-      {/* Breadcrumb */}
+    <main>
       <div className="bg-gray-50 border-b border-gray-100">
         <div className="container-max py-3 flex items-center gap-1.5 text-xs text-gray-400">
-          <Link href="/" className="hover:text-sage-700 transition-colors">{isAr ? 'الرئيسية' : 'Home'}</Link>
-          <ChevronRight className="w-3 h-3" />
-          <span className="text-navy-950 font-medium">{isAr ? 'من نحن' : 'About Us'}</span>
+          <Link href="/" className="hover:text-sage-700 transition-colors">{t('home')}</Link>
+          <ChevronRight className="w-3 h-3 rtl:rotate-180" />
+          <span className="text-navy-950 font-medium">{tr(p.hero.badge)}</span>
         </div>
       </div>
 
-      {/* Hero */}
       <section className="relative py-16 md:py-20 bg-navy-950 text-white overflow-hidden">
         <div className="absolute inset-0">
-          <img src={IMAGES.aboutTeam} alt="" className="w-full h-full object-cover" />
+          <img src={p.hero.image.url} alt="" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-navy-950/80" />
         </div>
         <div className="relative container-max text-center space-y-5">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/10 text-xs font-semibold text-gold-300 tracking-wide uppercase">
-            {isAr ? 'حول الشركة' : 'About Us'}
-          </span>
-          <h1 className="text-3xl md:text-5xl font-bold font-display">
-            {isAr ? 'شريكك الضريبي الموثوق في الإمارات' : 'Your Trusted UAE Tax Partner'}
-          </h1>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-            {isAr ? 'حلول ضريبية ومحاسبية شاملة للشركات والأفراد' : 'Comprehensive tax and accounting solutions for companies and individuals across the UAE'}
-          </p>
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/10 text-xs font-semibold text-gold-300 tracking-wide uppercase">{tr(p.hero.badge)}</span>
+          <h1 className="text-3xl md:text-5xl font-bold font-display">{tr(p.hero.title)}</h1>
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto">{tr(p.hero.subtitle)}</p>
         </div>
       </section>
 
-      {/* Story */}
       <section className="section-padding bg-white">
         <div className="container-narrow">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold font-display text-navy-950">{isAr ? 'قصتنا' : 'Our Story'}</h2>
+              <h2 className="text-2xl font-bold font-display text-navy-950">{tr(p.story.title)}</h2>
               <div className="space-y-4 text-gray-600 leading-relaxed">
-                <p>{isAr ? 'تأسست Sage Advisory برؤية واضحة: توفير خدمات استشارات ضريبية ومحاسبية عالية الجودة في الإمارات. اكتسبنا سمعة قوية كشريك موثوق يساعد الشركات على التنقل في تعقيدات القوانين الضريبية.' : 'Sage Advisory was founded with a clear vision: to provide high-quality tax and accounting consulting services in the UAE. We have earned a strong reputation as a trusted partner helping businesses navigate the complexities of tax regulations.'}</p>
-                <p>{isAr ? 'فريقنا يتكون من محترفين ذوي خبرة عميقة في الضرائب والمحاسبة. نحن ملتزمون بتوفير حلول مخصصة تلبي احتياجات عملائنا الفريدة.' : 'Our team comprises experienced professionals with deep expertise in taxation, accounting, and business consulting. We deliver customized solutions that meet each client\'s unique needs.'}</p>
+                {paragraphs(tr(p.story.body)).map((para, i) => <p key={i}>{para}</p>)}
               </div>
             </div>
-            <div className="rounded-2xl overflow-hidden h-72 shadow-lg">
-              <img src={IMAGES.aboutOffice} alt="Sage Advisory office" className="w-full h-full object-cover" />
+            <div className="rounded-2xl overflow-hidden h-72 shadow-lg bg-sage-50">
+              <img src={p.story.image.url} alt={tr(p.story.image.alt)} className="w-full h-full object-cover" loading="lazy" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Mission & Vision */}
       <section className="section-padding bg-gray-50">
         <div className="container-narrow">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="card-hover flex items-start gap-4 p-6">
-              <div className="w-10 h-10 rounded-lg bg-sage-100 text-sage-700 flex items-center justify-center flex-shrink-0">
-                <Target className="w-5 h-5" />
-              </div>
-              <div>
-                <h3 className="font-bold text-navy-950 mb-2">{isAr ? 'رسالتنا' : 'Our Mission'}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed">{isAr ? 'تقديم خدمات استشارات ضريبية ومحاسبية عالية الجودة تساعد العملاء على تحقيق أهدافهم مع ضمان الامتثال الكامل.' : 'To deliver high-quality tax and accounting consulting that helps clients achieve their objectives while ensuring complete regulatory compliance.'}</p>
-              </div>
-            </div>
-            <div className="card-hover flex items-start gap-4 p-6">
-              <div className="w-10 h-10 rounded-lg bg-gold-100 text-gold-700 flex items-center justify-center flex-shrink-0">
-                <Eye className="w-5 h-5" />
-              </div>
-              <div>
-                <h3 className="font-bold text-navy-950 mb-2">{isAr ? 'رؤيتنا' : 'Our Vision'}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed">{isAr ? 'أن نكون الشركة الرائدة والموثوقة في تقديم الاستشارات الضريبية في الإمارات، معروفة بالتميز والابتكار.' : 'To be the leading and most trusted provider of tax consulting in the UAE, recognized for excellence, innovation, and commitment to client success.'}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Leadership */}
-      <section className="section-padding bg-white">
-        <div className="container-narrow space-y-10">
-          <div className="text-center space-y-3">
-            <span className="badge">{isAr ? 'القيادة' : 'Leadership'}</span>
-            <h2 className="text-2xl md:text-3xl font-bold font-display text-navy-950">{isAr ? 'فريق القيادة' : 'Our Leadership'}</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-            {LEADERSHIP.map((leader) => (
-              <div key={leader.name} className="card-hover text-center space-y-4 p-8">
-                <div className="w-28 h-28 mx-auto rounded-full overflow-hidden shadow-lg ring-4 ring-sage-100">
-                  <img src={leader.image} alt={leader.name} className="w-full h-full object-cover" />
-                </div>
+            {[{ icon: Target, box: 'bg-sage-100 text-sage-700', d: p.mission }, { icon: Eye, box: 'bg-gold-100 text-gold-700', d: p.vision }].map(({ icon: Icon, box, d }, i) => (
+              <div key={i} className="card-hover flex items-start gap-4 p-6">
+                <div className={`w-10 h-10 rounded-lg ${box} flex items-center justify-center flex-shrink-0`}><Icon className="w-5 h-5" /></div>
                 <div>
-                  <h3 className="text-lg font-bold text-navy-950">{isAr ? leader.nameAr : leader.name}</h3>
-                  <p className="text-sm font-medium text-sage-700">{isAr ? leader.roleAr : leader.role}</p>
+                  <h3 className="font-bold text-navy-950 mb-2">{tr(d.title)}</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">{tr(d.text)}</p>
                 </div>
-                <p className="text-sm text-gray-500 leading-relaxed">{isAr ? leader.bioAr : leader.bio}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Values */}
+      <section className="section-padding bg-white">
+        <div className="container-narrow">
+          <TeamGrid />
+        </div>
+      </section>
+
       <section className="section-padding bg-gray-50">
         <div className="container-narrow space-y-10">
           <div className="text-center space-y-3">
-            <h2 className="text-2xl md:text-3xl font-bold font-display text-navy-950">{isAr ? 'قيمنا' : 'Our Values'}</h2>
+            <h2 className="text-2xl md:text-3xl font-bold font-display text-navy-950">{tr(p.values.title)}</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {VALUES.map(({ icon: Icon, en, ar, descEn, descAr }) => (
-              <div key={en} className="card-hover text-center p-6 space-y-3">
-                <div className="w-11 h-11 mx-auto rounded-lg bg-sage-100 text-sage-700 flex items-center justify-center">
-                  <Icon className="w-5 h-5" />
+            {p.values.items.map((v, i) => {
+              const Icon = VALUE_ICONS[i % VALUE_ICONS.length];
+              return (
+                <div key={i} className="card-hover text-center p-6 space-y-3">
+                  <div className="w-11 h-11 mx-auto rounded-lg bg-sage-100 text-sage-700 flex items-center justify-center"><Icon className="w-5 h-5" /></div>
+                  <h3 className="font-bold text-sm text-navy-950">{tr(v.title)}</h3>
+                  <p className="text-xs text-gray-500 leading-relaxed">{tr(v.text)}</p>
                 </div>
-                <h3 className="font-bold text-sm text-navy-950">{isAr ? ar : en}</h3>
-                <p className="text-xs text-gray-500 leading-relaxed">{isAr ? descAr : descEn}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
       <section className="py-16 bg-navy-900 text-white">
         <div className="container-max text-center space-y-5">
-          <h2 className="text-2xl md:text-3xl font-bold font-display">{isAr ? 'جاهز للبدء معنا؟' : 'Ready to Work With Us?'}</h2>
-          <p className="text-gray-300 max-w-lg mx-auto">{isAr ? 'اتصل بنا اليوم للحصول على استشارة مجانية' : 'Contact us today for a free consultation'}</p>
+          <h2 className="text-2xl md:text-3xl font-bold font-display">{tr(p.cta.title)}</h2>
+          <p className="text-gray-300 max-w-lg mx-auto">{tr(p.cta.text)}</p>
           <Link href="/contact" className="btn-gold">
-            {isAr ? 'اتصل بنا' : 'Get in Touch'}
-            <ArrowRight className="w-4 h-4" />
+            {tr(p.cta.button)}
+            <ArrowRight className="w-4 h-4 rtl:rotate-180" />
           </Link>
         </div>
       </section>

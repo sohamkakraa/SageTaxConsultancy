@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Sage Advisory | Expert Tax Advisory in UAE",
-    "description": "UAE's trusted advisory firm. Expert VAT, Corporate Tax, Accounting & Auditing services in Dubai. Helping businesses grow with confidence."
+    "title": "Sage Global Advisory | Expert Tax Advisory in the UAE",
+    "description": "UAE advisory firm for VAT, Corporate Tax, Accounting, Auditing and business setup in Dubai."
   },
   "nav": {
     "home": "Home",
@@ -109,7 +109,10 @@
       "location": "Location",
       "hours": "Working Hours",
       "hoursValue": "Sun – Thu: 9 AM – 6 PM"
-    }
+    },
+    "consentPrefix": "I agree that Sage Global Advisory may use the details I provide to respond to my enquiry, as described in the",
+    "consentSuffix": ".",
+    "consentRequired": "Please tick the box to confirm you agree to our Privacy Policy so we can respond to you."
   },
   "footer": {
     "tagline": "Expert tax advisory and business solutions in the UAE. Helping businesses navigate compliance with confidence.",
@@ -118,14 +121,33 @@
     "legal": "Legal",
     "privacyPolicy": "Privacy Policy",
     "termsConditions": "Terms & Conditions",
-    "copyright": "Sage Advisory. All rights reserved.",
-    "madeIn": "Made in Dubai, UAE"
+    "copyright": "Sage Global Advisory. All rights reserved.",
+    "madeIn": "Made in Dubai, UAE",
+    "rights": "All rights reserved.",
+    "cookiePolicy": "Cookie Policy"
   },
   "cookie": {
-    "message": "We use essential cookies for site functionality. Analytics cookies are only enabled with your consent. See our privacy policy for details.",
-    "accept": "Accept All",
-    "decline": "Essential Only",
-    "learnMore": "Privacy Policy"
+    "title": "Your privacy choices",
+    "message": "We use strictly necessary cookies to run this website. With your permission we would also like to use analytics cookies to understand how the site is used, and load external media such as Google Maps. You can change your choice at any time via “Cookie settings” in the footer.",
+    "accept": "Accept all",
+    "decline": "Reject non-essential",
+    "customize": "Customize",
+    "save": "Save my choices",
+    "close": "Close",
+    "settings": "Cookie settings",
+    "settingsTitle": "Cookie settings",
+    "settingsIntro": "Choose which optional cookies we may use. Strictly necessary cookies are always on because the website cannot work without them. Your choice is stored for 12 months.",
+    "necessaryTitle": "Strictly necessary",
+    "necessaryText": "Keep the site secure, remember your language and your cookie choices. No consent required.",
+    "alwaysOn": "Always on",
+    "analyticsTitle": "Analytics",
+    "analyticsText": "Google Analytics 4 helps us understand which pages are useful (anonymised, no advertising). Off unless you switch it on.",
+    "mediaTitle": "External media",
+    "mediaText": "Shows embedded content from third parties, such as the Google Maps location map, which may set their own cookies.",
+    "moreInfo": "Read which cookies we use and for how long in our",
+    "learnMore": "Cookie Policy",
+    "mapBlocked": "The map is provided by Google and uses cookies. Allow external media to view it, or open the location in Google Maps.",
+    "mapAllow": "Allow external media & show map"
   },
   "notFound": {
     "title": "Page Not Found",
@@ -162,5 +184,20 @@
     "email": "Email",
     "password": "Password",
     "signIn": "Sign In"
+  },
+  "common": {
+    "home": "Home",
+    "about": "About Us",
+    "services": "Services",
+    "contact": "Contact Us",
+    "privacy": "Privacy Policy",
+    "terms": "Terms & Conditions",
+    "cookies": "Cookie Policy",
+    "lastUpdated": "Last updated",
+    "openMaps": "Open in Google Maps",
+    "viewFaqs": "View FAQs",
+    "ourServices": "Our Services",
+    "learnMore": "Learn More",
+    "mapTitle": "Our location on the map"
   }
 }

@@ -1,503 +1,90 @@
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
-import { createClient } from '@/lib/supabase'
-import AdminLayout from '@/components/admin/AdminLayout'
-import Toast from '@/components/admin/Toast'
-import AutoTranslateButton from '@/components/admin/AutoTranslateButton'
+import { useEffect, useState } from 'react';
+import { Loader2, EyeOff } from 'lucide-react';
+import Shell, { PageHeader, Toast, useToast } from '@/components/cms/Shell';
+import RecordEditor from '@/components/cms/RecordEditor';
+import { api } from '@/components/cms/api';
 
-export default function ServicesManager() {
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [services, setServices] = useState([])
-  const [expandedId, setExpandedId] = useState(null)
-  const [editData, setEditData] = useState({})
-  const [saving, setSaving] = useState(null)
-  const [toast, setToast] = useState(null)
-  const supabase = createClient()
+const CATS = { tax: 'Tax Consultancy', accounting: 'Accounting & Auditing', corporate: 'Corporate Services' };
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession()
-      setUser(session?.user || null)
-      if (session?.user) {
-        await loadServices()
-      }
-      setLoading(false)
-    }
+const FIELDS = [
+  { type: 'pair', base: 'name', label: 'Service name' },
+  { type: 'pair', base: 'description', label: 'Short description (cards and banner)' },
+  { type: 'pair', base: 'long_description', label: 'Overview paragraph' },
+  { type: 'image', key: 'image_url', label: 'Banner picture' },
+  { type: 'select', key: 'category', label: 'Category', options: Object.entries(CATS).map(([value, label]) => ({ value, label })) },
+  { type: 'toggle', key: 'is_active', label: 'Show this service on the website' },
+  { type: 'pair', base: 'meta_title', label: 'Google title (optional)' },
+  { type: 'pair', base: 'meta_description', label: 'Google description (optional)' },
+];
 
-    checkAuth()
-  }, [])
+export default function ServicesAdminPage() {
+  const [services, setServices] = useState(null);
+  const [slug, setSlug] = useState(null);
+  const [saving, setSaving] = useState(false);
+  const [toast, showToast] = useToast();
 
-  const loadServices = async () => {
+  const load = () => api('/api/cms/services').then((d) => setServices(d.services)).catch((e) => showToast(e.message, 'error'));
+  useEffect(() => { load(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const current = services?.find((s) => s.slug === slug);
+
+  const save = async (fields) => {
+    setSaving(true);
     try {
-      const { data, error } = await supabase
-        .from('services')
-        .select('*')
-        .order('sort_order')
-
-      if (error) throw error
-      setServices(data || [])
-      setEditData({})
-    } catch (err) {
-      console.error('Error loading services:', err)
-      showToast('Error loading services', 'error')
-    }
-  }
-
-  const showToast = (message, type = 'success') => {
-    setToast({ message, type })
-    setTimeout(() => setToast(null), 3000)
-  }
-
-  const handleExpandToggle = (id) => {
-    setExpandedId(expandedId === id ? null : id)
-    if (!editData[id] && expandedId !== id) {
-      const service = services.find((s) => s.id === id)
-      setEditData((prev) => ({
-        ...prev,
-        [id]: { ...service },
-      }))
-    }
-  }
-
-  const handleEditChange = (id, field, value) => {
-    setEditData((prev) => ({
-      ...prev,
-      [id]: {
-        ...prev[id],
-        [field]: value,
-      },
-    }))
-  }
-
-  const handleAddFeature = (id) => {
-    setEditData((prev) => ({
-      ...prev,
-      [id]: {
-        ...prev[id],
-        features: [
-          ...(prev[id]?.features || []),
-          { title_en: '', title_ar: '', description_en: '', description_ar: '' },
-        ],
-      },
-    }))
-  }
-
-  const handleRemoveFeature = (id, index) => {
-    setEditData((prev) => ({
-      ...prev,
-      [id]: {
-        ...prev[id],
-        features: prev[id].features.filter((_, i) => i !== index),
-      },
-    }))
-  }
-
-  const handleFeatureChange = (id, index, field, value) => {
-    setEditData((prev) => ({
-      ...prev,
-      [id]: {
-        ...prev[id],
-        features: prev[id].features.map((f, i) =>
-          i === index ? { ...f, [field]: value } : f
-        ),
-      },
-    }))
-  }
-
-  const handleSaveService = async (id) => {
-    setSaving(id)
-    try {
-      const data = editData[id]
-      const { error } = await supabase
-        .from('services')
-        .update({
-          name_en: data.name_en,
-          name_ar: data.name_ar,
-          description_en: data.description_en,
-          description_ar: data.description_ar,
-          long_description_en: data.long_description_en,
-          long_description_ar: data.long_description_ar,
-          is_active: data.is_active,
-          features: data.features || [],
-        })
-        .eq('id', id)
-
-      if (error) throw error
-
-      await loadServices()
-      setExpandedId(null)
-      showToast('Service updated successfully', 'success')
-    } catch (err) {
-      console.error('Error saving service:', err)
-      showToast('Error saving service', 'error')
+      await api(`/api/cms/services/${slug}`, { method: 'PUT', body: { fields, summary: `Edited service “${current.name_en}” by hand` } });
+      showToast('Saved — the service page is updated');
+      await load();
+    } catch (e) {
+      showToast(e.message, 'error');
     } finally {
-      setSaving(null)
+      setSaving(false);
     }
-  }
-
-  if (loading) {
-    return (
-      <AdminLayout>
-        <div className="flex h-96 items-center justify-center">
-          <div className="text-center">
-            <div className="mb-4 h-12 w-12 animate-spin rounded-full border-4 border-slate-200 border-t-[#6b8e6f] mx-auto"></div>
-            <p className="text-slate-600">Loading services...</p>
-          </div>
-        </div>
-      </AdminLayout>
-    )
-  }
-
-  if (!user) {
-    return null
-  }
+  };
 
   return (
-    <AdminLayout user={user}>
-      <div className="space-y-8">
-        <div>
-          <h1 className="text-3xl font-bold text-slate-900">Services</h1>
-          <p className="mt-1 text-slate-600">Manage all services and their details</p>
-        </div>
-
-        {services.length === 0 ? (
-          <div className="rounded-lg border border-slate-200 bg-white p-12 text-center">
-            <p className="text-slate-600">No services found yet.</p>
-          </div>
+    <Shell>
+      <div className="max-w-6xl mx-auto p-4 sm:p-8">
+        <PageHeader title="Services" subtitle="Edit the name, descriptions and banner of each service page. For the lists on a service page (what's included, process steps, documents, FAQs) just ask the assistant." />
+        {!services ? (
+          <div className="py-20 text-center text-gray-400"><Loader2 className="w-6 h-6 animate-spin mx-auto" /></div>
         ) : (
-          <div className="space-y-4">
-            {services.map((service) => {
-              const data = editData[service.id] || service
-              const isExpanded = expandedId === service.id
-
-              return (
-                <div key={service.id} className="rounded-lg border border-slate-200 bg-white overflow-hidden">
-                  <button
-                    onClick={() => handleExpandToggle(service.id)}
-                    className="w-full px-6 py-4 flex items-center justify-between hover:bg-slate-50 transition-colors"
-                  >
-                    <div className="flex-1 text-left">
-                      <h3 className="font-semibold text-slate-900">{service.name_en}</h3>
-                      <p className="text-sm text-slate-600 mt-1">{service.category}</p>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <span
-                        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                          service.is_active
-                            ? 'bg-green-100 text-green-800'
-                            : 'bg-slate-100 text-slate-800'
-                        }`}
-                      >
-                        {service.is_active ? 'Active' : 'Inactive'}
-                      </span>
-                      <svg
-                        className={`h-5 w-5 text-slate-400 transition-transform ${
-                          isExpanded ? 'rotate-180' : ''
-                        }`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 14l-7 7m0 0l-7-7m7 7V3"
-                        />
-                      </svg>
-                    </div>
-                  </button>
-
-                  {isExpanded && (
-                    <div className="border-t border-slate-200 bg-slate-50 p-6 space-y-6">
-                      {/* Basic Info */}
-                      <div>
-                        <h4 className="font-semibold text-slate-900 mb-4">Basic Information</h4>
-                        <div className="grid gap-6 md:grid-cols-2">
-                          <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-2">
-                              Service Name (English)
-                            </label>
-                            <input
-                              type="text"
-                              value={data.name_en || ''}
-                              onChange={(e) =>
-                                handleEditChange(service.id, 'name_en', e.target.value)
-                              }
-                              className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 placeholder-slate-400 focus:border-[#6b8e6f] focus:outline-none focus:ring-2 focus:ring-[#6b8e6f]/10"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-2">
-                              Service Name (Arabic)
-                            </label>
-                            <input
-                              type="text"
-                              value={data.name_ar || ''}
-                              onChange={(e) =>
-                                handleEditChange(service.id, 'name_ar', e.target.value)
-                              }
-                              className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 placeholder-slate-400 focus:border-[#6b8e6f] focus:outline-none focus:ring-2 focus:ring-[#6b8e6f]/10 text-right"
-                              dir="rtl"
-                            />
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Description */}
-                      <div>
-                        <h4 className="font-semibold text-slate-900 mb-4">Description</h4>
-                        <div className="grid gap-6 md:grid-cols-2">
-                          <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-2">
-                              Short Description (English)
-                            </label>
-                            <textarea
-                              value={data.description_en || ''}
-                              onChange={(e) =>
-                                handleEditChange(
-                                  service.id,
-                                  'description_en',
-                                  e.target.value
-                                )
-                              }
-                              className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 placeholder-slate-400 focus:border-[#6b8e6f] focus:outline-none focus:ring-2 focus:ring-[#6b8e6f]/10"
-                              rows="3"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-2">
-                              Short Description (Arabic)
-                            </label>
-                            <textarea
-                              value={data.description_ar || ''}
-                              onChange={(e) =>
-                                handleEditChange(
-                                  service.id,
-                                  'description_ar',
-                                  e.target.value
-                                )
-                              }
-                              className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 placeholder-slate-400 focus:border-[#6b8e6f] focus:outline-none focus:ring-2 focus:ring-[#6b8e6f]/10 text-right"
-                              rows="3"
-                              dir="rtl"
-                            />
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Long Description */}
-                      <div>
-                        <h4 className="font-semibold text-slate-900 mb-4">Long Description</h4>
-                        <div className="grid gap-6 md:grid-cols-2">
-                          <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-2">
-                              Long Description (English)
-                            </label>
-                            <textarea
-                              value={data.long_description_en || ''}
-                              onChange={(e) =>
-                                handleEditChange(
-                                  service.id,
-                                  'long_description_en',
-                                  e.target.value
-                                )
-                              }
-                              className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 placeholder-slate-400 focus:border-[#6b8e6f] focus:outline-none focus:ring-2 focus:ring-[#6b8e6f]/10"
-                              rows="5"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-2">
-                              Long Description (Arabic)
-                            </label>
-                            <textarea
-                              value={data.long_description_ar || ''}
-                              onChange={(e) =>
-                                handleEditChange(
-                                  service.id,
-                                  'long_description_ar',
-                                  e.target.value
-                                )
-                              }
-                              className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 placeholder-slate-400 focus:border-[#6b8e6f] focus:outline-none focus:ring-2 focus:ring-[#6b8e6f]/10 text-right"
-                              rows="5"
-                              dir="rtl"
-                            />
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Features */}
-                      <div>
-                        <div className="flex items-center justify-between mb-4">
-                          <h4 className="font-semibold text-slate-900">Features</h4>
-                          <button
-                            onClick={() => handleAddFeature(service.id)}
-                            className="text-sm text-[#6b8e6f] hover:text-[#5a7a5f] font-medium"
-                          >
-                            + Add Feature
-                          </button>
-                        </div>
-                        <div className="space-y-4">
-                          {(data.features || []).map((feature, index) => (
-                            <div
-                              key={index}
-                              className="rounded-lg border border-slate-300 p-4 bg-white"
-                            >
-                              <div className="grid gap-4 md:grid-cols-2 mb-4">
-                                <div>
-                                  <label className="block text-sm font-medium text-slate-700 mb-1">
-                                    Title (English)
-                                  </label>
-                                  <input
-                                    type="text"
-                                    value={feature.title_en || ''}
-                                    onChange={(e) =>
-                                      handleFeatureChange(
-                                        service.id,
-                                        index,
-                                        'title_en',
-                                        e.target.value
-                                      )
-                                    }
-                                    className="w-full rounded border border-slate-300 px-2 py-1 text-sm text-slate-900 placeholder-slate-400 focus:border-[#6b8e6f] focus:outline-none focus:ring-1 focus:ring-[#6b8e6f]/10"
-                                  />
-                                </div>
-                                <div>
-                                  <label className="block text-sm font-medium text-slate-700 mb-1">
-                                    Title (Arabic)
-                                  </label>
-                                  <input
-                                    type="text"
-                                    value={feature.title_ar || ''}
-                                    onChange={(e) =>
-                                      handleFeatureChange(
-                                        service.id,
-                                        index,
-                                        'title_ar',
-                                        e.target.value
-                                      )
-                                    }
-                                    className="w-full rounded border border-slate-300 px-2 py-1 text-sm text-slate-900 placeholder-slate-400 focus:border-[#6b8e6f] focus:outline-none focus:ring-1 focus:ring-[#6b8e6f]/10 text-right"
-                                    dir="rtl"
-                                  />
-                                </div>
-                              </div>
-                              <div className="grid gap-4 md:grid-cols-2">
-                                <div>
-                                  <label className="block text-sm font-medium text-slate-700 mb-1">
-                                    Description (English)
-                                  </label>
-                                  <textarea
-                                    value={feature.description_en || ''}
-                                    onChange={(e) =>
-                                      handleFeatureChange(
-                                        service.id,
-                                        index,
-                                        'description_en',
-                                        e.target.value
-                                      )
-                                    }
-                                    className="w-full rounded border border-slate-300 px-2 py-1 text-sm text-slate-900 placeholder-slate-400 focus:border-[#6b8e6f] focus:outline-none focus:ring-1 focus:ring-[#6b8e6f]/10"
-                                    rows="2"
-                                  />
-                                </div>
-                                <div>
-                                  <label className="block text-sm font-medium text-slate-700 mb-1">
-                                    Description (Arabic)
-                                  </label>
-                                  <textarea
-                                    value={feature.description_ar || ''}
-                                    onChange={(e) =>
-                                      handleFeatureChange(
-                                        service.id,
-                                        index,
-                                        'description_ar',
-                                        e.target.value
-                                      )
-                                    }
-                                    className="w-full rounded border border-slate-300 px-2 py-1 text-sm text-slate-900 placeholder-slate-400 focus:border-[#6b8e6f] focus:outline-none focus:ring-1 focus:ring-[#6b8e6f]/10 text-right"
-                                    rows="2"
-                                    dir="rtl"
-                                  />
-                                </div>
-                              </div>
-                              <button
-                                onClick={() => handleRemoveFeature(service.id, index)}
-                                className="mt-3 text-sm text-red-600 hover:text-red-700 font-medium"
-                              >
-                                Remove Feature
-                              </button>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      <AutoTranslateButton
-                        fields={{
-                          name_ar: data.name_en || '',
-                          description_ar: data.description_en || '',
-                          long_description_ar: data.long_description_en || '',
-                        }}
-                        onTranslated={(translated) => {
-                          Object.entries(translated).forEach(([key, value]) => {
-                            handleEditChange(service.id, key, value)
-                          })
-                        }}
-                      />
-
-                      {/* Status */}
-                      <div>
-                        <label className="flex items-center gap-2">
-                          <input
-                            type="checkbox"
-                            checked={data.is_active || false}
-                            onChange={(e) =>
-                              handleEditChange(
-                                service.id,
-                                'is_active',
-                                e.target.checked
-                              )
-                            }
-                            className="rounded border-slate-300"
-                          />
-                          <span className="text-sm font-medium text-slate-700">
-                            Active
-                          </span>
-                        </label>
-                      </div>
-
-                      {/* Save Button */}
-                      <div className="flex gap-3 pt-4 border-t border-slate-200">
-                        <button
-                          onClick={() => handleSaveService(service.id)}
-                          disabled={saving === service.id}
-                          className="rounded-lg bg-[#6b8e6f] px-4 py-2 text-sm font-medium text-white hover:bg-[#5a7a5f] disabled:opacity-50 transition-colors"
-                        >
-                          {saving === service.id ? 'Saving...' : 'Save Changes'}
+          <div className="grid lg:grid-cols-[280px_1fr] gap-6">
+            <div className="space-y-5">
+              {Object.entries(CATS).map(([cat, label]) => (
+                <div key={cat}>
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-1.5">{label}</p>
+                  <ul className="space-y-0.5">
+                    {services.filter((s) => s.category === cat).map((s) => (
+                      <li key={s.slug}>
+                        <button onClick={() => setSlug(s.slug)} className={`w-full text-left text-sm rounded-lg px-3 py-2 flex items-center gap-2 ${slug === s.slug ? 'bg-white shadow-sm font-semibold' : 'hover:bg-white/60'}`}>
+                          <span className="flex-1 truncate">{s.name_en}</span>
+                          {!s.is_active && <EyeOff className="w-3.5 h-3.5 text-gray-400" />}
                         </button>
-                        <button
-                          onClick={() => setExpandedId(null)}
-                          className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 transition-colors"
-                        >
-                          Close
-                        </button>
-                      </div>
-                    </div>
-                  )}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              )
-            })}
+              ))}
+            </div>
+            <div className="rounded-2xl bg-white border border-gray-200 p-5 sm:p-6 min-h-[300px]">
+              {current ? (
+                <>
+                  <div className="flex items-center justify-between mb-5">
+                    <h2 className="font-bold text-lg">{current.name_en}</h2>
+                    <a href={`/services/${current.slug}`} target="_blank" rel="noopener" className="text-xs font-semibold text-sage-700">View page ↗</a>
+                  </div>
+                  <RecordEditor key={`${current.slug}-${current.updated_at}`} record={current} fields={FIELDS} onSave={save} saving={saving} />
+                </>
+              ) : (
+                <p className="text-sm text-gray-500">Choose a service on the left.</p>
+              )}
+            </div>
           </div>
         )}
       </div>
-
-      {toast && <Toast message={toast.message} type={toast.type} />}
-    </AdminLayout>
-  )
+      <Toast toast={toast} />
+    </Shell>
+  );
 }

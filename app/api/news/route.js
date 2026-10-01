@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { aggregateNews } from '@/lib/news';
+import { SITE_URL } from '@/lib/site';
 
 const CACHE_DURATION = 60 * 60 * 1000; // 1 hour
 let cachedNews = null;
@@ -59,6 +60,43 @@ async function fetchCMSResources() {
   }
 }
 
+/** The firm's own published insights (written in the CMS). Always fresh, listed first. */
+async function fetchFirmPosts() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!supabaseUrl || !supabaseKey) return [];
+  try {
+    const supabase = createClient(supabaseUrl, supabaseKey);
+    const { data, error } = await supabase
+      .from('blog_posts')
+      .select('id, slug, title_en, title_ar, excerpt_en, excerpt_ar, category, featured_image, published_at')
+      .eq('is_published', true)
+      .eq('is_auto_fetched', false)
+      .order('published_at', { ascending: false })
+      .limit(30);
+    if (error) return [];
+    return (data || []).map((p) => ({
+      id: p.id,
+      slug: p.slug,
+      title: p.title_en,
+      title_ar: p.title_ar || '',
+      excerpt: p.excerpt_en || '',
+      excerpt_ar: p.excerpt_ar || '',
+      url: `/blog/${p.slug}`,
+      source: 'Sage Global Advisory',
+      sourceName: 'Sage Global Advisory',
+      published_at: p.published_at,
+      publishedAt: p.published_at,
+      featured_image: p.featured_image || null,
+      category: p.category || 'blog',
+      isExternal: false,
+      is_auto_fetched: false,
+    }));
+  } catch {
+    return [];
+  }
+}
+
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -70,10 +108,10 @@ export async function GET(request) {
     const category = rawCategory && VALID_CATEGORIES.includes(rawCategory.toLowerCase()) ? rawCategory : null;
     const homepageOnly = searchParams.get('homepage') === 'true';
 
-    // Check cache
+    // Check cache (external news only — firm posts are always fetched fresh)
     const now = Date.now();
     if (cachedNews && now - cacheTime < CACHE_DURATION && !homepageOnly) {
-      let filteredNews = cachedNews;
+      let filteredNews = [...(await fetchFirmPosts()), ...cachedNews];
 
       if (category) {
         filteredNews = filteredNews.filter(
@@ -90,9 +128,10 @@ export async function GET(request) {
     }
 
     // Fetch all sources in parallel (news + CMS resources)
-    const [newsArticles, cmsResources] = await Promise.all([
+    const [newsArticles, cmsResources, firmPosts] = await Promise.all([
       aggregateNews(),
       fetchCMSResources(),
+      fetchFirmPosts(),
     ]);
 
     // If homepage-only, return only resources pinned to homepage
@@ -109,11 +148,10 @@ export async function GET(request) {
     const unpinnedResources = cmsResources.filter((r) => !r.is_pinned);
     const allNews = [...pinnedResources, ...newsArticles, ...unpinnedResources];
 
-    // Cache the merged results
     cachedNews = allNews;
     cacheTime = now;
 
-    let filteredNews = allNews;
+    let filteredNews = [...firmPosts, ...allNews];
 
     if (category) {
       filteredNews = filteredNews.filter(
@@ -128,7 +166,7 @@ export async function GET(request) {
       {
         status: 200,
         headers: {
-          'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
+          'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=3600',
         },
       }
     );
@@ -143,7 +181,7 @@ export async function GET(request) {
 
 // Fixed: restricted CORS origin from wildcard (*) to site domain
 export async function OPTIONS(request) {
-  const allowedOrigin = process.env.NEXT_PUBLIC_SITE_URL || 'https://sageadvisory.ae';
+  const allowedOrigin = SITE_URL;
   return new NextResponse(null, {
     status: 200,
     headers: {

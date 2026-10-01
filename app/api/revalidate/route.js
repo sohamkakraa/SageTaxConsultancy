@@ -1,10 +1,12 @@
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { NextResponse } from 'next/server';
+import { timingSafeEqual } from 'crypto';
+import { SITE_URL } from '@/lib/site';
 
 export async function POST(request) {
   try {
     // Fixed: reject if revalidation secret is not configured or is the default placeholder
-    const configuredSecret = process.env.REVALIDATE_SECRET;
+    const configuredSecret = process.env.REVALIDATION_SECRET || process.env.REVALIDATE_SECRET;
     if (!configuredSecret || configuredSecret === 'your-random-secret-string-here') {
       return NextResponse.json(
         { error: 'Revalidation endpoint not configured' },
@@ -14,7 +16,9 @@ export async function POST(request) {
 
     // Verify secret token
     const secret = request.headers.get('x-revalidate-secret');
-    if (secret !== configuredSecret) {
+    const a = Buffer.from(String(secret || ''));
+    const b = Buffer.from(configuredSecret);
+    if (a.length !== b.length || !timingSafeEqual(a, b)) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
@@ -95,7 +99,7 @@ export async function GET(request) {
 
 // Fixed: restricted CORS origin from wildcard (*) to site domain
 export async function OPTIONS(request) {
-  const allowedOrigin = process.env.NEXT_PUBLIC_SITE_URL || 'https://sageadvisory.ae';
+  const allowedOrigin = SITE_URL;
   return new NextResponse(null, {
     status: 200,
     headers: {

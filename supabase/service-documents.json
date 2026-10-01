@@ -1,0 +1,420 @@
+{
+ "vat": [
+  {
+   "name_en": "Trade License copy",
+   "name_ar": "نسخة من الرخصة التجارية"
+  },
+  {
+   "name_en": "Emirates ID of authorized signatory",
+   "name_ar": "الهوية الإماراتية للموقع المفوض"
+  },
+  {
+   "name_en": "Passport copy of owner/partners",
+   "name_ar": "نسخة جواز سفر المالك/الشركاء"
+  },
+  {
+   "name_en": "Bank account details / IBAN letter",
+   "name_ar": "تفاصيل الحساب المصرفي / خطاب الآيبان"
+  },
+  {
+   "name_en": "Proof of business activity (contracts/invoices)",
+   "name_ar": "إثبات النشاط التجاري (عقود/فواتير)"
+  },
+  {
+   "name_en": "Memorandum of Association (MOA)",
+   "name_ar": "عقد التأسيس"
+  }
+ ],
+ "corporate-tax": [
+  {
+   "name_en": "Trade License copy",
+   "name_ar": "نسخة من الرخصة التجارية"
+  },
+  {
+   "name_en": "Audited Financial Statements",
+   "name_ar": "البيانات المالية المدققة"
+  },
+  {
+   "name_en": "Emirates ID of authorized signatory",
+   "name_ar": "الهوية الإماراتية للموقع المفوض"
+  },
+  {
+   "name_en": "Memorandum of Association",
+   "name_ar": "عقد التأسيس"
+  },
+  {
+   "name_en": "Shareholder details and ownership structure",
+   "name_ar": "تفاصيل المساهمين وهيكل الملكية"
+  },
+  {
+   "name_en": "Transfer pricing documentation (if applicable)",
+   "name_ar": "وثائق التسعير التحويلي (إن وجد)"
+  }
+ ],
+ "excise-tax": [
+  {
+   "name_en": "Trade License copy",
+   "name_ar": "نسخة من الرخصة التجارية"
+  },
+  {
+   "name_en": "Product list with HS codes",
+   "name_ar": "قائمة المنتجات مع رموز النظام المنسق"
+  },
+  {
+   "name_en": "Import/export documentation",
+   "name_ar": "وثائق الاستيراد/التصدير"
+  },
+  {
+   "name_en": "Customs registration certificate",
+   "name_ar": "شهادة التسجيل الجمركي"
+  },
+  {
+   "name_en": "Emirates ID and passport of signatory",
+   "name_ar": "الهوية الإماراتية وجواز سفر الموقع"
+  }
+ ],
+ "accounting-services": [
+  {
+   "name_en": "Trade License copy",
+   "name_ar": "نسخة من الرخصة التجارية"
+  },
+  {
+   "name_en": "Bank statements (12 months)",
+   "name_ar": "كشوف حساب بنكية (12 شهراً)"
+  },
+  {
+   "name_en": "Sales and purchase invoices",
+   "name_ar": "فواتير المبيعات والمشتريات"
+  },
+  {
+   "name_en": "Existing chart of accounts (if any)",
+   "name_ar": "دليل الحسابات الحالي (إن وجد)"
+  },
+  {
+   "name_en": "Payroll records",
+   "name_ar": "سجلات الرواتب"
+  },
+  {
+   "name_en": "Previous financial statements (if available)",
+   "name_ar": "البيانات المالية السابقة (إن وجدت)"
+  }
+ ],
+ "bookkeeping-services": [
+  {
+   "name_en": "Bank statements",
+   "name_ar": "كشوف الحسابات البنكية"
+  },
+  {
+   "name_en": "Sales invoices and receipts",
+   "name_ar": "فواتير المبيعات والإيصالات"
+  },
+  {
+   "name_en": "Purchase invoices and bills",
+   "name_ar": "فواتير المشتريات والفواتير"
+  },
+  {
+   "name_en": "Petty cash records",
+   "name_ar": "سجلات المصروفات النثرية"
+  },
+  {
+   "name_en": "Payroll details",
+   "name_ar": "تفاصيل الرواتب"
+  },
+  {
+   "name_en": "Trade License copy",
+   "name_ar": "نسخة من الرخصة التجارية"
+  }
+ ],
+ "internal-auditing": [
+  {
+   "name_en": "Organizational structure chart",
+   "name_ar": "مخطط الهيكل التنظيمي"
+  },
+  {
+   "name_en": "Internal policies and procedures",
+   "name_ar": "السياسات والإجراءات الداخلية"
+  },
+  {
+   "name_en": "Previous audit reports",
+   "name_ar": "تقارير التدقيق السابقة"
+  },
+  {
+   "name_en": "Financial statements (last 2 years)",
+   "name_ar": "البيانات المالية (آخر سنتين)"
+  },
+  {
+   "name_en": "Risk register (if available)",
+   "name_ar": "سجل المخاطر (إن وجد)"
+  }
+ ],
+ "external-auditing": [
+  {
+   "name_en": "Trade License copy",
+   "name_ar": "نسخة من الرخصة التجارية"
+  },
+  {
+   "name_en": "Trial balance and general ledger",
+   "name_ar": "ميزان المراجعة ودفتر الأستاذ العام"
+  },
+  {
+   "name_en": "Bank statements and confirmations",
+   "name_ar": "كشوف الحسابات البنكية والتأكيدات"
+  },
+  {
+   "name_en": "Accounts receivable/payable aging",
+   "name_ar": "جدول أعمار الذمم المدينة/الدائنة"
+  },
+  {
+   "name_en": "Fixed asset register",
+   "name_ar": "سجل الأصول الثابتة"
+  },
+  {
+   "name_en": "Memorandum of Association",
+   "name_ar": "عقد التأسيس"
+  }
+ ],
+ "statutory-auditing": [
+  {
+   "name_en": "Trade License copy",
+   "name_ar": "نسخة من الرخصة التجارية"
+  },
+  {
+   "name_en": "Complete financial records",
+   "name_ar": "السجلات المالية الكاملة"
+  },
+  {
+   "name_en": "Bank statements and confirmations",
+   "name_ar": "كشوف الحسابات البنكية والتأكيدات"
+  },
+  {
+   "name_en": "Board resolutions",
+   "name_ar": "قرارات مجلس الإدارة"
+  },
+  {
+   "name_en": "Shareholder agreements",
+   "name_ar": "اتفاقيات المساهمين"
+  },
+  {
+   "name_en": "Memorandum of Association",
+   "name_ar": "عقد التأسيس"
+  }
+ ],
+ "vat-auditing": [
+  {
+   "name_en": "VAT returns filed (all periods)",
+   "name_ar": "إقرارات ضريبة القيمة المضافة المقدمة (جميع الفترات)"
+  },
+  {
+   "name_en": "Sales and purchase invoices",
+   "name_ar": "فواتير المبيعات والمشتريات"
+  },
+  {
+   "name_en": "Tax credit notes and debit notes",
+   "name_ar": "إشعارات الخصم والائتمان الضريبية"
+  },
+  {
+   "name_en": "Import/export declarations",
+   "name_ar": "إقرارات الاستيراد/التصدير"
+  },
+  {
+   "name_en": "Bank statements",
+   "name_ar": "كشوف الحسابات البنكية"
+  }
+ ],
+ "corporate-tax-auditing": [
+  {
+   "name_en": "Corporate tax registration certificate",
+   "name_ar": "شهادة التسجيل لضريبة الشركات"
+  },
+  {
+   "name_en": "Audited financial statements",
+   "name_ar": "البيانات المالية المدققة"
+  },
+  {
+   "name_en": "Transfer pricing documentation",
+   "name_ar": "وثائق التسعير التحويلي"
+  },
+  {
+   "name_en": "Related party transaction details",
+   "name_ar": "تفاصيل معاملات الأطراف ذات الصلة"
+  },
+  {
+   "name_en": "Tax computation workings",
+   "name_ar": "أوراق عمل الحسابات الضريبية"
+  }
+ ],
+ "forensic-auditing": [
+  {
+   "name_en": "Complete financial records",
+   "name_ar": "السجلات المالية الكاملة"
+  },
+  {
+   "name_en": "Bank statements (all accounts)",
+   "name_ar": "كشوف الحسابات البنكية (جميع الحسابات)"
+  },
+  {
+   "name_en": "Employee records and access logs",
+   "name_ar": "سجلات الموظفين وسجلات الوصول"
+  },
+  {
+   "name_en": "Contracts and agreements",
+   "name_ar": "العقود والاتفاقيات"
+  },
+  {
+   "name_en": "Communication records (if applicable)",
+   "name_ar": "سجلات الاتصالات (إن وجدت)"
+  }
+ ],
+ "company-registration": [
+  {
+   "name_en": "Passport copies of all shareholders",
+   "name_ar": "نسخ جوازات سفر جميع المساهمين"
+  },
+  {
+   "name_en": "Proof of address (home country)",
+   "name_ar": "إثبات العنوان (البلد الأصلي)"
+  },
+  {
+   "name_en": "Proposed company name (3 options)",
+   "name_ar": "اسم الشركة المقترح (3 خيارات)"
+  },
+  {
+   "name_en": "Business activity description",
+   "name_ar": "وصف النشاط التجاري"
+  },
+  {
+   "name_en": "No Objection Certificate (NOC) if employed",
+   "name_ar": "شهادة عدم ممانعة إذا كنت موظفاً"
+  },
+  {
+   "name_en": "Initial approval from relevant authority",
+   "name_ar": "الموافقة المبدئية من الجهة المختصة"
+  }
+ ],
+ "trademark-registration": [
+  {
+   "name_en": "Trade License copy",
+   "name_ar": "نسخة من الرخصة التجارية"
+  },
+  {
+   "name_en": "Trademark logo/word mark in digital format",
+   "name_ar": "شعار العلامة التجارية بصيغة رقمية"
+  },
+  {
+   "name_en": "List of goods/services classes",
+   "name_ar": "قائمة فئات السلع/الخدمات"
+  },
+  {
+   "name_en": "Power of Attorney",
+   "name_ar": "التوكيل الرسمي"
+  },
+  {
+   "name_en": "Passport copy of applicant",
+   "name_ar": "نسخة جواز سفر مقدم الطلب"
+  }
+ ],
+ "business-bank-account": [
+  {
+   "name_en": "Trade License copy",
+   "name_ar": "نسخة من الرخصة التجارية"
+  },
+  {
+   "name_en": "Memorandum of Association",
+   "name_ar": "عقد التأسيس"
+  },
+  {
+   "name_en": "Passport and Emirates ID of signatories",
+   "name_ar": "جواز سفر والهوية الإماراتية للموقعين"
+  },
+  {
+   "name_en": "Board resolution for account opening",
+   "name_ar": "قرار مجلس الإدارة لفتح الحساب"
+  },
+  {
+   "name_en": "Proof of business address",
+   "name_ar": "إثبات عنوان العمل"
+  },
+  {
+   "name_en": "Company profile / business plan",
+   "name_ar": "ملف الشركة / خطة العمل"
+  }
+ ],
+ "pro-services": [
+  {
+   "name_en": "Trade License copy",
+   "name_ar": "نسخة من الرخصة التجارية"
+  },
+  {
+   "name_en": "Passport copies of employees",
+   "name_ar": "نسخ جوازات سفر الموظفين"
+  },
+  {
+   "name_en": "Emirates ID copies",
+   "name_ar": "نسخ الهوية الإماراتية"
+  },
+  {
+   "name_en": "Visa application forms",
+   "name_ar": "نماذج طلب التأشيرة"
+  },
+  {
+   "name_en": "Tenancy contract (Ejari)",
+   "name_ar": "عقد الإيجار (إيجاري)"
+  }
+ ],
+ "golden-visa": [
+  {
+   "name_en": "Valid passport (6+ months validity)",
+   "name_ar": "جواز سفر ساري المفعول (صلاحية 6+ أشهر)"
+  },
+  {
+   "name_en": "Current UAE visa copy (if applicable)",
+   "name_ar": "نسخة التأشيرة الحالية (إن وجدت)"
+  },
+  {
+   "name_en": "Proof of investment or property ownership",
+   "name_ar": "إثبات الاستثمار أو ملكية العقار"
+  },
+  {
+   "name_en": "Bank statements (6 months)",
+   "name_ar": "كشوف حساب بنكية (6 أشهر)"
+  },
+  {
+   "name_en": "Health insurance document",
+   "name_ar": "وثيقة التأمين الصحي"
+  },
+  {
+   "name_en": "Emirates ID (if available)",
+   "name_ar": "الهوية الإماراتية (إن وجدت)"
+  },
+  {
+   "name_en": "Title deed or investment certificate",
+   "name_ar": "سند الملكية أو شهادة الاستثمار"
+  }
+ ],
+ "company-reconstruction": [
+  {
+   "name_en": "Current Trade License",
+   "name_ar": "الرخصة التجارية الحالية"
+  },
+  {
+   "name_en": "Memorandum of Association",
+   "name_ar": "عقد التأسيس"
+  },
+  {
+   "name_en": "Board/shareholder resolutions",
+   "name_ar": "قرارات مجلس الإدارة/المساهمين"
+  },
+  {
+   "name_en": "Audited financial statements (last 2 years)",
+   "name_ar": "البيانات المالية المدققة (آخر سنتين)"
+  },
+  {
+   "name_en": "Debt and liability statements",
+   "name_ar": "بيانات الديون والالتزامات"
+  },
+  {
+   "name_en": "Proposed restructuring plan",
+   "name_ar": "خطة إعادة الهيكلة المقترحة"
+  }
+ ]
+}

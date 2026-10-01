@@ -1,130 +1,44 @@
-# Sage Tax Consultancy — Website v2.0
+# Sage Global Advisory — Website v3
 
-A modern, bilingual (English/Arabic), SEO-optimized website for Sage Tax Consultancy, built with Next.js 14, Tailwind CSS, and Supabase.
+Bilingual (English/Arabic, RTL) website for **Sage Global Advisory** (formerly Sage Advisory / Sage Tax Consultancy), a Dubai tax & business advisory firm — live at **https://sageglobaladvisory.com**.
 
-## Tech Stack
+Built with Next.js 15 (App Router), React 19, Tailwind CSS, next-intl 4 and Supabase, deployed on Vercel.
 
-- **Framework:** Next.js 14 (App Router)
-- **Styling:** Tailwind CSS
-- **Database:** Supabase (PostgreSQL)
-- **Auth:** Supabase Auth (for CMS admin panel)
-- **i18n:** next-intl (English + Arabic with RTL)
-- **Deployment:** Vercel
-- **Analytics:** Google Analytics 4
+## The CMS — `/admin`
 
----
+A conversational website editor designed for non-technical use:
 
-## Quick Start (Local Development)
+- **Assistant (chat)** — describe a change in plain English or Arabic ("change the headline", "put this photo of Jay on the team section", "write a draft blog post about VAT"). Powered by OpenAI `gpt-6-luna` (text) and `gpt-image-2.5-flare-2026-09-08` (image generation/editing). The agent sees the whole site content, service pages, blog posts, image library, recent change history, saved preferences and summaries of past conversations; it always writes both languages. Upload/drag/paste images; it can edit them (remove background, relight, re-crop) and place them in the requested — or the obvious — spot. A live preview (EN/AR, desktop/mobile) refreshes after each change.
+- **Edit pages** — every text and picture on the site as a form, English and Arabic side by side with one-click AI translation.
+- **Pictures**, **Services**, **Blog posts**, **Enquiries** (contact-form inbox with PDPL-friendly delete) and **History & undo** (every change is recorded and reversible; also lists what the assistant remembers).
 
+How content works: all editable content lives in one JSON tree (`lib/cms/defaults.js` = defaults/schema; table `cms_content` stores the edited version, deep-merged over the defaults at runtime). Services and blog posts stay in their own tables. Memory is kept compact: the last 14 messages verbatim + a rolling AI summary of each conversation + explicit "remember" facts.
+
+Key code: `lib/cms/agent.js` (tools + system prompt + loop), `lib/cms/memory.js`, `lib/cms/store.js` (writes, validation, history/undo, cache revalidation), `lib/cms/media.js` (sharp re-encoding, Supabase Storage), `components/cms/*`, `app/admin/*`, `app/api/cms/*`.
+
+### Admin access
+Log in with a Supabase Auth user whose email is in `CMS_ADMIN_EMAILS`. Add users in Supabase → Authentication → Users, then add the email to `CMS_ADMIN_EMAILS` in Vercel and redeploy.
+
+## Security & compliance
+- Signed, httpOnly, SameSite=Strict session cookie (HMAC, 12 h), verified in middleware and in every CMS API route; Origin checks on all writes; login throttling (5 failures / 15 min per email and per IP).
+- All writes go through server routes with the service-role key; Row Level Security blocks browser writes (legacy "any signed-in user can write" policies were removed).
+- Uploads are decoded and re-encoded to WebP with sharp (strips EXIF/GPS, rejects non-images/SVG). Content writes are shape-validated; CMS links must be https.
+- CSP, HSTS, X-Frame-Options, Permissions-Policy, COOP headers (`next.config.js`). Fonts self-hosted.
+- UAE PDPL (Federal Decree-Law 45/2021): Privacy Policy, Terms and Cookie Policy (`lib/legal/*`, EN/AR), consent checkbox on the contact form (stored with policy version), granular cookie consent (necessary / analytics / external media) with equal-weight reject, withdrawal via "Cookie settings", Google Consent Mode v2, consent-gated Google Maps, no IP storage. Bump `PRIVACY_VERSION` in `lib/site.js` after material policy changes. Have UAE counsel review the legal text and fill in the trade-licence details (Edit pages → Company details).
+
+## Development
 ```bash
-# 1. Install dependencies
 npm install
-
-# 2. Copy env file and fill in values
-cp .env.local.example .env.local
-
-# 3. Run development server
+cp .env.local.example .env.local   # fill in values
+npm run cms:migrate                # one-off: creates CMS tables/bucket (idempotent)
 npm run dev
 ```
 
-The site will run at `http://localhost:3000`.
+## Environment variables
+See `.env.local.example`. They must also be set in Vercel (they are read at build time).
 
----
-
-## Environment Variables
-
-These MUST be set in **Vercel Dashboard → Settings → Environment Variables**:
-
-| Variable | Required | Description |
-|---|---|---|
-| `NEXT_PUBLIC_SUPABASE_URL` | Yes | Your Supabase project URL |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Yes | Supabase public anon key |
-| `SUPABASE_SERVICE_ROLE_KEY` | Yes | Supabase service role key (server-only) |
-| `NEXT_PUBLIC_SITE_URL` | Yes | `https://sageconsultancy.ae` |
-| `NEXT_PUBLIC_GA_ID` | No | Google Analytics 4 Measurement ID |
-| `REVALIDATION_SECRET` | No | Secret for on-demand ISR revalidation |
-| `ADMIN_EMAIL` | No | Admin email for CMS login |
-
----
-
-## Supabase Setup
-
-### 1. Create a Supabase Project
-
-1. Go to [supabase.com](https://supabase.com) and create a free project
-2. Note your **Project URL** and **anon key** from Settings → API
-
-### 2. Run the Database Schema
-
-Go to **SQL Editor** in your Supabase dashboard and run these files in order:
-
-1. `supabase/schema.sql` — Creates all tables, indexes, RLS policies, and triggers
-2. `supabase/seed.sql` — Populates the database with all service data, testimonials, FAQs, and site content
-
-### 3. Create an Admin User
-
-In Supabase Dashboard → Authentication → Users → Add User:
-- Email: `admin@sageconsultancy.ae` (or your preferred email)
-- Password: Choose a strong password
-- This is used to log into the CMS at `/admin`
-
-### 4. Enable Email Auth
-
-In Supabase Dashboard → Authentication → Providers:
-- Ensure **Email** provider is enabled
-- Disable "Confirm email" for simplicity (or keep it and confirm via dashboard)
-
----
-
-## Deployment on Vercel
-
-### 1. Connect Repository
-
-1. Push this project to a GitHub/GitLab repository
-2. Go to [vercel.com](https://vercel.com) → Import Project → Select your repo
-3. Vercel will auto-detect Next.js
-
-### 2. Configure Environment Variables
-
-Add ALL variables from the table above in Vercel Dashboard → Settings → Environment Variables.
-
-### 3. Configure Build Settings
-
-Vercel should auto-detect these, but verify:
-- **Framework Preset:** Next.js
-- **Build Command:** `npm run build`
-- **Output Directory:** `.next`
-
-### 4. Custom Domain
-
-In Vercel → Settings → Domains:
-- Add `sageconsultancy.ae`
-- Add `www.sageconsultancy.ae`
-- Update your domain registrar's DNS to point to Vercel
-
-### 5. Deploy
-
-Push to main branch → Vercel auto-deploys.
-
----
-
-## CMS Admin Panel
-
-Access the admin panel at: `https://sageconsultancy.ae/admin`
-
-### Features:
-- **Site Content** — Edit all text on the website (hero, about, counters, contact info)
-- **Services** — Edit service names, descriptions, features, and process steps
-- **Blog Posts** — Create, edit, publish/unpublish blog posts
-- **Testimonials** — Manage client testimonials
-- **FAQs** — Add, edit, reorder frequently asked questions
-- **Messages** — View and manage contact form submissions
-
-### How it Works:
-1. Log in with the admin email/password created in Supabase
-2. Edit any content in English and Arabic
-3. Click "Save" to update
-4. Changes appear on the live site within seconds (ISR revalidation)
+## Domain
+Production domain: `sageglobaladvisory.com` (DNS at Cloudflare → Vercel). Once it resolves, set `REDIRECT_LEGACY_DOMAINS=true` so `sagetaxconsultancy.com` 308-redirects to it.
 
 ---
 
@@ -155,56 +69,3 @@ You can also create custom blog posts through the CMS admin panel.
 - Optimized for keywords: tax consultancy UAE, VAT consultant Dubai, corporate tax UAE, etc.
 
 ---
-
-## Project Structure
-
-```
-├── app/
-│   ├── [locale]/           # Locale-based routing (en, ar)
-│   │   ├── page.js         # Home page
-│   │   ├── about/          # About page
-│   │   ├── blog/           # Blog listing + [slug]
-│   │   ├── contact/        # Contact page
-│   │   ├── services/       # Services listing + [slug]
-│   │   ├── privacy-policy/ # Privacy policy
-│   │   └── terms/          # Terms & conditions
-│   ├── admin/              # CMS admin panel
-│   │   ├── blog/           # Blog manager
-│   │   ├── content/        # Site content editor
-│   │   ├── faqs/           # FAQ manager
-│   │   ├── messages/       # Contact messages
-│   │   ├── services/       # Services manager
-│   │   └── testimonials/   # Testimonials manager
-│   ├── api/                # API routes
-│   │   ├── contact/        # Contact form handler
-│   │   ├── news/           # News feed aggregator
-│   │   └── revalidate/     # ISR revalidation
-│   ├── globals.css         # Global styles + Tailwind
-│   ├── layout.js           # Root layout
-│   ├── robots.js           # Robots.txt generator
-│   └── sitemap.js          # Sitemap generator
-├── components/             # React components
-│   ├── admin/              # Admin panel components
-│   └── ...                 # Site components (Hero, About, etc.)
-├── lib/                    # Utilities
-│   ├── content.js          # Data fetching with fallbacks
-│   ├── news.js             # RSS feed aggregation
-│   ├── supabase.js         # Supabase client
-│   └── supabase-admin.js   # Admin Supabase client
-├── messages/               # i18n translations
-│   ├── en.json             # English
-│   └── ar.json             # Arabic
-├── public/assets/          # Static assets (images, logos)
-├── supabase/               # Database setup
-│   ├── schema.sql          # Table definitions + RLS
-│   └── seed.sql            # Initial data
-└── ...config files
-```
-
----
-
-## Old CRA Project
-
-The previous Create React App source code is preserved in the `src/` directory and `_backup/` folder. These are no longer used by the Next.js build and can be safely removed once the new site is verified.
-
-To clean up: delete the `src/`, `_backup/`, `build.zip`, and `package-lock.json` files, then run `npm install` to generate a fresh lock file.

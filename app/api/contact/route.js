@@ -1,170 +1,101 @@
-import { createClient } from '@supabase/supabase-js';
 import { NextResponse } from 'next/server';
+import { supabaseAdmin } from '@/lib/supabase-admin';
+import { PRIVACY_VERSION, SITE_URL } from '@/lib/site';
 
-// Rate limiting store (in-memory, resets on server restart)
+// Best-effort per-instance rate limit (serverless instances are short-lived; the honeypot and
+// validation below are the main spam defences).
 const requestMap = new Map();
-const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
-const RATE_LIMIT_MAX_REQUESTS = 5; // 5 requests per minute per IP
-
-function getRateLimitKey(ip) {
-  return `rate-limit:${ip}`;
-}
+const RATE_LIMIT_WINDOW = 60 * 1000;
+const RATE_LIMIT_MAX_REQUESTS = 5;
 
 function checkRateLimit(ip) {
-  const key = getRateLimitKey(ip);
   const now = Date.now();
-
-  if (!requestMap.has(key)) {
-    requestMap.set(key, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
-    return { allowed: true, remaining: RATE_LIMIT_MAX_REQUESTS - 1 };
+  const rec = requestMap.get(ip);
+  if (!rec || now > rec.resetTime) {
+    requestMap.set(ip, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
+    if (requestMap.size > 5000) requestMap.clear();
+    return true;
   }
-
-  const record = requestMap.get(key);
-
-  // Reset if window expired
-  if (now > record.resetTime) {
-    requestMap.set(key, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
-    return { allowed: true, remaining: RATE_LIMIT_MAX_REQUESTS - 1 };
-  }
-
-  // Check if limit exceeded
-  if (record.count >= RATE_LIMIT_MAX_REQUESTS) {
-    return { allowed: false, remaining: 0 };
-  }
-
-  record.count++;
-  return { allowed: true, remaining: RATE_LIMIT_MAX_REQUESTS - record.count };
+  if (rec.count >= RATE_LIMIT_MAX_REQUESTS) return false;
+  rec.count++;
+  return true;
 }
+
+const clean = (v, max) => String(v ?? '').replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '').trim().slice(0, max);
 
 export async function POST(request) {
   try {
-    // Get client IP
-    const ip =
-      request.headers.get('x-forwarded-for')?.split(',')[0] ||
-      request.headers.get('x-real-ip') ||
-      'unknown';
-
-    // Check rate limit
-    const rateLimit = checkRateLimit(ip);
-    if (!rateLimit.allowed) {
-      return NextResponse.json(
-        { error: 'Too many requests. Please try again later.' },
-        { status: 429 }
-      );
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || request.headers.get('x-real-ip') || 'unknown';
+    if (!checkRateLimit(ip)) {
+      return NextResponse.json({ error: 'Too many requests. Please try again later.' }, { status: 429 });
     }
 
-    // Parse request body
-    const body = await request.json();
-    const { name, email, phone, subject, message } = body;
+    let body;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
+    }
 
-    // Validate required fields
+    // Honeypot: real visitors never fill this hidden field. Pretend success so bots learn nothing.
+    if (body.website) return NextResponse.json({ success: true }, { status: 200 });
+
+    const name = clean(body.name, 100);
+    const email = clean(body.email, 200).toLowerCase();
+    const phone = clean(body.phone, 40);
+    const subject = clean(body.subject, 200);
+    const message = clean(body.message, 5000);
+    const locale = body.locale === 'ar' ? 'ar' : 'en';
+
     if (!name || !email || !subject || !message) {
-      return NextResponse.json(
-        { error: 'Missing required fields: name, email, subject, message' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Please fill in your name, email, subject and message.' }, { status: 400 });
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+      return NextResponse.json({ error: 'Please enter a valid email address.' }, { status: 400 });
+    }
+    if (name.length < 2) return NextResponse.json({ error: 'Please enter your full name.' }, { status: 400 });
+    if (message.length < 10) return NextResponse.json({ error: 'Your message is a little short — please add a few more details.' }, { status: 400 });
+    if (subject.length < 3) return NextResponse.json({ error: 'Please add a subject.' }, { status: 400 });
+    if (body.consent !== true) {
+      return NextResponse.json({ error: 'Please confirm you agree to the Privacy Policy.' }, { status: 400 });
     }
 
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return NextResponse.json(
-        { error: 'Invalid email format' },
-        { status: 400 }
-      );
-    }
-
-    // Validate name length
-    if (name.trim().length < 2 || name.trim().length > 100) {
-      return NextResponse.json(
-        { error: 'Name must be between 2 and 100 characters' },
-        { status: 400 }
-      );
-    }
-
-    // Validate message length
-    if (message.trim().length < 10 || message.trim().length > 5000) {
-      return NextResponse.json(
-        { error: 'Message must be between 10 and 5000 characters' },
-        { status: 400 }
-      );
-    }
-
-    // Validate subject length
-    if (subject.trim().length < 3 || subject.trim().length > 200) {
-      return NextResponse.json(
-        { error: 'Subject must be between 3 and 200 characters' },
-        { status: 400 }
-      );
-    }
-
-    // Initialize Supabase client
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-    if (!supabaseUrl || !supabaseKey) {
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
       console.error('Supabase configuration missing');
-      return NextResponse.json(
-        { error: 'Server configuration error' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Server configuration error' }, { status: 500 });
     }
 
-    const supabase = createClient(supabaseUrl, supabaseKey);
-
-    // Insert into database
-    const { data, error } = await supabase
-      .from('contact_submissions')
-      .insert([
-        {
-          name: name.trim(),
-          email: email.toLowerCase().trim(),
-          phone: phone?.trim() || null,
-          subject: subject.trim(),
-          message: message.trim(),
-          ip_address: ip,
-          user_agent: request.headers.get('user-agent'),
-          created_at: new Date().toISOString(),
-          status: 'new',
-        },
-      ])
-      .select();
+    // Data minimisation (PDPL): no IP address or device fingerprint is stored.
+    const { error } = await supabaseAdmin.from('contact_submissions').insert({
+      name,
+      email,
+      phone: phone || null,
+      subject,
+      message,
+      is_read: false,
+      consent_given: true,
+      consent_at: new Date().toISOString(),
+      privacy_version: PRIVACY_VERSION,
+      locale,
+    });
 
     if (error) {
-      console.error('Database error:', error);
-      return NextResponse.json(
-        { error: 'Failed to submit contact form' },
-        { status: 500 }
-      );
+      console.error('Contact insert error:', error.message);
+      return NextResponse.json({ error: 'Failed to submit contact form' }, { status: 500 });
     }
 
-    // TODO: Send confirmation email to user
-    // TODO: Send notification email to admin
-
-    return NextResponse.json(
-      {
-        success: true,
-        message: 'Contact form submitted successfully',
-        id: data[0]?.id,
-      },
-      { status: 200 }
-    );
+    return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
     console.error('Contact form error:', error);
-    return NextResponse.json(
-      { error: 'An unexpected error occurred' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'An unexpected error occurred' }, { status: 500 });
   }
 }
 
-// Fixed: restricted CORS origin from wildcard (*) to site domain — prevents cross-origin abuse
-export async function OPTIONS(request) {
-  const allowedOrigin = process.env.NEXT_PUBLIC_SITE_URL || 'https://sageadvisory.ae';
+export async function OPTIONS() {
   return new NextResponse(null, {
-    status: 200,
+    status: 204,
     headers: {
-      'Access-Control-Allow-Origin': allowedOrigin,
+      'Access-Control-Allow-Origin': SITE_URL,
       'Access-Control-Allow-Methods': 'POST',
       'Access-Control-Allow-Headers': 'Content-Type',
     },

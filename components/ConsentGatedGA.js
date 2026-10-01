@@ -1,44 +1,43 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Script from 'next/script';
-import { getCookieConsent } from './CookieConsent';
+import { CONSENT_EVENT, readConsent } from '@/lib/consent';
 
 /**
- * Loads Google Analytics ONLY when the user has accepted cookie consent.
- * Listens for consent changes in real-time.
+ * Google Analytics 4, loaded ONLY after the visitor opts in to analytics cookies.
+ * Uses Consent Mode v2 (everything denied by default; ads signals never granted) and
+ * updates/revokes in real time when the visitor changes their choice.
  */
 export default function ConsentGatedGA({ gaId }) {
-  const [consented, setConsented] = useState(false);
+  const [granted, setGranted] = useState(false);
 
   useEffect(() => {
-    // Check existing consent
-    const current = getCookieConsent();
-    if (current === 'accepted') {
-      setConsented(true);
-    }
-
-    // Listen for consent changes
-    const handleConsent = (e) => {
-      if (e.detail?.consent === 'accepted') {
-        setConsented(true);
+    setGranted(Boolean(readConsent()?.analytics));
+    const onChange = (e) => {
+      const ok = Boolean(e.detail?.analytics);
+      setGranted((prev) => prev || ok);
+      if (typeof window.gtag === 'function') {
+        window.gtag('consent', 'update', { analytics_storage: ok ? 'granted' : 'denied' });
       }
+      if (!ok && window[`ga-disable-${gaId}`] !== true) window[`ga-disable-${gaId}`] = true;
+      if (ok) window[`ga-disable-${gaId}`] = false;
     };
-    window.addEventListener('cookie-consent-change', handleConsent);
-    return () => window.removeEventListener('cookie-consent-change', handleConsent);
-  }, []);
+    window.addEventListener(CONSENT_EVENT, onChange);
+    return () => window.removeEventListener(CONSENT_EVENT, onChange);
+  }, [gaId]);
 
-  if (!consented || !gaId) return null;
+  if (!granted || !gaId) return null;
 
   return (
     <>
-      <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-        strategy="afterInteractive"
-      />
-      <Script id="ga" strategy="afterInteractive">
-        {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${gaId}',{page_path:window.location.pathname});`}
+      <Script id="ga-consent-default" strategy="afterInteractive">
+        {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}window.gtag=gtag;
+gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied'});
+gtag('consent','update',{analytics_storage:'granted'});
+gtag('js',new Date());gtag('config',${JSON.stringify(gaId)},{anonymize_ip:true,allow_google_signals:false,allow_ad_personalization_signals:false});`}
       </Script>
+      <Script src={`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(gaId)}`} strategy="afterInteractive" />
     </>
   );
 }

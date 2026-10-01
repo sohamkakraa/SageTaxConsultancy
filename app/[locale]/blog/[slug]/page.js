@@ -3,9 +3,18 @@ import { getBlogPostBySlug, getBlogPosts } from '@/lib/content';
 import { Link } from '@/lib/navigation';
 import { ChevronRight, Calendar, User, ArrowRight, ArrowLeft } from 'lucide-react';
 
-export async function generateMetadata({ params }) {
-  const { slug } = params;
-  const post = await getBlogPostBySlug(slug);
+// DB rows are bilingual (title_en/title_ar …); give the template one set of fields in the visitor's language.
+function localize(row, locale) {
+  if (!row) return row;
+  const ar = locale === 'ar';
+  const f = (base) => (ar ? row[`${base}_ar`] || row[`${base}_en`] : row[`${base}_en`] || row[`${base}_ar`]) || '';
+  return { ...row, title: f('title'), excerpt: f('excerpt'), content: f('content'), source: row.source_name || null };
+}
+
+export async function generateMetadata(props) {
+  const params = await props.params;
+  const { slug, locale } = params;
+  const post = localize(await getBlogPostBySlug(slug), locale);
 
   if (!post) {
     return {
@@ -26,17 +35,18 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function BlogPostPage({ params }) {
+export default async function BlogPostPage(props) {
+  const params = await props.params;
   const { slug, locale } = params;
   const isAr = locale === 'ar';
 
-  const post = await getBlogPostBySlug(slug);
+  const post = localize(await getBlogPostBySlug(slug), locale);
 
   if (!post) {
     notFound();
   }
 
-  const allPosts = await getBlogPosts(6, 0);
+  const allPosts = (await getBlogPosts(6, 0)).map((p) => localize(p, locale));
   const relatedPosts = allPosts
     .filter((p) => p.id !== post.id && p.category === post.category)
     .slice(0, 3);

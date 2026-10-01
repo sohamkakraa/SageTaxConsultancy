@@ -23,7 +23,7 @@
   }
 
   [dir="rtl"] {
-    font-family: 'Cairo', 'Noto Sans Arabic', sans-serif;
+    font-family: var(--font-cairo), 'Noto Sans Arabic', sans-serif;
   }
 
   body {
